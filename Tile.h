@@ -1,5 +1,5 @@
 #include <iostream>
-
+using namespace std;
 /* 
  * Value for sideX: 
  * 			0. Empty

@@ -1,8 +1,5 @@
 #include <iostream>
-
-#include "Tile.h"
-#include "Players.h"
-#include "Gamebase.h"
+#include "Tile.cpp"
 
 using namespace std;
 
@@ -10,14 +7,14 @@ class Board
 {
 private:
 
-	Tile deck[72];
-	Tile* board;
-	Tile startTile;
+	Tile* deck[72];
+	Tile* board[143][143];
+	Tile* startTile;
 
 	int PlaceStartTile();
-	int CheckTilePlacement(const Tile& tile, int xPos, int yPos);
-	int CheckTigerPlacement(int xPos, int yPos, String tigerSpot);
-	int CheckTigerPlacementJungle(int xPos, int yPos, String tigerSpot);
+	int CheckTilePlacement(Tile* tile, int xPos, int yPos);
+	int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
+	int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
 	int CheckCompletedLake(int xPos, int yPos);
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
 	int CheckCompletedTrail(int xPos, int yPos);
@@ -29,8 +26,8 @@ public:
 	~Board();
 
     int DisplayBoard();
-	int PlaceTile(const Tile& tile, int xPos, int yPos);
-	int CheckAvailibleSpots(const Tile& tile);
+	int PlaceTile(Tile* tile, int xPos, int yPos);
+	int CheckAvailibleSpots(Tile* tile);
 	int ShowAvailibleTigerSpots();
 	int CountEndGameScore(int playerNumber);
 	int MakeDeck();

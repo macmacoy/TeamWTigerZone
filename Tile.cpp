@@ -1,17 +1,17 @@
-#include "tile.h"
+#include "Tile.h"
 
 using namespace std;
 
 Tile::Tile()
 {
-	this->sideN = NULL;
-	this->sideE = NULL;
-	this->sideS = NULL;
-	this->sideW = NULL;
+	this->sideN = 0;
+	this->sideE = 0;
+	this->sideS = 0;
+	this->sideW = 0;
 	
-	this->center = NULL;
+	this->center = 0;
 	
-	int shield = NULL;
+	int shield = 0;
 }
 
 Tile::~Tile()
@@ -23,7 +23,7 @@ Tile::Tile(int north, int east, int south, int west, int center, int shield)
 {
 	this->sideN = north;
 	this->sideE = east;
-	this->sideS = sout;
+	this->sideS = south;
 	this->sideW = west;
 	this->center = center;
 	this->shield = shield;
@@ -31,50 +31,42 @@ Tile::Tile(int north, int east, int south, int west, int center, int shield)
 
 
 int Tile::Rotate90(){
-	int temp = north;
-	this->north = east;
-	this->east = south;
-	this->south = west;
-	this->west = temp;
+	int temp = this->sideN;
+	this->sideN = sideE;
+	this->sideE = sideS;
+	this->sideS = sideW;
+	this->sideW = temp;
+	return 1;
 }
 
 
 //Place Tiger
 
-int Tile::PlaceTiger(string str)
+int Tile::PlaceTiger(string tigerSpot)
 {
-	switch(str){
-		case "N":
-			TigerN = 2;
-			break;
-		case "S":
-			TigerS = 2;
-			break;
-		case "W":
-			TigerW = 2;
-			break;
-		case "E":
-			TigerE = 2;
-			break;
-		case "NE":
-			TigerN = 3;
-			TigerE = 1;
-			break;
-		case "NW":
-			TigerN = 1;
-			TigerW = 3;
-			break;
-		case "SE":
-			TigerS = 1;
-			TigerE = 3;
-			break;
-		case "SW":
-			TigerS = 3;
-			TigerW = 1;
-			break;
-		default:
-			return 0; // return false, input error
-			break;
+	if(tigerSpot == "N")
+		TigerN = 2;
+	else if(tigerSpot == "S")
+		TigerS = 2;
+	else if(tigerSpot == "W")
+		TigerW = 2;
+	else if(tigerSpot == "E")
+		TigerE = 2;
+	else if(tigerSpot == "NE"){
+		TigerN = 3;
+		TigerE = 1;
+	}
+	else if(tigerSpot == "NW"){
+		TigerN = 1;
+		TigerW = 3;
+	}
+	else if(tigerSpot == "SE"){
+		TigerS = 1;
+		TigerE = 3;
+	}	
+	else if(tigerSpot == "SW"){
+		TigerS = 3;
+		TigerW = 1;
 	}
 	return 1; // success
 }
@@ -89,86 +81,18 @@ int Tile::PlaceTiger(string str)
  * 			3. Jungle with Road
  * */
 int Tile::getN() {
-	cout<<"North is ";
-	if(sideN == 0)
-	{
-		cout<<"Empty"<<endl;
-	}
-	else if (sideN ==  1)
-	{
-		cout<<"Jungle"<<endl;
-	}
-	else if (sideN == 2)
-	{
-		cout<<"Town"<<endl;
-	}
-	else if (sideN == 3)
-	{
-		cout<<"Jungle with Road"<<endl;
-	}
 	return sideN; 
 }
 
 int Tile::getE() {
-	cout<<"East is ";
-	if(sideE == 0)
-	{
-		cout<<"Empty"<<endl;
-	}
-	else if (sideE ==  1)
-	{
-		cout<<"Jungle"<<endl;
-	}
-	else if (sideE == 2)
-	{
-		cout<<"Town"<<endl;
-	}
-	else if (sideE == 3)
-	{
-		cout<<"Jungle with Road"<<endl;
-	}
-		return sideE;
+	return sideE;
 }
 
 int Tile::getS(){
-	cout<<"South is ";
-	if(sideS == 0)
-	{
-		cout<<"Empty"<<endl;
-	}
-	else if (sideS ==  1)
-	{
-		cout<<"Jungle"<<endl;
-	}
-	else if (sideS == 2)
-	{
-		cout<<"Town"<<endl;
-	}
-	else if (sideS == 3)
-	{
-		cout<<"Jungle with Road"<<endl;
-	}
 	return sideS;
 }
 
 int Tile::getW(){
-	cout<<"West is ";
-	if(sideW == 0)
-	{
-		cout<<"Empty"<<endl;
-	}
-	else if (sideW ==  1)
-	{
-		cout<<"Jungle"<<endl;
-	}
-	else if (sideW == 2)
-	{
-		cout<<"Town"<<endl;
-	}
-	else if (sideW == 3)
-	{
-		cout<<"Jungle with Road"<<endl;
-	}
 	return sideW;
 }
 
