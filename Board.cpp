@@ -174,6 +174,7 @@ struct coordinate{
 // 				 1=valid Tiger placement
 int Board::CheckTigerPlacement(int xPos, int yPos, String tigerSpot)
 {
+	int CheckTigerPlacement(int xPos, int yPos, String tigerSpot);
 	// get the Tiger placement
 	int TigerN = 0;
 	int TigerS = 0;
@@ -390,6 +391,24 @@ int Board::CheckTigerPlacement(int xPos, int yPos, String tigerSpot)
 
 	return 1; // success
 }
+
+// return value: 0=invalid Tiger placement
+// 				 1=valid Tiger placement
+int Board::CheckTigerPlacementJungle(int xPos, int yPos, String tigerSpot)
+{
+	//On root find the sides that have farms and roads
+		//these sides will be placed in a FarmContainer and will be iterated through
+
+		//Start at the first location/side in the FarmContainer which will be NW and 
+		//go clockwise, create a FarmObject1 that will store a value for each valid direction
+		//that the farm could continue in
+		
+		//When a road occurs in FarmObject1's search create a new FarmObject2 that will
+		//continue storing values for the valid farm directions for FarmObject2
+		
+		//There can be a total of 4 FarmObjects
+		
+		//For each FarmObject travel to the possible farm directions
 
 // return value: 0=no newly completed Lakes
 // 				 !0=number of points awarded for newly completed Lake
