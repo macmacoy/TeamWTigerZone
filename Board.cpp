@@ -174,6 +174,7 @@ struct coordinate{
 // 				 1=valid Tiger placement
 int Board::CheckTigerPlacement(int xPos, int yPos, String tigerSpot)
 {
+	int CheckTigerPlacement(int xPos, int yPos, String tigerSpot);
 	// get the Tiger placement
 	int TigerN = 0;
 	int TigerS = 0;
