@@ -1,2 +1,2 @@
 tests:
-This file contains all tests for the project
+This folder contains all tests for the project
