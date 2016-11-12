@@ -17,6 +17,7 @@ private:
 	int PlaceStartTile();
 	int CheckTilePlacement(const Tile& tile, int xPos, int yPos);
 	int CheckTigerPlacement(int xPos, int yPos, String tigerSpot);
+	int CheckTigerPlacementJungle(int xPos, int yPos, String tigerSpot);
 	int CheckCompletedLake(int xPos, int yPos);
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
 	int CheckCompletedTrail(int xPos, int yPos);
