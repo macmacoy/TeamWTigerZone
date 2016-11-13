@@ -459,36 +459,52 @@ int Board::DisplayBoard()
 	int startY = 0;
 	for(int x=0; x<143; x++){
 		for(int y=0; y<143; y++){
-			if(board[x][y] != NULL)
-				startX = x;
+			if(board[x][y] != NULL){
+				startY = y;
+				break;
+			}
 		}
+		if(startY != 0)
+			break;
 	}
 	for(int y=0; y<143; y++){
 		for(int x=0; x<143; x++){
-			if(board[x][y] != NULL)
-				startY = y;
+			if(board[x][y] != NULL){
+				startX = x;
+				break;
+			}
 		}
+		if(startX != 0)
+			break;
 	}
 	// find last tile to start displaying
 	int finishX = 0;
 	int finishY = 0;
 	for(int x=142; x>=0; x--){
 		for(int y=142; y>=0; y--){
-			if(board[x][y] != NULL)
-				finishX = x;
+			if(board[x][y] != NULL){
+				finishY = y;
+				break;
+			}
 		}
+		if(finishY != 0)
+			break;
 	}
 	for(int y=142; y>=0; y--){
 		for(int x=142; x>=0; x--){
-			if(board[x][y] != NULL)
-				finishY = y;
+			if(board[x][y] != NULL){
+				finishX = x;
+				break;
+			}
 		}
+		if(finishX != 0)
+			break;
 	}
 
 	// print board
-	for(int x=startX; x<=finishX; x++){
-		for(int i=0; i<6; i++){
-			for(int y=startY; y<=finishY; y++){
+	for(int y=startY; y<=finishY; y++){
+ 		for(int i=0; i<6; i++){
+			for(int x=startX; x<=finishX; x++){
 				Tile* tile = board[x][y];
 				if(tile != NULL){
 					if(i==0){
@@ -546,8 +562,8 @@ int Board::DisplayBoard()
 						std::cout << " ____ "; 
 					}
 				}
-				std::cout << "\n";
 			}
+			std::cout << "\n";
 		}
 	}
 	return 0;
