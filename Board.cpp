@@ -281,34 +281,49 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 		sAdjacent = true;
 	}
 	
+	if (!isAdjacent)
+	{
+		cout << "No adjacent tile" << endl;
+		return 0;
+	}
+
 	if(!isAdjacent)
 		return 0;
 	//check if sides match up to adjacent sides
-	if(nAdjacent)
+	if (nAdjacent)
 	{
-		if(board[xPos][yPos+1]->getS() != tile->getN())
+		if (board[xPos][yPos + 1]->getS() != tile->getN())
+		{
+			cout << "North doesn't match" << endl;
 			return 0;
+		}
 	}
 	
 	if(sAdjacent)
 	{
-		if(board[xPos][yPos-1]->getN() != tile->getS())
+		if (board[xPos][yPos - 1]->getN() != tile->getS())
+		{
 			return 0;
+			cout << "South doesn't match" << endl;
+		}
 	}
 	
 	if(wAdjacent)
 	{
-		if(board[xPos-1][yPos]->getE() != tile->getW())
+		if (board[xPos - 1][yPos]->getE() != tile->getW())
+		{
+			cout << "West doesn't match" << endl;
 			return 0;
+		}
 	}
 	
 	if(eAdjacent)
 	{
-		if(board[xPos+1][yPos]->getW() != tile->getE())
+		if(board[xPos+1][yPos]->getW() != tile->getE()) {
+			cout << "East doesn't match" << endl;
 			return 0;
+		}
 	}
-	
-	board[xPos][yPos] = tile;
 	return 1;
 }
 
@@ -690,8 +705,11 @@ int Board::DisplayBoard()
 int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 {
 	// if tile placement is illegal, return 0
-	if(CheckTilePlacement(tile, xPos, yPos)==0)
+	if (CheckTilePlacement(tile, xPos, yPos) == 0)
+	{
+		cout << "Can't place tile" << endl;
 		return 0;
+	}
 	// if tile placement is legal, place tile at position
 	board[xPos][yPos] = tile;
 	
@@ -704,6 +722,12 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 	if(pts != 0){}
 		// add up points
 	return 1; // success
+}
+
+//Place Tiger
+void Board::PlaceTiger(int x, int y, string location)
+{
+	board[x][y]->PlaceTiger(location);
 }
 
 

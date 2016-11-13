@@ -8,8 +8,8 @@ class Board
 {
 private:
 
-	Tile* deck[72];
-	Tile* board[143][143];
+	
+	
 	Tile* startTile;
 
 	int PlaceStartTile();
@@ -28,9 +28,15 @@ public:
 
     int DisplayBoard();
 	int PlaceTile(Tile* tile, int xPos, int yPos);
+	void PlaceTiger(int x, int y, string location);
 	int CheckAvailibleSpots(Tile* tile);
 	int ShowAvailibleTigerSpots();
 	int CountEndGameScore(int playerNumber);
 	int MakeDeck();
+
+	
+
+	Tile* deck[72];
+	Tile* board[143][143];
 	
 };

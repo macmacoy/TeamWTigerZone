@@ -1,5 +1,5 @@
 #include "GameBase.h"
-
+#include <string>
 Gamebase::Gamebase()
 {
 	start = true;
@@ -8,6 +8,7 @@ Gamebase::Gamebase()
 	board = new Board();
 	tile = new Tile();
 	board->DisplayBoard();
+	board->MakeDeck();
 }
 
 Gamebase::~Gamebase()
@@ -25,12 +26,16 @@ bool Gamebase::Run() {
 		//Board
 		//Players/logics
 		//Input
-
+		/*
 		if (isGameEnded())
 		{
 			start = 0;
 			std::cout << "Game Ended" << std::endl;
-		}
+		}*/
+
+		PlaceTile();
+		turn++;
+		cout << "Current Turn: " << turn << endl;
 	}
 
 	return start;
@@ -56,5 +61,39 @@ bool Gamebase::isGameEnded()
 	{
 		end = 0;
 		return end;
+	}
+}
+
+void Gamebase::PlaceTile()
+{
+	int x; int y; int r;
+	cout << "Enter x and y" << endl;
+	cin >> x;cin >> y;
+
+	Tile* tile = board->deck[turn];
+	
+	cout << "Number of Rotate" << endl;
+	cin >> r;
+	for (int i = 0;i < r;i++)
+		tile->Rotate90();
+
+	if (board->PlaceTile(tile, x, y)==0)
+		turn--;
+	else
+	{
+		PlaceTiger(x, y);
+	}
+}
+
+void Gamebase::PlaceTiger(int x, int y)
+{
+	cout << "Meeple?" << endl;
+	int a; cin >> a;
+	if (a == 1)
+	{
+		cout << "Location for the meeple" << endl;
+		string location = "";
+		cin>>location;
+		board->PlaceTiger(x,y,location);
 	}
 }

@@ -4,7 +4,6 @@
 #pragma once
 #include <iostream>
 
-
 #include "board.h"
 #include "player.h"
 #include "Tile.h"
@@ -26,11 +25,9 @@ public:
 	bool end;
 
 private:
-	//PlayerLogics
-	//AddTiles
-	//etc
-
 	bool isGameEnded();
+	void PlaceTile();
+	void PlaceTiger(int x, int y);
 	
 	Board* board;
 	
