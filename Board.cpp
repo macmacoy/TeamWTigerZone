@@ -107,7 +107,139 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 		}
 	}
 	// if not returned by now
-	return 0;
+	return -1;
+}
+
+void Board::CheckCompletedTrail(int xPos, int yPos)
+{
+	Tile* tile = board[xPos][yPos];
+	int pointsN = 0;
+	int pointsS = 0;
+	int pointsE = 0;
+	int pointsW = 0;
+	
+	
+	//Call every time a tile is placed to see if a trail is completed for scoring
+	
+	bool trailN = false;
+	bool trailS = false;
+	bool trailE = false;
+	bool trailW = false;
+	int trailCount = 0;
+	//Check for any trails on the tile
+	if(tile->getN() == 3)
+	{
+		trailN = true;
+		++trailCount;
+	}
+	if(tile->getS() == 3)
+	{
+		trailS = true;
+		++trailCount;
+	}
+	if(tile.getE() == 3)
+	{
+		trailE = true;
+		++trailCount;
+	}
+	if(tile.getW() == 3)
+	{
+		trailW = true;
+		++trailCount;
+	}
+	
+	//Check there are any roads on tile
+	if(trailCount == 0)
+	{
+		return false;
+	}
+	else
+	{
+		for(int i = 0; i < trailCount; ++i)	//search in every direction for completed road
+		{									//can be up to 4 roads from an intersection
+											//and 2 if starting from the middle of the road
+			if(trailN)
+			{
+				pointsN = 1 + CountTrail(xPos, yPos, xPos, yPos-1, xPos, yPos);
+				trailN = false;		//set to false so next loop iteration doesn't
+									//just redo the search in this direction
+			}
+			if(trailS)
+			{
+				pointsS = 1 + CountTrail(xPos, yPos, xPos, yPos+1, xPos, yPos);
+				trailS = false;
+			}
+			if(trailE)
+			{
+				pointsE = 1 + CountTrail(xPos+1, yPos, xPos, yPos, xPos, yPos);
+				trailE = false;
+			}
+			if(trailW)
+			{
+				pointsW = 1 + CountTrail(xPos-1, yPos, xPos, yPos, xPos, yPos);
+				trailW = false;
+			}
+		}
+		
+		if(tile->center != 0)	//check if center of tile is an end of a trail
+		{					//check for any completed trails (all would be separate)
+			if(pointsN != 0)
+			{
+				//Need a function to settle Tiger displutes
+				// and to return which player(s) recieve the points
+				
+				//Player.score += pointsN
+				//Player.returnTiger
+			}
+			if(pointsS != 0)
+			{
+				
+			}
+			if(pointsE != 0)
+			{
+				
+			}
+			if(pointsW != 0)
+			{
+				
+			}
+			
+		}
+		else		//if trail doesnt end in center, there must only be 2 trails
+		{			//and we are in the middle of the trail. Add scores into 1
+			int points == 0;
+			if(pointsN != 0)
+			{
+				//Need a function to settle Tiger displutes
+				// and to return which player(s) recieve the points
+				points += pointsN;
+			}
+			if(pointsS != 0)
+			{
+				points += pointsS;
+			}
+			if(pointsE != 0)
+			{
+				points += pointsE;
+			}
+			if(pointsW != 0)
+			{
+				points += pointsE;
+			}
+			
+			if(points != 0)
+			{
+				//player.score += points
+				//player.ReturnTiger?
+
+			}
+		}
+	}
+	
+	//settle any tiger disputes (if there are meeples from multiple players,
+	// the player with more meeples on the trail gets the points)
+	
+	//return tiger and add to score for corresponding player
 }
 
 // return value: 0=invalid tile placement
