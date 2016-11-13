@@ -28,6 +28,10 @@ Tile::Tile(int north, int east, int south, int west, int center, int shield)
 	this->sideW = west;
 	this->center = center;
 	this->shield = shield;
+	this->TigerN = 0;
+	this->TigerS = 0;
+	this->TigerW = 0;
+	this->TigerE = 0;
 }
 
 
@@ -37,6 +41,11 @@ int Tile::Rotate90(){
 	this->sideE = sideS;
 	this->sideS = sideW;
 	this->sideW = temp;
+	temp = this->TigerN;
+	this->TigerN = TigerE;
+	this->TigerE = TigerS;
+	this->TigerS = TigerW;
+	this->TigerW = temp;
 	return 1;
 }
 
