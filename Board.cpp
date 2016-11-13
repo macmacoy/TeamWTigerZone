@@ -110,7 +110,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 	return -1;
 }
 
-void Board::CheckCompletedTrail(int xPos, int yPos)
+int Board::CheckCompletedTrail(int xPos, int yPos)
 {
 	Tile* tile = board[xPos][yPos];
 	int pointsN = 0;
@@ -137,12 +137,12 @@ void Board::CheckCompletedTrail(int xPos, int yPos)
 		trailS = true;
 		++trailCount;
 	}
-	if(tile.getE() == 3)
+	if(tile->getE() == 3)
 	{
 		trailE = true;
 		++trailCount;
 	}
-	if(tile.getW() == 3)
+	if(tile->getW() == 3)
 	{
 		trailW = true;
 		++trailCount;
@@ -181,7 +181,7 @@ void Board::CheckCompletedTrail(int xPos, int yPos)
 			}
 		}
 		
-		if(tile->center != 0)	//check if center of tile is an end of a trail
+		if(tile->getCenter() != 0)	//check if center of tile is an end of a trail
 		{					//check for any completed trails (all would be separate)
 			if(pointsN != 0)
 			{
@@ -207,7 +207,7 @@ void Board::CheckCompletedTrail(int xPos, int yPos)
 		}
 		else		//if trail doesnt end in center, there must only be 2 trails
 		{			//and we are in the middle of the trail. Add scores into 1
-			int points == 0;
+			int points = 0;
 			if(pointsN != 0)
 			{
 				//Need a function to settle Tiger displutes

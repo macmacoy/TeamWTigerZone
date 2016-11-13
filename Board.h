@@ -1,5 +1,6 @@
+#pragma once
 #include <iostream>
-#include "Tile.cpp"
+#include "Tile.h"
 
 using namespace std;
 
