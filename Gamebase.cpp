@@ -31,20 +31,6 @@ bool Gamebase::Run() {
 			start = 0;
 			std::cout << "Game Ended" << std::endl;
 		}
-
-		cout << "Location for the Tile (x, y)" << endl;
-		int x, y;
-		cin >> x; cin >> y;
-
-		tile = new Tile(1, 1, 1, 1, 1, 1);
-		board->PlaceTile(tile, x, y);
-
-		cout << "Is turn over?" << endl;
-		cin >> turnOver;
-		if (turnOver)
-		{
-			turn++;
-		}
 	}
 
 	return start;
