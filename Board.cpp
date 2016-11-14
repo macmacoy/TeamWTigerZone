@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "Tile.cpp"
 #include <queue>
 #include <iostream>
 #include <stdio.h>
@@ -244,6 +245,7 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 	// the player with more meeples on the trail gets the points)
 	
 	//return tiger and add to score for corresponding player
+	return 0;
 }
 
 // return value: 0=invalid tile placement
@@ -611,21 +613,21 @@ int Board::DisplayBoard()
 	for(int x=0; x<143; x++){
 		for(int y=0; y<143; y++){
 			if(board[x][y] != NULL){
-				startY = y;
-				break;
-			}
-		}
-		if(startY != 0)
-			break;
-	}
-	for(int y=0; y<143; y++){
-		for(int x=0; x<143; x++){
-			if(board[x][y] != NULL){
 				startX = x;
 				break;
 			}
 		}
 		if(startX != 0)
+			break;
+	}
+	for(int y=0; y<143; y++){
+		for(int x=0; x<143; x++){
+			if(board[x][y] != NULL){
+				startY = y;
+				break;
+			}
+		}
+		if(startY != 0)
 			break;
 	}
 	// find last tile to start displaying
@@ -634,21 +636,21 @@ int Board::DisplayBoard()
 	for(int x=142; x>=0; x--){
 		for(int y=142; y>=0; y--){
 			if(board[x][y] != NULL){
-				finishY = y;
-				break;
-			}
-		}
-		if(finishY != 0)
-			break;
-	}
-	for(int y=142; y>=0; y--){
-		for(int x=142; x>=0; x--){
-			if(board[x][y] != NULL){
 				finishX = x;
 				break;
 			}
 		}
 		if(finishX != 0)
+			break;
+	}
+	for(int y=142; y>=0; y--){
+		for(int x=142; x>=0; x--){
+			if(board[x][y] != NULL){
+				finishY = y;
+				break;
+			}
+		}
+		if(finishY != 0)
 			break;
 	}
 
