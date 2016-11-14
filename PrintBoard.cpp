@@ -8,7 +8,7 @@ int main(int argc, char *argv[]){
 	b->PlaceTile(new Tile(1,3,1,1,1,0), 70, 71);
 	b->PlaceTile(new Tile(1,1,1,3,1,0), 72, 71);
 	// not working
-	b->PlaceTile(new Tile(1,1,1,1,1,0), 71, 72);
+	b->DisplayNextTile(0);
 
 	b->DisplayBoard();
 

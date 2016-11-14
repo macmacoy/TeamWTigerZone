@@ -29,6 +29,7 @@ public:
 	~Board();
 
     int DisplayBoard();
+    int DisplayNextTile(int turn);
 	int PlaceTile(Tile* tile, int xPos, int yPos);
 	void PlaceTiger(int x, int y, string location);
 	int CheckAvailibleSpots(Tile* tile);

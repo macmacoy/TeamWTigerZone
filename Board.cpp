@@ -15,6 +15,9 @@ Board::Board()
 	startTile = new Tile(2, 3, 1, 3, 3, 0);
 #endif
 	PlaceStartTile();
+	// MakeDeck() only for testing
+	// he will give us the deck from the server
+	MakeDeck();
 }
 
 // destructor
@@ -673,7 +676,7 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 	return 0;
 }
 
-
+// Print the state of the board
 int Board::DisplayBoard()
 {
 	// find first tile to start displaying
@@ -730,30 +733,30 @@ int Board::DisplayBoard()
 				Tile* tile = board[x][y];
 				if(tile != NULL){
 					if(i==0){
-						std::cout << " ____ "; 
+						std::cout << " ____"; 
 					}
 					else if(i==1){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << " " << tile->getN() << tile->getTigerN() << " |";
 					}
 					else if(i==2){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << tile->getW() << tile->getCenter() << " " << tile->getE() << "|";
 					}
 					else if(i==3){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << tile->getTigerW() << "  " << tile->getTigerE() << "|";
 					}
 					else if(i==4){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << " " << tile->getS() << tile->getTigerS() << " |";
 					}
 					else if(i==5){
-						std::cout << " ____ "; 
+						std::cout << " ____"; 
 					}
 				}
 				else{
@@ -762,22 +765,22 @@ int Board::DisplayBoard()
 					}
 					else if(i==1){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << "    |";
 					}
 					else if(i==2){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << " 00 |";
 					}
 					else if(i==3){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << " 00 |";
 					}
 					else if(i==4){
 						if(x==startX)
-							std::cout << "| ";
+							std::cout << "|";
 						std::cout << "    |";
 					}
 					else if(i==5){
@@ -789,6 +792,19 @@ int Board::DisplayBoard()
 		}
 	}
 	return 0;
+}
+
+// print the next tile in the deck
+int Board::DisplayNextTile(int turn){
+	// next tile in the deck
+	Tile* tile = deck[turn];
+	std::cout << " ____ \n";
+	std::cout << "| " << tile->getN() << tile->getTigerN() << " |\n";
+	std::cout << "|" << tile->getW() << tile->getCenter() << " " << tile->getE() << "|\n";
+	std::cout << "|" << tile->getTigerW() << "  " << tile->getTigerE() << "|\n";
+	std::cout << "| " << tile->getS() << tile->getTigerS() << " |\n";
+	std::cout << " ____ \n"; 
+	return 1;
 }
 
 // return value: 0=invalid tile placement
