@@ -12,7 +12,7 @@ Tile::Tile()
 	
 	this->center = 0;
 	
-	int shield = 0;
+	int prey = 0;
 }
 
 Tile::~Tile()
@@ -20,14 +20,14 @@ Tile::~Tile()
 	delete this;
 }
 
-Tile::Tile(int north, int east, int south, int west, int center, int shield)
+Tile::Tile(int north, int east, int south, int west, int center, int prey)
 {
 	this->sideN = north;
 	this->sideE = east;
 	this->sideS = south;
 	this->sideW = west;
 	this->center = center;
-	this->shield = shield;
+	this->prey = prey;
 	this->TigerN = 0;
 	this->TigerS = 0;
 	this->TigerW = 0;
@@ -110,8 +110,8 @@ int Tile::getCenter(){
 	return center;
 }
 
-int Tile::isShield(){
-	return shield;
+int Tile::isprey(){
+	return prey;
 }
 
 //Tile Tiger Values

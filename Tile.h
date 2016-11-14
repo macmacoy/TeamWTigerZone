@@ -19,7 +19,7 @@ private:
 	/*Center*/
 	int center;
 	
-	int shield; // 0 if shield not present, 1 if present
+	int prey; // 0 if prey not present, 1 if present
 
 
 	//Tiger Locations
@@ -46,8 +46,9 @@ public:
 	* 			0. Empty
 	* 			1. Jungle
 	* 			2. Lake
-	* 			3. Crosstrail
+	* 			3. Trail Continuing
 	* 			4. Den
+	*			5. Trail Ending
 	* Tiger Locations
 	* 		Definition of Location: 1 is front left, 2 is center, 3 is front right.
 	*
@@ -60,7 +61,7 @@ public:
 	*/
 	Tile(); 
 	~Tile();
-	Tile(int north, int east, int south, int west, int center, int shield);
+	Tile(int north, int east, int south, int west, int center, int prey);
 
 
 	int Rotate90(); //Roate the tile by 90 degrees anti-clockwise
@@ -75,8 +76,8 @@ public:
 	//Get Center Value
 	int getCenter();
 
-	//Is there a shield (T/F)
-	int isShield();
+	//Is there a prey (T/F)
+	int isprey();
 	
 	//Get Tiger Locations
 	int getTigerN();
