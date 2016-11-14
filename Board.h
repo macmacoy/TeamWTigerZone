@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Tile.h"
+#include "Tile.cpp"
 
 //#define DEBUG_TILE
 
@@ -37,7 +37,7 @@ public:
     int DisplayBoard();
     int DisplayNextTile(int turn);
 	int PlaceTile(Tile* tile, int xPos, int yPos);
-	void PlaceTiger(int x, int y, string location);
+	int PlaceTiger(int x, int y, string location);
 	int CheckAvailibleSpots(Tile* tile);
 	int ShowAvailibleTigerSpots();
 	int CountEndGameScore(int playerNumber);
