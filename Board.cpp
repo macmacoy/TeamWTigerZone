@@ -1,10 +1,13 @@
 #include "Board.h"
-#include "Tile.cpp"
 #include <queue>
 #include <iostream>
 #include <stdio.h>
 
 // constructor
+/*
+*	1. need x and y coordinate for each placed tile
+	2. need a function to display the next tile on the deck.
+*/
 Board::Board()
 {
 	// place start tile

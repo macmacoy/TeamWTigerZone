@@ -19,10 +19,6 @@ Gamebase::~Gamebase()
 bool Gamebase::Run() {
 	//Gamebase routine
 	//returns true while exit has not been pressed
-	
-
-	if (start)
-	{
 		//Board
 		//Players/logics
 		//Input
@@ -39,7 +35,6 @@ bool Gamebase::Run() {
 		
 		cout << "Current Turn: " << turn << endl;
 		cout << endl;
-	}
 
 	return start;
 }
