@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Board.cpp"
+#include "Board.h"
 
-int main(int argc, char *argv[]){
+void main1(int argc, char *argv[]){
 
 	Board* b = new Board();
 	b->PlaceTile(new Tile(1,1,2,1,1,0), 71, 70);

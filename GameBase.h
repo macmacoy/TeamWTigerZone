@@ -1,10 +1,7 @@
-//#include "tiles.h"
-//#include "board.h"
-//#include "players.h"
 #pragma once
 #include <iostream>
 
-#include "board.h"
+#include "Board.h"
 #include "player.h"
 #include "Tile.h"
 

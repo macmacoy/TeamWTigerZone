@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Tile.cpp"
+#include "Tile.h"
 
 //#define DEBUG_TILE
 

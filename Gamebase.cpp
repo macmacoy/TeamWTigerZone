@@ -72,24 +72,30 @@ void Gamebase::PlaceTile()
 	{
 		turn--; //If x = y = 0, display the board
 	}
+	else if (x == 1 && y == 1)
+	{
+		board->DisplayNextTile(turn);
+		turn--;
+	}
 	else if (x == 999 && y == 999)
 	{
 		start = false;
+		system("exit");
 	}
 	else
 	{
 		Tile* tile = board->deck[turn];
 
-		
+		cout << "Number of Rotate" << endl;
+		cin >> r;
+		for (int i = 0; i < r; i++)
+			tile->Rotate90();
 
 		if (board->PlaceTile(tile, x, y) == 0)
 			turn--;
 		else
 		{
-			cout << "Number of Rotate" << endl;
-			cin >> r;
-			for (int i = 0;i < r;i++)
-				tile->Rotate90();
+			
 			PlaceTiger(x, y);
 		}
 	}
@@ -125,5 +131,6 @@ void Gamebase::PlaceTiger(int x, int y)
 
 void Gamebase::DisplayBoard()
 {
+	cout << "--------------------------------------------------------" << endl;
 	board->DisplayBoard();
 }
