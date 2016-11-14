@@ -35,7 +35,7 @@ private:
 	
 	int turn;
 	bool turnOver;
-	Tile* tile;
+	//Tile* tile; Unnecessary
 	//Player* player1;
 	//Player* player2;
 	

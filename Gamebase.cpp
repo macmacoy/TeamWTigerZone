@@ -6,23 +6,19 @@ Gamebase::Gamebase()
 	//std::cout << start << std::endl;
 	int turn = 0;
 	board = new Board();
-	tile = new Tile();
+	//tile = new Tile();
 	board->DisplayBoard();
 	board->MakeDeck();
 }
 
 Gamebase::~Gamebase()
 {
-
+	delete board;
 }
 
 bool Gamebase::Run() {
 	//Gamebase routine
 	//returns true while exit has not been pressed
-	
-
-	if (start)
-	{
 		//Board
 		//Players/logics
 		//Input
@@ -39,7 +35,6 @@ bool Gamebase::Run() {
 		
 		cout << "Current Turn: " << turn << endl;
 		cout << endl;
-	}
 
 	return start;
 }

@@ -4,6 +4,12 @@
 
 //#define DEBUG_TILE
 
+/*
+	DEBUG Mode: 
+		1. Sets all the tiles to 1,1,1,1,1,1 in deck[72]
+		2. Starting tile becomes 1,1,1,1,1,1
+*/
+
 using namespace std;
 
 class Board

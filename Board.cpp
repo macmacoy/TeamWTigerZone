@@ -1,11 +1,14 @@
 #include "Board.h"
-#include "Tile.cpp"
 #include <queue>
 #include <vector>
 #include <iostream>
 #include <stdio.h>
 
 // constructor
+/*
+*	1. need x and y coordinate for each placed tile
+	2. need a function to display the next tile on the deck.
+*/
 Board::Board()
 {
 	// place start tile
@@ -23,7 +26,8 @@ Board::Board()
 // destructor
 Board::~Board()
 {
-	
+	delete board;
+	delete deck;
 }
 
 // return value: 1=success
@@ -676,7 +680,16 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 	return 0;
 }
 
+<<<<<<< HEAD
 // Print the state of the board
+=======
+/* 
+	1. Sometimes cannot display two rows
+	2. Problem with Display after add a tile
+	3. Need a function to print out the next tile
+	4. *TBT* Need a documentation for the tiles -> deck[n]
+*/
+>>>>>>> d326701abaf0a20fdbdaa4ebd8a7f65b89d061bf
 int Board::DisplayBoard()
 {
 	// find first tile to start displaying
