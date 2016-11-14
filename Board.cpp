@@ -18,7 +18,8 @@ Board::Board()
 // destructor
 Board::~Board()
 {
-	
+	delete board;
+	delete deck;
 }
 
 // return value: 1=success
@@ -603,8 +604,10 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 }
 
 /* 
-	Sometimes cannot display two rows
-	Problem with Display after add a tile
+	1. Sometimes cannot display two rows
+	2. Problem with Display after add a tile
+	3. Need a function to print out the next tile
+	4. *TBT* Need a documentation for the tiles -> deck[n]
 */
 int Board::DisplayBoard()
 {
