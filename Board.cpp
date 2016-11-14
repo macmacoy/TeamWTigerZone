@@ -591,22 +591,22 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 // //if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
 // //if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
 
-// 	if(board[xPos][yPos]->center == 2){queueA.push((xPos*10)+yPos); x = Traverse(queueA, 0, visit); visit.clear();}
+// 	if(board[xPos][yPos]->getCenter == 2){queueA.push((xPos*10)+yPos); x = Traverse(queueA, 0, visit); visit.clear();}
 	
-// 	else if(board[xPos][yPos]->center != 2){
-// 		if(board[xPos][yPos]->sideN == 2){
+// 	else if(board[xPos][yPos]->getCenter != 2){
+// 		if(board[xPos][yPos]->getN == 2 && board[xPos][yPos+1]->getS == 2){
 // 			if(x == 0){queueA.push((xPos*10)+(yPos+1)); x = Traverse(queueA, 1, visit); visit.clear();}
 // 			else{queueB.push((xPos*10)+(yPos+1)); y = Traverse(queueB, 1, visit); visit.clear();}}
 
-// 		if(board[xPos][yPos]->sideE == 2){
+// 		if(board[xPos][yPos]->getE == 2 && board[xPos+1][yPos]->getW == 2){
 // 			if(x == 0){queueA.push(((xPos+1)*10)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
 // 			else{queueB.push(((xPos+1)*10)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
 
-// 		if(board[xPos][yPos]->sideS == 2){
+// 		if(board[xPos][yPos]->getS == 2 && board[xPos][yPos-1]->getN == 2){
 // 			if(x == 0){queueA.push((xPos*10)+(yPos-1)); x = Traverse(queueA, 1, visit); visit.clear();}
 // 			else{queueB.push((xPos*10)+(yPos-1)); y = Traverse(queueB, 1, visit); visit.clear();}}
 
-// 		if(board[xPos][yPos]->sideW == 2){
+// 		if(board[xPos][yPos]->getW == 2 && board[xPos-1][yPos]->getE == 2){
 // 			if(x == 0){queueA.push(((xPos-1)*10)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
 // 			else{queueB.push(((xPos-1)*10)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
 // 	}
@@ -636,25 +636,25 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 // //if no, end search for this portion
 // //if yes, add every unvisited neighboring tile to the queue
 // //if any of the tiles neighboring a town side are empty/NULL tile, return false
-// 	if(board[xPos][yPos]->center != 2){myqueue.pop(); return tileCount;}
-// 	if(board[xPos][yPos]->center == 2){
-// 		if(board[xPos][yPos]->sideN == 2){
-// 			if(board[xPos][yPos+1]->sideS == NULL){return -1;}
+// 	if(board[xPos][yPos]->getCenter != 2){myqueue.pop(); return tileCount;}
+// 	if(board[xPos][yPos]->getCenter == 2){
+// 		if(board[xPos][yPos]->getN == 2){
+// 			if(board[xPos][yPos+1]->getS != 2){return -1;}
 // 			else{myqueue.push((xPos*10)+(yPos+1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
 // 			if(x == -1){return -1;} else{tileCount += x;}}
 
-// 		if(board[xPos][yPos]->sideE == 2){
-// 			if(board[xPos+1][yPos]->sideW == NULL){return -1;}
+// 		if(board[xPos][yPos]->getE == 2){
+// 			if(board[xPos+1][yPos]->getW != 2){return -1;}
 // 			else{myqueue.push(((xPos+1)*10)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
 // 			if(x == -1){return -1;} else{tileCount += x;}}
 		
-// 		if(board[xPos][yPos]->sideS == 2){
-// 			if(board[xPos+1][yPos]->sideW == NULL){return -1;}
+// 		if(board[xPos][yPos]->getS == 2){
+// 			if(board[xPos+1][yPos]->getN != 2){return -1;}
 // 			else{myqueue.push((xPos*10)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
 // 			if(x == -1){return -1;} else{tileCount += x;}}
 		
-// 		if(board[xPos][yPos]->sideW == 2){
-// 			if(board[xPos-1][yPos]->sideW == NULL){return -1;}
+// 		if(board[xPos][yPos]->getW == 2){
+// 			if(board[xPos-1][yPos]->getE != 2){return -1;}
 // 			else{myqueue.push(((xPos-1)*10)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
 // 			if(x == -1){return -1;} else{tileCount += x;}}
 // 		}
