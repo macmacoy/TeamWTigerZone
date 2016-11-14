@@ -2,6 +2,8 @@
 #include <iostream>
 #include "Tile.h"
 
+//#define DEBUG_TILE
+
 using namespace std;
 
 class Board

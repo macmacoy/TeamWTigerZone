@@ -7,7 +7,11 @@
 Board::Board()
 {
 	// place start tile
+#ifdef DEBUG_TILE
+	startTile = new Tile(1, 1, 1, 1, 1, 1);
+#else
 	startTile = new Tile(2, 3, 1, 3, 3, 0);
+#endif
 	PlaceStartTile();
 }
 
@@ -810,7 +814,10 @@ int Board::MakeDeck()
 */
 
 	//shield: 1 = true, 0 = false	
-	
+#ifdef DEBUG_TILE
+	for (int i = 0; i < 72;i++)
+		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
+#else
 	deck[0] 	= new Tile(2,3,3,2,2,0);
 	deck[1] 	= new Tile(2,3,3,2,2,0);
 	deck[2] 	= new Tile(2,2,1,2,2,1);
@@ -882,6 +889,6 @@ int Board::MakeDeck()
 	deck[69] 	= new Tile(1,2,2,1,1,0);
 	deck[70] 	= new Tile(1,2,2,1,1,0);
 	deck[71] 	= new Tile(1,2,2,1,1,0);
-
+#endif
 	return 1;
 }

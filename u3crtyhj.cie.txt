@@ -1,0 +1,19 @@
+﻿Update
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is behind 'origin/master' by 3 commits, and can be fast-forwarded.
+#   (use "git pull" to update your local branch)
+#
+# Changes to be committed:
+#	modified:   Board.cpp
+#	modified:   Board.h
+#	modified:   GameBase.h
+#	modified:   Gamebase.cpp
+#	modified:   Tile.h
+#	modified:   main.cpp
+#
+# Untracked files:
+#	j3wdsp5n.dqx.txt
+#
+

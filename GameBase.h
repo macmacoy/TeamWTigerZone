@@ -28,6 +28,8 @@ private:
 	bool isGameEnded();
 	void PlaceTile();
 	void PlaceTiger(int x, int y);
+
+	void DisplayBoard();
 	
 	Board* board;
 	

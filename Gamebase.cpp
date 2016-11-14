@@ -3,7 +3,7 @@
 Gamebase::Gamebase()
 {
 	start = true;
-	std::cout << start << std::endl;
+	//std::cout << start << std::endl;
 	int turn = 0;
 	board = new Board();
 	tile = new Tile();
@@ -34,8 +34,11 @@ bool Gamebase::Run() {
 		}*/
 
 		PlaceTile();
+		DisplayBoard();
 		turn++;
+		
 		cout << "Current Turn: " << turn << endl;
+		cout << endl;
 	}
 
 	return start;
@@ -70,19 +73,46 @@ void Gamebase::PlaceTile()
 	cout << "Enter x and y" << endl;
 	cin >> x;cin >> y;
 
-	Tile* tile = board->deck[turn];
-	
-	cout << "Number of Rotate" << endl;
-	cin >> r;
-	for (int i = 0;i < r;i++)
-		tile->Rotate90();
+	if (x == 0 && y == 0)
+	{
+		turn--; //If x = y = 0, display the board
+	}
+	else if (x == 999 && y == 999)
+	{
+		start = false;
+	}
+	else
+	{
+		Tile* tile = board->deck[turn];
 
+		
+
+		if (board->PlaceTile(tile, x, y) == 0)
+			turn--;
+		else
+		{
+			cout << "Number of Rotate" << endl;
+			cin >> r;
+			for (int i = 0;i < r;i++)
+				tile->Rotate90();
+			PlaceTiger(x, y);
+		}
+	}
+/*
 	if (board->PlaceTile(tile, x, y)==0)
 		turn--;
 	else
 	{
+		Tile* tile = board->deck[turn];
+
+		cout << "Number of Rotate" << endl;
+		cin >> r;
+		for (int i = 0;i < r;i++)
+			tile->Rotate90();
+
 		PlaceTiger(x, y);
 	}
+*/
 }
 
 void Gamebase::PlaceTiger(int x, int y)
@@ -96,4 +126,9 @@ void Gamebase::PlaceTiger(int x, int y)
 		cin>>location;
 		board->PlaceTiger(x,y,location);
 	}
+}
+
+void Gamebase::DisplayBoard()
+{
+	board->DisplayBoard();
 }
