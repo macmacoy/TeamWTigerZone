@@ -15,7 +15,7 @@ Board::Board()
 #ifdef DEBUG_TILE
 	startTile = new Tile(1, 1, 1, 1, 1, 1);
 #else
-	startTile = new Tile(2, 3, 1, 3, 3, 0);
+	startTile = new Tile(3, 2, 3, 1, 3, 0);
 #endif
 	PlaceStartTile();
 	// MakeDeck() only for testing
