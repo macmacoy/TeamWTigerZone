@@ -1,6 +1,7 @@
 #include "Board.h"
 #include "Tile.cpp"
 #include <queue>
+#include <vector>
 #include <iostream>
 #include <stdio.h>
 
@@ -612,7 +613,8 @@ int Board::CheckCompletedLake(int xPos, int yPos)
 }
 
 //traversal method with the queue as the input
-void board::Traverse(queue myqueue, int tileCount, vector visit){
+
+int Board::Traverse(queue myqueue, int tileCount, vector visit){
 
 if(myqueue.empty() == true){return tileCount;}
 xPos = myqueue.top() / 100;
