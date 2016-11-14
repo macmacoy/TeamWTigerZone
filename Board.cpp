@@ -602,7 +602,10 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 	return 0;
 }
 
-
+/* 
+	Sometimes cannot display two rows
+	Problem with Display after add a tile
+*/
 int Board::DisplayBoard()
 {
 	// find first tile to start displaying
