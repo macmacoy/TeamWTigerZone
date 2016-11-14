@@ -595,22 +595,22 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 	
  	else if(board[xPos][yPos]->getCenter != 2){
  		if(board[xPos][yPos]->getN == 2){
-			if(board[xPos][yPos+1]->getS == 2){if(x == 0){x = -1;} else{y = -1;}}
- 			else if(x == 0){queueA.push((xPos*10)+(yPos+1)); x = Traverse(queueA, 1, visit); visit.clear();}
- 			else{queueB.push((xPos*10)+(yPos+1)); y = Traverse(queueB, 1, visit); visit.clear();}}
+			if(board[xPos][yPos-1]->getS != 2){if(x == 0){x = -1;} else{y = -1;}}
+ 			else if(x == 0){queueA.push((xPos*10)+(yPos-1)); x = Traverse(queueA, 1, visit); visit.clear();}
+ 			else{queueB.push((xPos*10)+(yPos-1)); y = Traverse(queueB, 1, visit); visit.clear();}}
 
  		if(board[xPos][yPos]->getE == 2){
-			if(board[xPos+1][yPos]->getW == 2){if(x == 0){x = -1;} else{y = -1;}}
+			if(board[xPos+1][yPos]->getW != 2){if(x == 0){x = -1;} else{y = -1;}}
  			else if(x == 0){queueA.push(((xPos+1)*10)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
  			else{queueB.push(((xPos+1)*10)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
 
  		if(board[xPos][yPos]->getS == 2){
-			if(board[xPos][yPos-1]->getN == 2){if(x == 0){x = -1;} else{y = -1;}}
- 			else if(x == 0){queueA.push((xPos*10)+(yPos-1)); x = Traverse(queueA, 1, visit); visit.clear();}
- 			else{queueB.push((xPos*10)+(yPos-1)); y = Traverse(queueB, 1, visit); visit.clear();}}
+			if(board[xPos][yPos+1]->getN != 2){if(x == 0){x = -1;} else{y = -1;}}
+ 			else if(x == 0){queueA.push((xPos*10)+(yPos+1)); x = Traverse(queueA, 1, visit); visit.clear();}
+ 			else{queueB.push((xPos*10)+(yPos+1)); y = Traverse(queueB, 1, visit); visit.clear();}}
 
  		if(board[xPos][yPos]->getW == 2){
-			if(board[xPos-1][yPos]->getE == 2){if(x == 0){x = -1;} else{y = -1;}}
+			if(board[xPos-1][yPos]->getE != 2){if(x == 0){x = -1;} else{y = -1;}}
  			else if(x == 0){queueA.push(((xPos-1)*10)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
 			else{queueB.push(((xPos-1)*10)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
 	}
@@ -643,8 +643,8 @@ visit.push_back(myqueue.top());
  	if(board[xPos][yPos]->getCenter != 2){myqueue.pop(); return tileCount;}
  	if(board[xPos][yPos]->getCenter == 2){
  		if(board[xPos][yPos]->getN == 2){
- 			if(board[xPos][yPos+1]->getS != 2){return -1;}
- 			else{myqueue.push((xPos*10)+(yPos+1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+ 			if(board[xPos][yPos-1]->getS != 2){return -1;}
+ 			else{myqueue.push((xPos*10)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
  			if(x == -1){return -1;} else{tileCount += x;}}
 
  		if(board[xPos][yPos]->getE == 2){
@@ -653,8 +653,8 @@ visit.push_back(myqueue.top());
  			if(x == -1){return -1;} else{tileCount += x;}}
 		
  		if(board[xPos][yPos]->getS == 2){
- 			if(board[xPos+1][yPos]->getN != 2){return -1;}
- 			else{myqueue.push((xPos*10)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+ 			if(board[xPos][yPos+1]->getN != 2){return -1;}
+ 			else{myqueue.push((xPos*10)+(yPos+1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
  			if(x == -1){return -1;} else{tileCount += x;}}
 		
  		if(board[xPos][yPos]->getW == 2){
