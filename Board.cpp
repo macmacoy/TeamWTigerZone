@@ -1,5 +1,8 @@
 #include "Board.h"
-#include "Tile.cpp"
+#define MAC (0)
+#if(MAC)
+	#include "Tile.cpp"
+#endif
 #include <queue>
 #include <vector>
 #include <iostream>
