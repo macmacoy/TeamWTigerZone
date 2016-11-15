@@ -767,15 +767,74 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 // return value: 0=no newly completed dens
 // 				 !0=number of points awarded for newly completed dens
 int Board::CheckCompletedDen(int xPos, int yPos)
-{
-	//check if there are any buildings within one spot of the newly placed
-	// tile
-	
-	//check to see if the building has a Tiger on it
-	
-	//check to see if the building is completely surrounded
-	// if so, return the Tiger and add points for the owner of the Tiger.
-	return 0;
+{	
+	int numDensCompleted = 0;
+	// queue of tiles with dens
+	queue<coordinate> Q;
+	if(board[xPos][yPos]->getCenter() == 4){
+		struct coordinate c;
+			c.x = xPos;
+			c.y = yPos;
+			Q.push(c);
+	}
+	if(board[xPos][yPos-1] != NULL){
+		if(board[xPos][yPos-1]->getCenter() == 4){
+			struct coordinate c;
+			c.x = xPos;
+			c.y = yPos-1;
+			Q.push(c);
+		}
+	}
+	if(board[xPos][yPos+1] != NULL){
+		if(board[xPos][yPos+1]->getCenter() == 4){
+			struct coordinate c;
+			c.x = xPos;
+			c.y = yPos+1;
+			Q.push(c);
+		}
+	}
+	if(board[xPos-1][yPos] != NULL){
+		if(board[xPos-1][yPos]->getCenter() == 4){
+			struct coordinate c;
+			c.x = xPos-1;
+			c.y = yPos;
+			Q.push(c);
+		}
+	}
+	if(board[xPos+1][yPos] != NULL){
+		if(board[xPos+1][yPos]->getCenter() == 4){
+			struct coordinate c;
+			c.x = xPos;
+			c.y = yPos+1;
+			Q.push(c);
+		}
+	}
+
+	while(!Q.empty()){
+		struct coordinate c = Q.front();
+		Q.pop();
+		Tile* denTile = board[c.x][c.y];
+		if(board[c.x][c.y-1] != NULL){
+			if(board[c.x][c.y-1]->getS() == 1){
+				if(board[c.x][c.y+1] != NULL){
+					if(board[c.x][c.y+1]->getN() == 1){
+						if(board[c.x-1][c.y] != NULL){
+							if(board[c.x-1][c.y]->getE() == 1){
+								if(board[c.x+1][c.y] != NULL){
+									if(board[c.x+1][c.y]->getW() == 1){
+										numDensCompleted++;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// all sides are surrounded by jungle
+	return (numDensCompleted*9);
 }
 
 // Print the state of the board
@@ -922,14 +981,18 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 	// if tile placement is legal, place tile at position
 	board[xPos][yPos] = tile;
 	
-	// check is Lake is completed
-	// int pts = CheckCompletedLake(xPos, yPos);
-	// if(pts != 0){}
-	// 	// add up points
-	// // check if Trail is completed
-	// pts = CheckCompletedDen(xPos,yPos);
-	// if(pts != 0){}
-	// 	// add up points
+	//check is Lake is completed
+	int pts = CheckCompletedLake(xPos, yPos);
+	if(pts != 0){}
+		// add up points
+	// check if Trail is completed
+	pts = CheckCompletedTrail(xPos,yPos);
+	if(pts != 0){}
+		// add up points
+	// check if Den is completed
+	pts = CheckCompletedDen(xPos,yPos);
+	if(pts != 0){}
+		// add up points
 	return 1; // success
 }
 
