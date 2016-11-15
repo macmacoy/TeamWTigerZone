@@ -39,7 +39,7 @@ public:
     int DisplayBoard();
     int DisplayNextTile(int turn);
 	int PlaceTile(Tile* tile, int xPos, int yPos);
-	int PlaceTiger(int x, int y, string location);
+	int PlaceTiger(int x, int y, string location, int player);
 	int CheckAvailibleSpots(Tile* tile);
 	int ShowAvailibleTigerSpots();
 	int CountEndGameScore(int playerNumber);
@@ -49,5 +49,6 @@ public:
 
 	Tile* deck[77];
 	Tile* board[143][143];
+	int* tigers[143][143];
 	
 };

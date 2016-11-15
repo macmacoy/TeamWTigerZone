@@ -981,26 +981,27 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 	// if tile placement is legal, place tile at position
 	board[xPos][yPos] = tile;
 	
-	//check is Lake is completed
-	int pts = CheckCompletedLake(xPos, yPos);
-	if(pts != 0){}
-		// add up points
-	// check if Trail is completed
-	pts = CheckCompletedTrail(xPos,yPos);
-	if(pts != 0){}
-		// add up points
-	// check if Den is completed
-	pts = CheckCompletedDen(xPos,yPos);
-	if(pts != 0){}
-		// add up points
+	// //check is Lake is completed
+	// int pts = CheckCompletedLake(xPos, yPos);
+	// if(pts != 0){}
+	// 	// add up points
+	// // check if Trail is completed
+	// pts = CheckCompletedTrail(xPos,yPos);
+	// if(pts != 0){}
+	// 	// add up points
+	// // check if Den is completed
+	// pts = CheckCompletedDen(xPos,yPos);
+	// if(pts != 0){}
+	// 	// add up points
 	return 1; // success
 }
 
 //Place Tiger
-int Board::PlaceTiger(int x, int y, string location)
+int Board::PlaceTiger(int x, int y, string location, int player)
 {
 	if(CheckTigerPlacement(x, y, location) == 1){
 		board[x][y]->PlaceTiger(location);
+		tigers[x][y] = &player;
 		return 1;
 	}
 	return 0;
