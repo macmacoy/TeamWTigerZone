@@ -351,7 +351,6 @@ struct coordinate{
 // 				 1=valid Tiger placement
 int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 {
-	// int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
 	// get the Tiger placement
 	int TigerN = 0;
 	int TigerS = 0;
@@ -388,15 +387,35 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 	int terrainType = 0;
 	if(TigerN != 0){
 		terrainType = root->getN();
+		// if terrainType is jungle
+		// or if terrainType is jungle w trail & tiger is not on road
+		// call CheckTigerPlacementJungle
+		if(terrainType == 1 || (terrainType == 3 && TigerN != 2)){
+			if(CheckTigerPlacementJungle(xPos, yPos, tigerSpot) == 0)
+				return 0;
+		}
+	}
 	}
 	else if(TigerS != 0){
 		terrainType = root->getS();
+		if(terrainType == 1 || (terrainType == 3 && TigerN != 2)){
+			if(CheckTigerPlacementJungle(xPos, yPos, tigerSpot) == 0)
+				return 0;
+		}
 	}
 	else if(TigerW != 0){
 		terrainType = root->getW();
+		if(terrainType == 1 || (terrainType == 3 && TigerN != 2)){
+			if(CheckTigerPlacementJungle(xPos, yPos, tigerSpot) == 0)
+				return 0;
+		}
 	}
 	else if(TigerE != 0){
 		terrainType = root->getE();
+		if(terrainType == 1 || (terrainType == 3 && TigerN != 2)){
+			if(CheckTigerPlacementJungle(xPos, yPos, tigerSpot) == 0)
+				return 0;
+		}
 	}
 
 	// queue of coordinates for BFS
@@ -561,19 +580,78 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 // 				 1=valid Tiger placement
 int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 {
-	//On root find the sides that have farms and roads
-		//these sides will be placed in a FarmContainer and will be iterated through
+	// get the Tiger placement
+	int TigerN = 0;
+	int TigerS = 0;
+	int TigerW = 0;
+	int TigerE = 0;
+	if(tigerSpot == "N")
+		TigerN = 2;
+	else if(tigerSpot == "S")
+		TigerS = 2;
+	else if(tigerSpot == "W")
+		TigerW = 2;
+	else if(tigerSpot == "E")
+		TigerE = 2;
+	else if(tigerSpot == "NE"){
+		TigerN = 3;
+		TigerE = 1;
+	}
+	else if(tigerSpot == "NW"){
+		TigerN = 1;
+		TigerW = 3;
+	}
+	else if(tigerSpot == "SE"){
+		TigerS = 1;
+		TigerE = 3;
+	}		
+	else if(tigerSpot == "SW"){
+		TigerS = 3;
+		TigerW = 1;
+	}
 
-		//Start at the first location/side in the FarmContainer which will be NW and 
-		//go clockwise, create a FarmObject1 that will store a value for each valid direction
-		//that the farm could continue in
-		
-		//When a road occurs in FarmObject1's search create a new FarmObject2 that will
-		//continue storing values for the valid farm directions for FarmObject2
-		
-		//There can be a total of 4 FarmObjects
-		
-		//For each FarmObject travel to the possible farm directions
+	// starting tile
+	Tile* root = board[xPos][yPos];
+
+	// get terrain type
+	if(TigerN != 0){
+			terrainType = root->getN();
+	}
+	if(TigerS != 0){
+		terrainType = root->getS();
+	}
+	if(TigerW != 0){
+		terrainType = root->getW();
+	}
+	if(TigerE != 0){
+		terrainType = root->getE();
+	}
+	// queue of coordinates for BFS
+	queue<coordinate> cQ;
+	// queue of direction for next tile in cQ
+	queue<int> dQ;
+
+	if(TigerN != 0){
+		// 1: jungle
+		if(terrainType == 1){
+			if(board[xPos][yPos-1] != NULL){
+				Tile* adjacent = board[xPos][yPos-1];
+				// 
+			}
+		}
+		// 3: jungle w/ trail
+		else if(terrainType == 3){
+			if(board[xPos][yPos-1] != NULL){
+				Tile* adjacent = board[xPos][yPos-1];
+				//
+			}
+		}
+	}
+	else if(TigerS != 0){}
+	else if(TigerW != 0){}
+	else if(TigerE != 0){}
+
+
 	return 0;
 }
 
@@ -581,17 +659,16 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 // // 				 !0=number of points awarded for newly completed Lake
 int Board::CheckCompletedLake(int xPos, int yPos){
 	
-//Initialization material
-//Queue that will contain location, tile counter, and vector for visitation
-//2 of most of these for the event that 
+	//Initialization material
+	//Queue that will contain location, tile counter, and vector for visitation
+	//2 of most of these for the event that 
  	queue<int> queueA; queue<int> queueB;
  	int countA = 0; int countB = 0; int x = 0; int y = 0;
  	vector<int> visit;
 
-//First checks if the center piece is a town
-//if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
-//if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
-
+	//First checks if the center piece is a town
+	//if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
+	//if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
  	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*10)+yPos); x = Traverse(queueA, 0, visit); visit.clear();}
 	
  	else if(board[xPos][yPos]->getCenter() != 2){
@@ -599,7 +676,7 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 			if(board[xPos][yPos-1]->getS() != 2){if(x == 0){x = -1;} else{y = -1;}}
  			else if(x == 0){queueA.push((xPos*10)+(yPos-1)); x = Traverse(queueA, 1, visit); visit.clear();}
  			else{queueB.push((xPos*10)+(yPos-1)); y = Traverse(queueB, 1, visit); visit.clear();}}
-.  
+
  		if(board[xPos][yPos]->getE() == 2){
 			if(board[xPos+1][yPos]->getW() != 2){if(x == 0){x = -1;} else{y = -1;}}
  			else if(x == 0){queueA.push(((xPos+1)*10)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
@@ -623,24 +700,24 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 
 int Board::Traverse(queue myqueue, int tileCount, vector visit){
 
-if(myqueue.empty() == true){return tileCount;}
-xPos = myqueue.top() / 100;
-yPos = myqueue.top() % 100;
+	if(myqueue.empty() == true){return tileCount;}
+	xPos = myqueue.top() / 100;
+	yPos = myqueue.top() % 100;
 
-//reads top tile
-//marks it as visited
-for(int i = 0, i < visit.size(), i++){if(visit[i] == (myqueue.top()){return tileCount;}}
-visit.push_back(myqueue.top());
+	//reads top tile
+	//marks it as visited
+	for(int i = 0, i < visit.size(), i++){if(visit[i] == (myqueue.top()){return tileCount;}}
+	visit.push_back(myqueue.top());
 
 
-//add one to tileCount
+	//add one to tileCount
 	tileCount += 1;
 	int x = 0;
 
-//checks if center is a town
-//if no, end search for this portion
-//if yes, add every unvisited neighboring tile to the queue
-//if any of the tiles neighboring a town side are empty/NULL tile, return false
+	//checks if center is a town
+	//if no, end search for this portion
+	//if yes, add every unvisited neighboring tile to the queue
+	//if any of the tiles neighboring a town side are empty/NULL tile, return false
  	if(board[xPos][yPos]->getCenter() != 2){myqueue.pop(); return tileCount;}
  	if(board[xPos][yPos]->getCenter() == 2){
  		if(board[xPos][yPos]->getN() == 2){
@@ -682,12 +759,6 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 }
 
 // Print the state of the board
-/* 
-	1. Sometimes cannot display two rows
-	2. Problem with Display after add a tile
-	3. Need a function to print out the next tile
-	4. *TBT* Need a documentation for the tiles -> deck[n]
-*/
 int Board::DisplayBoard()
 {
 	// find first tile to start displaying
@@ -805,11 +876,6 @@ int Board::DisplayBoard()
 	return 0;
 }
 
-/* The code crashes after the forth placement
-						
-						---From Shen
-						*/
-
 // print the next tile in the deck
 int Board::DisplayNextTile(int turn){
 	// next tile in the deck
@@ -836,13 +902,13 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 	// if tile placement is legal, place tile at position
 	board[xPos][yPos] = tile;
 	
-	// // check is Lake is completed
-	// int pts = CheckCompletedLake(xPos, yPos);
-	// if(pts != 0){}
-	// 	// add up points
-	// // check if Trail is completed
-	// pts = CheckCompletedDen(xPos,yPos);
-	// if(pts != 0){}
+	// check is Lake is completed
+	int pts = CheckCompletedLake(xPos, yPos);
+	if(pts != 0){}
+		// add up points
+	// check if Trail is completed
+	pts = CheckCompletedDen(xPos,yPos);
+	if(pts != 0){}
 		// add up points
 	return 1; // success
 }
@@ -925,7 +991,6 @@ int Board::MakeDeck()
 	for (int i = 0; i < 72;i++)
 		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
 #else
-<<<<<<< HEAD
 	deck[0] 	= new Tile(2,3,3,2,2,0);
 	deck[1] 	= new Tile(2,3,3,2,2,0);
 	deck[2] 	= new Tile(2,2,1,2,2,1);
@@ -973,7 +1038,6 @@ int Board::MakeDeck()
 	deck[44] 	= new Tile(2,3,1,3,1,0);
 	deck[45] 	= new Tile(2,3,1,3,1,0);
 	deck[46] 	= new Tile(2,3,1,3,1,0);
-=======
 	deck[0] 	= new Tile(1,1,1,1,1,0);
 	deck[1] 	= new Tile(1,1,1,1,4,0);
 	deck[2] 	= new Tile(1,1,1,1,4,0);
@@ -1021,7 +1085,6 @@ int Board::MakeDeck()
 	deck[44] 	= new Tile(2,1,2,1,1,0);
 	deck[45] 	= new Tile(2,1,1,1,1,0);
 	deck[46] 	= new Tile(2,1,1,1,1,0);
->>>>>>> a88577d7cfc2757fc382d1182a953c40fc4d7f26
 	deck[47] 	= new Tile(2,1,1,1,1,0);
 	deck[48] 	= new Tile(2,1,1,1,1,0);
 	deck[49] 	= new Tile(2,1,1,1,1,0);
