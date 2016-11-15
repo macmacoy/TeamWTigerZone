@@ -128,6 +128,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 
 int Board::CheckCompletedTrail(int xPos, int yPos)
 {
+	//need to add 1 extra point per prey on the trail
 	Tile* tile = board[xPos][yPos];
 	int pointsN = 0;
 	int pointsS = 0;
@@ -187,17 +188,17 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 			}
 			if(trailE)
 			{
-				pointsE = 1 + CountTrail(xPos+1, yPos, xPos, yPos, xPos, yPos);
+				pointsE = 1 + CountTrail(xPos, yPos, xPos+1, yPos, xPos, yPos);
 				trailE = false;
 			}
 			if(trailW)
 			{
-				pointsW = 1 + CountTrail(xPos-1, yPos, xPos, yPos, xPos, yPos);
+				pointsW = 1 + CountTrail(xPos, yPos, xPos-1, yPos, xPos, yPos);
 				trailW = false;
 			}
 		}
 		
-		if(tile->getCenter() != 0)	//check if center of tile is an end of a trail
+		if(tile->getCenter() != 3)	//check if center of tile is an end of a trail
 		{					//check for any completed trails (all would be separate)
 			if(pointsN != 0)
 			{
@@ -206,48 +207,65 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 				
 				//Player.score += pointsN
 				//Player.returnTiger
+				cout << "North road Completed for tile" << xPos << ", " << yPos << endl;
 			}
 			if(pointsS != 0)
 			{
-				
+				cout << "South road Completed for tile" << xPos << ", " << yPos << endl;
 			}
 			if(pointsE != 0)
 			{
-				
+				cout << endl;
+				cout << "East road completed for tile " << xPos << ", " << yPos << ". Add " << pointsE << " points." << endl;
 			}
 			if(pointsW != 0)
 			{
-				
+				cout << "West road Completed for tile" << xPos << ", " << yPos << endl;
 			}
 			
 		}
 		else		//if trail doesnt end in center, there must only be 2 trails
 		{			//and we are in the middle of the trail. Add scores into 1
+			int points1 = 0;
+			int points2 = 0;
 			int points = 0;
 			if(pointsN != 0)
 			{
 				//Need a function to settle Tiger displutes
 				// and to return which player(s) recieve the points
-				points += pointsN;
+				points1 += pointsN;
 			}
 			if(pointsS != 0)
 			{
-				points += pointsS;
+				if(points1 == 0)
+				{
+					points1 += pointsS;
+				}
+				else points2 = pointsS;
 			}
 			if(pointsE != 0)
 			{
-				points += pointsE;
+				if(points1 == 0)
+				{
+					points1 += pointsE;
+				}
+				else points2 = pointsE;
 			}
 			if(pointsW != 0)
 			{
-				points += pointsE;
+				if(points1 == 0)
+				{
+					points1 += pointsW;
+				}
+				else points2 = pointsW;
 			}
 			
-			if(points != 0)
+			if(points1 != 0 && points2 != 0)
 			{
+				points = points1 + points2;
 				//player.score += points
 				//player.ReturnTiger?
-
+				cout << "Road Completed for tile" << xPos << ", " << yPos << ". Add " << points << " points." << endl;
 			}
 		}
 	}
