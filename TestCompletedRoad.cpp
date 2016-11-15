@@ -7,8 +7,12 @@ int main(int argc, char *argv[]){
 	b->PlaceTile(new Tile(2,3,3,3,5,0), 72, 71);
 	b->DisplayBoard();
 	b->PlaceTile(new Tile(1,3,1,3,5,0), 70, 71);
-	//b->PlaceTile(new Tile(1,2,3,3,3,0), 73, 70);
-	//b->PlaceTiger(71,71,"S");
+	b->DisplayBoard(); cout << endl << endl;
+	b->PlaceTile(new Tile(3,3,2,2,3,0), 69, 71);
+	b->DisplayBoard();cout << endl << endl;
+	b->PlaceTile(new Tile(2,3,3,2,3,0), 69, 70);
+	b->DisplayBoard();cout << endl << endl;
+	b->PlaceTile(new Tile(2,3,1,3,5,0), 70, 70);
 	b->DisplayBoard();
 	
 	//int result = b->PlaceTiger(72,70,"W");

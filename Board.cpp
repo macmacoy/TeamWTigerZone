@@ -94,7 +94,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{		//if Trail doesn't connect to a tile, then Trail is not complete
 				return -1;		//return -1 all the way back to the beginning function call
 			}
-			else return 1 + CountTrail(xCurr, yCurr, xCurr, yCurr-1, xStart, yStart);
+			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr, yCurr-1, xStart, yStart);
 			
 		}
 		if(board[xCurr][yCurr]->getS() == 3 && !up)
@@ -103,7 +103,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{
 				return -1;
 			}
-			else return 1 + CountTrail(xCurr, yCurr, xCurr, yCurr+1, xStart, yStart);
+			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr, yCurr+1, xStart, yStart);
 		}
 		if(board[xCurr][yCurr]->getE() == 3 && !left)
 		{
@@ -111,7 +111,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{
 				return -1;
 			}
-			else return 1 + CountTrail(xCurr, yCurr, xCurr+1, yCurr, xStart, yStart);
+			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr+1, yCurr, xStart, yStart);
 		}
 		if(board[xCurr][yCurr]->getW() == 3 && !right)
 		{
@@ -119,7 +119,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{
 				return -1;
 			}
-			else return 1 + CountTrail(xCurr, yCurr, xCurr-1, yCurr, xStart, yStart);
+			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr-1, yCurr, xStart, yStart);
 		}
 	}
 	// if not returned by now
@@ -207,11 +207,11 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 				
 				//Player.score += pointsN
 				//Player.returnTiger
-				cout << "North road Completed for tile" << xPos << ", " << yPos << endl;
+				cout << "North road Completed for tile" << xPos << ", " << yPos << ". Add " << pointsN << " points." << endl;
 			}
 			if(pointsS != 0)
 			{
-				cout << "South road Completed for tile" << xPos << ", " << yPos << endl;
+				cout << "South road Completed for tile" << xPos << ", " << yPos << ". Add " << pointsS << " points." << endl;
 			}
 			if(pointsE != 0)
 			{
@@ -220,7 +220,7 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 			}
 			if(pointsW != 0)
 			{
-				cout << "West road Completed for tile" << xPos << ", " << yPos << endl;
+				cout << "West road Completed for tile" << xPos << ", " << yPos << ". Add " << pointsW << " points." << endl;
 			}
 			
 		}
