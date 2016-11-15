@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "Tile.cpp"
 #include <queue>
 #include <vector>
 #include <iostream>
@@ -922,6 +923,7 @@ int Board::MakeDeck()
 	deck[0] 	= new Tile(2,3,3,2,2,0);
 	deck[1] 	= new Tile(2,3,3,2,2,0);
 	deck[2] 	= new Tile(2,2,1,2,2,1);
+	deck[3]		= new Tile(2,2,1,2,2,1);
 	deck[4] 	= new Tile(2,2,1,2,2,1);
 	deck[5] 	= new Tile(2,2,1,2,2,1);
 	deck[6] 	= new Tile(2,2,1,2,2,1);
