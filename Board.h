@@ -30,6 +30,7 @@ private:
 	int CheckCompletedTrail(int xPos, int yPos);
 	int CheckCompletedDen(int xPos, int yPos);
 	
+	
 public:
 
 	Board();
