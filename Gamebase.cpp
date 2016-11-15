@@ -28,7 +28,8 @@ bool Gamebase::Run() {
 			start = 0;
 			std::cout << "Game Ended" << std::endl;
 		}*/
-
+		
+		DisplayNextTile();
 		PlaceTile();
 		DisplayBoard();
 		turn++;
@@ -72,11 +73,7 @@ void Gamebase::PlaceTile()
 	{
 		turn--; //If x = y = 0, display the board
 	}
-	else if (x == 1 && y == 1)
-	{
-		board->DisplayNextTile(turn);
-		turn--;
-	}
+	
 	else if (x == 999 && y == 999)
 	{
 		start = false;
@@ -133,4 +130,11 @@ void Gamebase::DisplayBoard()
 {
 	cout << "--------------------------------------------------------" << endl;
 	board->DisplayBoard();
+}
+
+void Gamebase::DisplayNextTile()
+{
+	cout << "---------------------------------------------------------" << endl;
+	cout << "Next Tile in Deck" << endl;
+	board->DisplayNextTile(turn);
 }

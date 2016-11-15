@@ -27,6 +27,8 @@ private:
 	void PlaceTiger(int x, int y);
 
 	void DisplayBoard();
+
+	void DisplayNextTile();
 	
 	Board* board;
 	
