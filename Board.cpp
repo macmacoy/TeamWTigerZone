@@ -678,7 +678,7 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 // // return value: 0=no newly completed Lakes
 // // 				 !0=number of points awarded for newly completed Lake
 
-/*
+
 int Board::CheckCompletedLake(int xPos, int yPos){
 	
 //Initialization material
@@ -763,7 +763,7 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit){
  			if(x == -1){return -1;} else{tileCount += x;}}
  		}
  	return tileCount;
- } */
+ } 
 
 
 // return value: 0=no newly completed dens
@@ -1078,7 +1078,8 @@ int Board::MakeDeck()
 		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
 #else
 	//Type 1
-	deck[0] 	= new Tile(1,1,1,1,1,0);
+	//deck[0] 	= new Tile(1,1,1,1,1,0);
+	deck[0] = new Tile(3, 2, 3, 1, 5, 0);
 	//Type 2
 	deck[1] 	= new Tile(1,1,1,1,4,0);
 	deck[2] 	= new Tile(1,1,1,1,4,0);
