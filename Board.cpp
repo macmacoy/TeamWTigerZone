@@ -3,7 +3,7 @@
 #if(MAC)
 	#include "Tile.cpp"
 #endif
-#include <queue>
+#include <queue>                                               
 #include <vector>
 #include <iostream>
 #include <stdio.h>
@@ -15,11 +15,17 @@
 */
 Board::Board()
 {
+	//initialize player scores and tiger inventory
+	int player1Score = 0;
+	int player2Score = 0;
+	int player1TigerCount = 7;
+	int player2TigerCount = 7;
+	
 	// place start tile
 #ifdef DEBUG_TILE
 	startTile = new Tile(1, 1, 1, 1, 1, 1);
 #else
-	startTile = new Tile(2, 3, 1, 3, 3, 0);
+	startTile = new Tile(3, 2, 3, 1, 5, 0);
 #endif
 	PlaceStartTile();
 	// MakeDeck() only for testing
@@ -906,7 +912,7 @@ int Board::DisplayBoard()
 					else if(i==2){
 						if(x==startX)
 							std::cout << "|";
-						std::cout << tile->getW() << tile->getCenter() << " " << tile->getE() << "|";
+						std::cout << tile->getW() << ""<<tile->getCenter() << " " << tile->getE() << "|";
 					}
 					else if(i==3){
 						if(x==startX)
@@ -1077,14 +1083,19 @@ int Board::MakeDeck()
 	for (int i = 0; i < 76;i++)
 		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
 #else
+	//Type 1
 	deck[0] 	= new Tile(1,1,1,1,1,0);
+	//Type 2
 	deck[1] 	= new Tile(1,1,1,1,4,0);
 	deck[2] 	= new Tile(1,1,1,1,4,0);
 	deck[3] 	= new Tile(1,1,1,1,4,0);
 	deck[4] 	= new Tile(1,1,1,1,4,0);
+	//Type 3
 	deck[5]		= new Tile(1,1,3,1,4,0);
 	deck[6]		= new Tile(1,1,3,1,4,0);
+	//Type 4
 	deck[7] 	= new Tile(3,3,3,3,3,0);
+	//Type 5
 	deck[8] 	= new Tile(3,1,3,1,5,0);
 	deck[9] 	= new Tile(3,1,3,1,5,0);
 	deck[10] 	= new Tile(3,1,3,1,5,0);
@@ -1093,6 +1104,7 @@ int Board::MakeDeck()
 	deck[13] 	= new Tile(3,1,3,1,5,0);
 	deck[14] 	= new Tile(3,1,3,1,5,0);
 	deck[15] 	= new Tile(3,1,3,1,5,0);
+	//Type 6
 	deck[16] 	= new Tile(3,1,1,3,5,0);
 	deck[17] 	= new Tile(3,1,1,3,5,0);	
 	deck[18] 	= new Tile(3,1,1,3,5,0);
@@ -1136,7 +1148,7 @@ int Board::MakeDeck()
 	deck[56] 	= new Tile(1,2,3,3,5,1);
 	deck[57] 	= new Tile(1,2,3,3,5,1);
 	deck[58] 	= new Tile(3,2,3,1,5,0);
-	deck[59] 	= new Tile(3,2,3,1,5,0);
+	deck[59] 	= new Tile(3,2,3,1,5,0); //starting 
 	deck[60] 	= new Tile(3,2,3,1,5,0);
 	deck[61] 	= new Tile(3,2,3,1,5,1);
 	deck[62] 	= new Tile(3,2,3,1,5,1);

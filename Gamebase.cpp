@@ -33,6 +33,7 @@ bool Gamebase::Run() {
 		PlaceTile();
 		DisplayBoard();
 		turn++;
+	
 		
 		cout << "Current Turn: " << turn << endl;
 		cout << endl;
@@ -122,7 +123,7 @@ void Gamebase::PlaceTiger(int x, int y)
 		cout << "Location for the meeple" << endl;
 		string location = "";
 		cin>>location;
-		board->PlaceTiger(x,y,location);
+		board->PlaceTiger(x,y,location, player);
 	}
 }
 

@@ -33,6 +33,7 @@ private:
 	Board* board;
 	
 	int turn;
+	int player;
 	bool turnOver;
 	//Tile* tile; Unnecessary
 	//Player* player1;
