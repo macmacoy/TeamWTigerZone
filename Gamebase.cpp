@@ -4,7 +4,7 @@ Gamebase::Gamebase()
 {
 	start = true;
 	//std::cout << start << std::endl;
-	int turn = 0;
+	turn = 0;
 	board = new Board();
 	//tile = new Tile();
 	board->DisplayBoard();
