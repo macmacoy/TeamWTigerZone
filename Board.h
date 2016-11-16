@@ -50,6 +50,6 @@ public:
 
 	Tile* deck[77];
 	Tile* board[143][143];
-	int* tigers[143][143];
+	int tigers[143][143];
 	
 };

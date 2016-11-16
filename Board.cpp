@@ -1003,7 +1003,7 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 {
 	if(CheckTigerPlacement(x, y, location) == 1){
 		board[x][y]->PlaceTiger(location);
-		tigers[x][y] = &player;
+		tigers[x][y] = player;
 		return 1;
 	}
 	return 0;
