@@ -26,6 +26,7 @@ private:
 	// int Traverse(queue myqueue, int tileCount, vector visit);
 	// int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
 	// int CheckCompletedLake(int xPos, int yPos);
+	// int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit);
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
 	int CheckCompletedTrail(int xPos, int yPos);
 	int CheckCompletedDen(int xPos, int yPos);
