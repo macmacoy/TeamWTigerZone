@@ -17,7 +17,10 @@ class Board
 private:
 
 	
-	
+	int player1Score;
+	int player2Score;
+	int player1TigerCount;
+	int player2TigerCount;
 	Tile* startTile;
 
 	int PlaceStartTile();
@@ -37,6 +40,10 @@ public:
 	Board();
 	~Board();
 
+	int GetPlayer1Score();
+	int GetPlayer2score();
+	int GetPlayer1TigerCount();
+	int GetPlayer2TigerCount();
     int DisplayBoard();
     int DisplayNextTile(int turn);
 	int PlaceTile(Tile* tile, int xPos, int yPos);

@@ -15,6 +15,12 @@
 */
 Board::Board()
 {
+	//initialize player scores and tiger inventory
+	int player1Score = 0;
+	int player2Score = 0;
+	int player1TigerCount = 7;
+	int player2TigerCount = 7;
+	
 	// place start tile
 #ifdef DEBUG_TILE
 	startTile = new Tile(1, 1, 1, 1, 1, 1);
