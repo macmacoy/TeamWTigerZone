@@ -48,8 +48,37 @@ int Board::PlaceStartTile()
 	return 1;
 }
 
+// used in BFS
+struct coordinate{
+	int x;
+	int y;
+};
+
+//used for finding tigers on completed areas
+queue<coordinate> player1Tigers;
+queue<coordinate> player2Tigers;
+
+void Board::CheckTileForTiger(int xCurr, int yCurr)
+{
+	if(tigers[xCurr][yCurr] == 1)
+	{
+		struct coordinate c;
+		c.x = xCurr;
+		c.y = yCurr;
+		player1Tigers.push(c); 
+	}
+	else if(tigers[xCurr][yCurr] == 2)
+	{
+		struct coordinate c;
+		c.x = xCurr;
+		c.y = yCurr;
+		player2Tigers.push(c);			
+	}
+}
+
 // used in CheckTilePlacement
-int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart)
+int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
+						int yStart)
 {
 	if(board[xCurr][yCurr] == NULL)		//If no tile placed, Trail is not complete
 	{
@@ -88,8 +117,10 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 	//We already know where the first part of the Trail is on the
 	// current tile which connects to the previous tile, so we check 
 	// where the next part of the Trail is or if it ends at this tile
-	if(board[xCurr][yCurr]->getCenter() != 0)	//tile is an end to the Trail
+	if(board[xCurr][yCurr]->getCenter() != 3)	//tile is an end to the Trail
 	{
+		// add tigers to queue to settle disputes and give points later
+		CheckTileForTiger(xCurr, yCurr);
 		return 1;
 	}
 	else				//otherwise, find where the Trail continues
@@ -100,7 +131,12 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{		//if Trail doesn't connect to a tile, then Trail is not complete
 				return -1;		//return -1 all the way back to the beginning function call
 			}
-			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr, yCurr-1, xStart, yStart);
+			else
+			{
+				CheckTileForTiger(xCurr, yCurr);
+				return 1 + board[xCurr][yCurr]->isprey() + 
+								CountTrail(xCurr, yCurr, xCurr, yCurr-1, xStart, yStart);
+			}
 			
 		}
 		if(board[xCurr][yCurr]->getS() == 3 && !up)
@@ -109,7 +145,12 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{
 				return -1;
 			}
-			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr, yCurr+1, xStart, yStart);
+			else
+			{
+				CheckTileForTiger(xCurr, yCurr);
+				return 1 + board[xCurr][yCurr]->isprey() + 
+								CountTrail(xCurr, yCurr, xCurr, yCurr+1, xStart, yStart);
+			}
 		}
 		if(board[xCurr][yCurr]->getE() == 3 && !left)
 		{
@@ -117,7 +158,12 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{
 				return -1;
 			}
-			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr+1, yCurr, xStart, yStart);
+			else
+			{
+				CheckTileForTiger(xCurr, yCurr);
+				return 1 + board[xCurr][yCurr]->isprey() + 
+								CountTrail(xCurr, yCurr, xCurr+1, yCurr, xStart, yStart);
+			}
 		}
 		if(board[xCurr][yCurr]->getW() == 3 && !right)
 		{
@@ -125,12 +171,18 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, in
 			{
 				return -1;
 			}
-			else return 1 + board[xCurr][yCurr]->isprey() + CountTrail(xCurr, yCurr, xCurr-1, yCurr, xStart, yStart);
+			else
+			{
+				CheckTileForTiger(xCurr, yCurr);
+				return 1 + board[xCurr][yCurr]->isprey() + 
+								CountTrail(xCurr, yCurr, xCurr-1, yCurr, xStart, yStart);
+			}
 		}
 	}
 	// if not returned by now
 	return -1;
 }
+
 
 int Board::CheckCompletedTrail(int xPos, int yPos)
 {
@@ -211,7 +263,7 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 				//Need a function to settle Tiger displutes
 				// and to return which player(s) recieve the points
 				
-				//Player.score += pointsN
+				//Player.score += pointsN + board[xPos][yPos]->isprey()
 				//Player.returnTiger
 				cout << "North road Completed for tile" << xPos << ", " << yPos << ". Add " << pointsN << " points." << endl;
 			}
@@ -268,7 +320,7 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 			
 			if(points1 != 0 && points2 != 0)
 			{
-				points = points1 + points2;
+				points = points1 + points2 + board[xPos][yPos]->isprey();
 				//player.score += points
 				//player.ReturnTiger?
 				cout << "Road Completed for tile" << xPos << ", " << yPos << ". Add " << points << " points." << endl;
@@ -282,6 +334,7 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 	//return tiger and add to score for corresponding player
 	return 0;
 }
+
 
 // return value: 0=invalid tile placement
 // 				 1=valid tile placement
@@ -367,12 +420,6 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 	}
 	return 1;
 }
-
-// used in BFS
-struct coordinate{
-	int x;
-	int y;
-};
 
 // return value: 0=invalid Tiger placement
 // 				 1=valid Tiger placement
@@ -684,7 +731,7 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 // // return value: 0=no newly completed Lakes
 // // 				 !0=number of points awarded for newly completed Lake
 
-/*
+
 int Board::CheckCompletedLake(int xPos, int yPos){
 	
 //Initialization material
@@ -769,7 +816,7 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit){
  			if(x == -1){return -1;} else{tileCount += x;}}
  		}
  	return tileCount;
- } */
+ } 
 
 
 // return value: 0=no newly completed dens
@@ -1094,7 +1141,8 @@ int Board::MakeDeck()
 		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
 #else
 	//Type 1
-	deck[0] 	= new Tile(1,1,1,1,1,0);
+	//deck[0] 	= new Tile(1,1,1,1,1,0);
+	deck[0] = new Tile(3, 2, 3, 1, 5, 0);
 	//Type 2
 	deck[1] 	= new Tile(1,1,1,1,4,0);
 	deck[2] 	= new Tile(1,1,1,1,4,0);

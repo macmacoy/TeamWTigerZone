@@ -28,7 +28,7 @@ bool Gamebase::Run() {
 			start = 0;
 			std::cout << "Game Ended" << std::endl;
 		}*/
-		
+	
 		DisplayNextTile();
 		PlaceTile();
 		DisplayBoard();
@@ -79,6 +79,18 @@ void Gamebase::PlaceTile()
 	{
 		start = false;
 		system("exit");
+	}
+
+	else if (x == 1 && y == 1)
+	{
+		int i = board->CheckCompletedLake(x, y);
+		if (i == 0)
+		{
+			cout << "Lake not completed" << endl;
+
+		}
+		else
+			cout <<i<< "Tiles of Lake Completed" << endl;
 	}
 	else
 	{
