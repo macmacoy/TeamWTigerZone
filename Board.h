@@ -32,6 +32,7 @@ private:
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
 	int CheckCompletedTrail(int xPos, int yPos);
 	int CheckCompletedDen(int xPos, int yPos);
+	//int CheckCompletedJungle(int xPos, int yPos);
 	
 	
 public:
@@ -50,7 +51,7 @@ public:
 	int ShowAvailibleTigerSpots();
 	int CountEndGameScore(int playerNumber);
 	int CheckCompletedLake(int xPos, int yPos);
-	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit);
+	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
 	
 
 	Tile* deck[77];
