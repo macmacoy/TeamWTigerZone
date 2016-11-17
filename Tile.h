@@ -77,7 +77,7 @@ public:
 	int getCenter();
 
 	//Is there a prey (T/F)
-	int isprey();
+	int isPrey();
 	
 	//Get Tiger Locations
 	int getTigerN();

@@ -5,10 +5,7 @@ Engine::Engine()
 {
 	//Initialize the game engine
 	Gamebase game = new Gamebase();
-	while (game->Run())
-	{
-		
-	}
+	while (game->RunTest()){}
 }
 
 Engine::~Engine()

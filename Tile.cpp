@@ -110,7 +110,7 @@ int Tile::getCenter(){
 	return center;
 }
 
-int Tile::isprey(){
+int Tile::isPrey(){
 	return prey;
 }
 

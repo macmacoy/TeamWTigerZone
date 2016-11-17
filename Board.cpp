@@ -158,7 +158,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 						CheckTileForTiger(xCurr, yCurr);
 					}
 				}
-				return 1 + board[xCurr][yCurr]->isprey() + 
+				return 1 + board[xCurr][yCurr]->isPrey() + 
 								CountTrail(xCurr, yCurr, xCurr, yCurr-1, xStart, yStart);
 			}
 			
@@ -180,7 +180,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 						CheckTileForTiger(xCurr, yCurr);
 					}
 				}
-				return 1 + board[xCurr][yCurr]->isprey() + 
+				return 1 + board[xCurr][yCurr]->isPrey() + 
 								CountTrail(xCurr, yCurr, xCurr, yCurr+1, xStart, yStart);
 			}
 		}
@@ -201,7 +201,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 						CheckTileForTiger(xCurr, yCurr);
 					}
 				}
-				return 1 + board[xCurr][yCurr]->isprey() + 
+				return 1 + board[xCurr][yCurr]->isPrey() + 
 								CountTrail(xCurr, yCurr, xCurr+1, yCurr, xStart, yStart);
 			}
 		}
@@ -222,7 +222,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 						CheckTileForTiger(xCurr, yCurr);
 					}
 				}
-				return 1 + board[xCurr][yCurr]->isprey() + 
+				return 1 + board[xCurr][yCurr]->isPrey() + 
 								CountTrail(xCurr, yCurr, xCurr-1, yCurr, xStart, yStart);
 			}
 		}
@@ -319,16 +319,16 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 				//adds points to whoever controls the road (more tigers)
 				if(player1Tigers.size() > player2Tigers.size())
 				{
-					player1Score += pointsN + board[xPos][yPos]->isprey();
+					player1Score += pointsN + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() < player2Tigers.size())
 				{
-					player1Score += pointsN + board[xPos][yPos]->isprey();
+					player1Score += pointsN + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
 				{
-					player1Score += pointsN + board[xPos][yPos]->isprey();
-					player2Score += pointsN + board[xPos][yPos]->isprey();
+					player1Score += pointsN + board[xPos][yPos]->isPrey();
+					player2Score += pointsN + board[xPos][yPos]->isPrey();
 				}
 				
 				struct coordinate c;
@@ -365,16 +365,16 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 				//adds points to whoever controls the road (more tigers)
 				if(player1Tigers.size() > player2Tigers.size())
 				{
-					player1Score += pointsS + board[xPos][yPos]->isprey();
+					player1Score += pointsS + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() < player2Tigers.size())
 				{
-					player1Score += pointsS + board[xPos][yPos]->isprey();
+					player1Score += pointsS + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
 				{
-					player1Score += pointsS + board[xPos][yPos]->isprey();
-					player2Score += pointsS + board[xPos][yPos]->isprey();
+					player1Score += pointsS + board[xPos][yPos]->isPrey();
+					player2Score += pointsS + board[xPos][yPos]->isPrey();
 				}
 				
 				struct coordinate c;
@@ -411,16 +411,16 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 				//adds points to whoever controls the road (more tigers)
 				if(player1Tigers.size() > player2Tigers.size())
 				{
-					player1Score += pointsE + board[xPos][yPos]->isprey();
+					player1Score += pointsE + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() < player2Tigers.size())
 				{
-					player1Score += pointsE + board[xPos][yPos]->isprey();
+					player1Score += pointsE + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
 				{
-					player1Score += pointsE + board[xPos][yPos]->isprey();
-					player2Score += pointsE + board[xPos][yPos]->isprey();
+					player1Score += pointsE + board[xPos][yPos]->isPrey();
+					player2Score += pointsE + board[xPos][yPos]->isPrey();
 				}
 				
 				struct coordinate c;
@@ -457,16 +457,16 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 				//adds points to whoever controls the road (more tigers)
 				if(player1Tigers.size() > player2Tigers.size())
 				{
-					player1Score += pointsW + board[xPos][yPos]->isprey();
+					player1Score += pointsW + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() < player2Tigers.size())
 				{
-					player1Score += pointsW + board[xPos][yPos]->isprey();
+					player1Score += pointsW + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
 				{
-					player1Score += pointsW + board[xPos][yPos]->isprey();
-					player2Score += pointsW + board[xPos][yPos]->isprey();
+					player1Score += pointsW + board[xPos][yPos]->isPrey();
+					player2Score += pointsW + board[xPos][yPos]->isPrey();
 				}
 				
 				struct coordinate c;
@@ -559,21 +559,21 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 			
 			if(points1 != 0 && points2 != 0)
 			{
-				points = points1 + points2 + board[xPos][yPos]->isprey();
+				points = points1 + points2 + board[xPos][yPos]->isPrey();
 				
 				//adds points to whoever controls the road (more tigers)
 				if(player1Tigers.size() > player2Tigers.size())
 				{
-					player1Score += points + board[xPos][yPos]->isprey();
+					player1Score += points + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() < player2Tigers.size())
 				{
-					player1Score += points + board[xPos][yPos]->isprey();
+					player1Score += points + board[xPos][yPos]->isPrey();
 				}
 				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
 				{
-					player1Score += points + board[xPos][yPos]->isprey();
-					player2Score += points + board[xPos][yPos]->isprey();
+					player1Score += points + board[xPos][yPos]->isPrey();
+					player2Score += points + board[xPos][yPos]->isPrey();
 				}
 				
 				struct coordinate c;
@@ -1167,11 +1167,12 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
   		if(board[xPos][yPos]->getW() == checkFor){
   			if(board[xPos-1][yPos]->getE() != checkFor){return -1;}
  			else{myqueue.push(((xPos-1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit, checkFor);}
->>>>>>> 3ce99c02d50b8b0c2d51aeb26e9db48459211867
  			if(x == -1){return -1;} else{tileCount += x;}}
- 		}
+ 	}
  	return tileCount;
- } 
+ }
+ // something weird going on with these nested parentheses
+}}}}}
 
 
 // return value: 0=no newly completed dens
@@ -1418,7 +1419,8 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 	return 1; // success
 }
 
-//Place Tiger
+// return value: 0=invalid tiger placement
+// 				 1=successful tiger placement
 int Board::PlaceTiger(int x, int y, string location, int player)
 {
 	if(CheckTigerPlacement(x, y, location) == 1){
@@ -1475,85 +1477,18 @@ int Board::CountEndGameScore(int playerNumber)
 	return 0;
 }
 
-	// deck[0] 	= new Tile(1,1,1,1,1,0);
-	// //Type 2
-	// deck[1] 	= new Tile(1,1,1,1,4,0);
-	// deck[2] 	= new Tile(1,1,1,1,4,0);
-	// deck[3] 	= new Tile(1,1,1,1,4,0);
-	// deck[4] 	= new Tile(1,1,1,1,4,0);
-	// //Type 3
-	// deck[5]		= new Tile(1,1,3,1,4,0);
-	// deck[6]		= new Tile(1,1,3,1,4,0);
-	// //Type 4
-	// deck[7] 	= new Tile(3,3,3,3,3,0);
-	// //Type 5
-	// deck[8] 	= new Tile(3,1,3,1,5,0);
-	// deck[9] 	= new Tile(3,1,3,1,5,0);
-	// deck[10] 	= new Tile(3,1,3,1,5,0);
-	// deck[11] 	= new Tile(3,1,3,1,5,0);
-	// deck[12] 	= new Tile(3,1,3,1,5,0);
-	// deck[13] 	= new Tile(3,1,3,1,5,0);
-	// deck[14] 	= new Tile(3,1,3,1,5,0);
-	// deck[15] 	= new Tile(3,1,3,1,5,0);
-	// //Type 6
-	// deck[16] 	= new Tile(3,1,1,3,5,0);
-	// deck[17] 	= new Tile(3,1,1,3,5,0);	
-	// deck[18] 	= new Tile(3,1,1,3,5,0);
-	// deck[19] 	= new Tile(3,1,1,3,5,0);
-	// deck[20] 	= new Tile(3,1,1,3,5,0);
-	// deck[21] 	= new Tile(3,1,1,3,5,0);
-	// deck[22] 	= new Tile(3,1,1,3,5,0);
-	// deck[23] 	= new Tile(3,1,1,3,5,0);
-	// deck[24] 	= new Tile(3,1,1,3,5,0);
-	// deck[25] 	= new Tile(3,1,3,3,3,0);
-	// deck[26] 	= new Tile(3,1,3,3,3,0);
-	// deck[27] 	= new Tile(3,1,3,3,3,0);
-	// deck[28] 	= new Tile(3,1,3,3,3,0);
-	// deck[29] 	= new Tile(2,2,2,2,2,0);
-	// deck[30] 	= new Tile(1,2,2,2,2,0);
-	// deck[31] 	= new Tile(1,2,2,2,2,0);
-	// deck[32] 	= new Tile(1,2,2,2,2,0);
-	// deck[33] 	= new Tile(1,2,2,2,2,0);
-	// deck[34] 	= new Tile(2,2,1,1,2,0);
-	// deck[35] 	= new Tile(2,2,1,1,2,0);
-	// deck[36] 	= new Tile(2,2,1,1,2,0);
-	// deck[37] 	= new Tile(2,2,1,1,2,0);
-	// deck[38] 	= new Tile(2,2,1,1,2,0);
-	// deck[39] 	= new Tile(1,2,1,2,2,0);
-	// deck[40] 	= new Tile(1,2,1,2,2,0);
-	// deck[41] 	= new Tile(1,2,1,2,2,0);
-	// deck[42] 	= new Tile(2,1,2,1,1,0);
-	// deck[43] 	= new Tile(2,1,2,1,1,0);
-	// deck[44] 	= new Tile(2,1,2,1,1,0);
-	// deck[45] 	= new Tile(2,1,1,1,1,0);
-	// deck[46] 	= new Tile(2,1,1,1,1,0);
-	// deck[47] 	= new Tile(2,1,1,1,1,0);
-	// deck[48] 	= new Tile(2,1,1,1,1,0);
-	// deck[49] 	= new Tile(2,1,1,1,1,0);
-	// deck[50] 	= new Tile(1,2,2,1,1,0);
-	// deck[51] 	= new Tile(1,2,2,1,1,0);
-	// deck[52] 	= new Tile(3,2,1,3,5,0);
-	// deck[53] 	= new Tile(3,2,1,3,5,1);
-	// deck[54] 	= new Tile(3,2,1,3,5,1);
-	// deck[55] 	= new Tile(1,2,3,3,5,0);
-	// deck[56] 	= new Tile(1,2,3,3,5,1);
-	// deck[57] 	= new Tile(1,2,3,3,5,1);
-	// deck[58] 	= new Tile(3,2,3,1,5,0);
-	// deck[59] 	= new Tile(3,2,3,1,5,0); //starting 
-	// deck[60] 	= new Tile(3,2,3,1,5,0);
-	// deck[61] 	= new Tile(3,2,3,1,5,1);
-	// deck[62] 	= new Tile(3,2,3,1,5,1);
-	// deck[63] 	= new Tile(3,2,2,2,2,0);
-	// deck[64] 	= new Tile(3,2,2,2,2,0);
-	// deck[65] 	= new Tile(3,2,2,2,2,0);
-	// deck[66] 	= new Tile(3,2,3,3,3,0);
-	// deck[67] 	= new Tile(3,2,3,3,3,1);
-	// deck[68] 	= new Tile(3,2,3,3,3,1);
-	// deck[69] 	= new Tile(3,2,2,3,5,0);
-	// deck[70] 	= new Tile(3,2,2,3,5,0);
-	// deck[71] 	= new Tile(3,2,2,3,5,0);
-	// deck[72] 	= new Tile(3,2,2,3,5,1);
-	// deck[73] 	= new Tile(3,2,2,3,5,1);
-	// deck[74] 	= new Tile(2,1,3,1,1,0);
-	// deck[75] 	= new Tile(2,1,3,1,1,1);
-	// deck[76] 	= new Tile(2,1,3,1,1,1);
+// get the player's score
+int Board::GetPlayerScore(int player){
+	if(player = 1)
+		return player1Score;
+	else if(player = 2)
+		return player2Score;
+}
+
+// get the player's tiger count
+int Board::GetPlayerTigerCount(int player){
+	if(player = 1)
+		return player1TigerCount;
+	else if(player = 2)
+		return player2TigerCount;
+}

@@ -14,12 +14,13 @@ public:
 	~Gamebase();
 
 	int Run();
+	int RunTest();
 
 private:
 	Board* board;
-	Tile* P1_deck[36];
+	Tile* P1_deck[38];
 	int P1_deck_index;
-	Tile* P2_deck[36];
+	Tile* P2_deck[38];
 	int P2_deck_index;
 	int turn; // 1 = Player1's turn, 2 = Player2's turn
 	int turnCount; // how many turns have occurred
@@ -31,5 +32,7 @@ private:
 	void DisplayBoard();
 
 	void DisplayNextTile();
+
+	void MakeDecksTest();
 	
 };

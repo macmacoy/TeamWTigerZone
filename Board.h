@@ -40,10 +40,8 @@ public:
 	Board();
 	~Board();
 
-	int GetPlayer1Score();
-	int GetPlayer2score();
-	int GetPlayer1TigerCount();
-	int GetPlayer2TigerCount();
+	int GetPlayerScore(int player);
+	int GetPlayerTigerCount(int player);
     int DisplayBoard();
 	int PlaceTile(Tile* tile, int xPos, int yPos);
 	int PlaceTiger(int x, int y, string location, int player);
@@ -54,7 +52,6 @@ public:
 	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
 	
 
-	Tile* deck[77];
 	Tile* board[143][143];
 	int tigers[143][143];
 	
