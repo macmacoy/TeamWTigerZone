@@ -40,15 +40,11 @@ public:
 	Board();
 	~Board();
 
-<<<<<<< HEAD
 
-
-=======
 	int GetPlayer1Score();
 	int GetPlayer2score();
 	int GetPlayer1TigerCount();
 	int GetPlayer2TigerCount();
->>>>>>> 7ba9144632adcdca8e50e044923b4cba929c78c3
     int DisplayBoard();
     int DisplayNextTile(int turn);
 	int PlaceTile(Tile* tile, int xPos, int yPos);

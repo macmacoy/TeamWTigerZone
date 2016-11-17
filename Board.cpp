@@ -22,8 +22,9 @@ Board::Board()
 	int player2TigerCount = 7;
 	
 	// place start tile
-#ifdef DEBUG_TILE
-	startTile = new Tile(1, 1, 1, 1, 1, 1);
+#define LAKE_TESTING
+#ifdef LAKE_TESTING
+	startTile = new Tile(1,2,2,1,2,0);
 #else
 	startTile = new Tile(3, 2, 3, 1, 5, 0);
 #endif
@@ -690,6 +691,38 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 //Initialization material
 //Queue that will contain location, tile counter, and vector for visitation
 //2 of most of these for the event that 
+	//check adjecent tiles
+	/*bool isAdjacent = false;
+	bool nAdjacent = false;
+	bool sAdjacent = false;
+	bool wAdjacent = false;
+	bool eAdjacent = false;
+	if (board[xPos - 1][yPos] != NULL)
+	{
+		isAdjacent = true;
+		wAdjacent = true;
+	}
+	if (board[xPos + 1][yPos] != NULL)
+	{
+		isAdjacent = true;
+		eAdjacent = true;
+	}
+	if (board[xPos][yPos - 1] != NULL)
+	{
+		isAdjacent = true;
+		nAdjacent = true;
+	}
+	if (board[xPos][yPos + 1] != NULL)
+	{
+		isAdjacent = true;
+		sAdjacent = true;
+	}
+
+	if (!isAdjacent)
+	{
+		return 0;
+	}*/
+
   	queue<int> queueA; queue<int> queueB;
   	int countA = 0; int countB = 0; int x = 0; int y = 0;
 	vector<int> visit;
@@ -697,26 +730,26 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 	//First checks if the center piece is a town
 	//if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
  	//if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
-  	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit); visit.clear();}
+	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit); visit.clear();}
 	
   	else if(board[xPos][yPos]->getCenter() != 2){
   		if(board[xPos][yPos]->getN() == 2){
- 			if(board[xPos][yPos-1]->getS() != 2){if(x == 0){x = -1;} else{y = -1;}}
+ 			if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != 2){if(x == 0){x = -1;} else{y = -1;}}
   			else if(x == 0){queueA.push((xPos*1000)+(yPos-1)); x = Traverse(queueA, 1, visit); visit.clear();}
   			else{queueB.push((xPos*1000)+(yPos-1)); y = Traverse(queueB, 1, visit); visit.clear();}}
 
   		if(board[xPos][yPos]->getE() == 2){
- 			if(board[xPos+1][yPos]->getW() != 2){if(x == 0){x = -1;} else{y = -1;}}
+ 			if(board[xPos + 1][yPos] == NULL || board[xPos+1][yPos]->getW() != 2){if(x == 0){x = -1;} else{y = -1;}}
   			else if(x == 0){queueA.push(((xPos+1)*1000)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
   			else{queueB.push(((xPos+1)*1000)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
 
   		if(board[xPos][yPos]->getS() == 2){
- 			if(board[xPos][yPos+1]->getN() != 2){if(x == 0){x = -1;} else{y = -1;}}
+ 			if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != 2){if(x == 0){x = -1;} else{y = -1;}}
   			else if(x == 0){queueA.push((xPos*1000)+(yPos+1)); x = Traverse(queueA, 1, visit); visit.clear();}
   			else{queueB.push((xPos*1000)+(yPos+1)); y = Traverse(queueB, 1, visit); visit.clear();}}
 
   		if(board[xPos][yPos]->getW() == 2){
- 			if(board[xPos-1][yPos]->getE() != 2){if(x == 0){x = -1;} else{y = -1;}}
+ 			if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != 2){if(x == 0){x = -1;} else{y = -1;}}
   			else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
  			else{queueB.push(((xPos-1)*1000)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
  	}
@@ -749,22 +782,22 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit){
   	if(board[xPos][yPos]->getCenter() != 2){myqueue.pop(); return tileCount;}
   	if(board[xPos][yPos]->getCenter() == 2){
   		if(board[xPos][yPos]->getN() == 2){
-  			if(board[xPos][yPos-1]->getS() != 2){return -1;}
+  			if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != 2){return -1;}
   			else{myqueue.push((xPos*1000)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
   			if(x == -1){return -1;} else{tileCount += x;}}
 
   		if(board[xPos][yPos]->getE() == 2){
-  			if(board[xPos+1][yPos]->getW() != 2){return -1;}
+  			if(board[xPos + 1][yPos] == NULL || board[xPos+1][yPos]->getW() != 2){return -1;}
   			else{myqueue.push(((xPos+1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
   			if(x == -1){return -1;} else{tileCount += x;}}
 		
   		if(board[xPos][yPos]->getS() == 2){
- 			if(board[xPos][yPos+1]->getN() != 2){return -1;}
+ 			if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != 2){return -1;}
   			else{myqueue.push((xPos*1000)+(yPos+1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
   			if(x == -1){return -1;} else{tileCount += x;}}
 	
   		if(board[xPos][yPos]->getW() == 2){
-  			if(board[xPos-1][yPos]->getE() != 2){return -1;}
+  			if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != 2){return -1;}
  			else{myqueue.push(((xPos-1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
  			if(x == -1){return -1;} else{tileCount += x;}}
  		}
@@ -1079,17 +1112,24 @@ int Board::MakeDeck()
 */
 
 	//shield: 1 = true, 0 = false	
-#ifdef DEBUG_TILE
-	for (int i = 0; i < 76;i++)
-		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
-#else
 	//Type 1
-	//deck[0] 	= new Tile(1,1,1,1,1,0);
-	deck[0] = new Tile(3, 2, 3, 1, 5, 0);
+	
+#ifdef LAKE_TESTING
+	deck[0] = new Tile(1, 2, 2, 1, 2, 0);
+	deck[1] = new Tile(1, 2, 2, 1, 2, 0);
+	deck[2] = new Tile(1, 2, 2, 1, 2, 0);
+	deck[3] = new Tile(1, 2, 2, 1, 2, 0);
+#else
+
+	deck[0] 	= new Tile(1,1,1,1,1,0);
+	
 	//Type 2
 	deck[1] 	= new Tile(1,1,1,1,4,0);
+
+
 	deck[2] 	= new Tile(1,1,1,1,4,0);
 	deck[3] 	= new Tile(1,1,1,1,4,0);
+#endif
 	deck[4] 	= new Tile(1,1,1,1,4,0);
 	//Type 3
 	deck[5]		= new Tile(1,1,3,1,4,0);
@@ -1168,6 +1208,5 @@ int Board::MakeDeck()
 	deck[75] 	= new Tile(2,1,3,1,1,1);
 	deck[76] 	= new Tile(2,1,3,1,1,1);
 
-#endif
 	return 1;
 }

@@ -64,7 +64,7 @@ bool Gamebase::isGameEnded()
 	}
 }
 
-void Gamebase::PlaceTile()
+void Gamebase::PlaceTileTesting()
 {
 	int x; int y; int r;
 	cout << "Enter x and y" << endl;
@@ -81,16 +81,33 @@ void Gamebase::PlaceTile()
 		system("exit");
 	}
 
+	//Check 
 	else if (x == 1 && y == 1)
 	{
+		cout << "Entere the x, y you want to check" << endl;
+		cin >> x; cin >> y;
 		int i = board->CheckCompletedLake(x, y);
 		if (i == 0)
 		{
 			cout << "Lake not completed" << endl;
+			turn--;
 
 		}
 		else
-			cout <<i<< "Tiles of Lake Completed" << endl;
+			cout << "--------------------------------------------" << endl;
+			turn--;
+		if (i % 100 != 0 && i / 100 != 0)
+		{
+			cout << "2 lakes completed" << endl;
+			cout << "First Lake has " << i / 100 << " tiles. "<<endl;
+			cout << "Second Lake has " << i % 100 << " tiles." << endl;
+		}
+		else
+		{
+			cout << "1 lake completed" << endl;
+			cout << "First lake has " << max(i / 100, i % 100) << " tiles." << endl;
+		}
+			cout << "---------------------------------------------------" << endl;
 	}
 	else
 	{

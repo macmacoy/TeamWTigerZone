@@ -23,6 +23,7 @@ public:
 
 private:
 	bool isGameEnded();
+	void PlaceTileTesting();
 	void PlaceTile();
 	void PlaceTiger(int x, int y);
 
