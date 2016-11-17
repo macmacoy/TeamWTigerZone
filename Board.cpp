@@ -773,7 +773,7 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit){
 
 
 // return value: 0=no newly completed dens
-// 				 !0=number of points awarded for newly completed dens
+// 				 !0=number newly completed dens found
 int Board::CheckCompletedDen(int xPos, int yPos)
 {	
 	int numDensCompleted = 0;
@@ -830,6 +830,16 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 							if(board[c.x-1][c.y]->getE() == 1){
 								if(board[c.x+1][c.y] != NULL){
 									if(board[c.x+1][c.y]->getW() == 1){
+										if(tigers[c][y] == 1){
+											player1Score = player1Score + 9;
+											player1TigerCount++;
+											tigers[c][y] = 0;
+										}
+										else if(tigers[c][y] == 2){
+											player2Score = player2Score + 9;
+											player2TigerCount++;
+											tigers[c][y] = 0;
+										}
 										numDensCompleted++;
 									}
 								}
@@ -842,7 +852,7 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 	}
 
 	// all sides are surrounded by jungle
-	return (numDensCompleted*9);
+	return numDensCompleted;
 }
 
 // Print the state of the board
