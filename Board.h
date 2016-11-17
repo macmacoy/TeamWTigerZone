@@ -29,7 +29,7 @@ private:
 	int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
 	//int Traverse(queue myqueue, int tileCount, vector visit);
 	// int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
-	
+	void CheckTileForTiger(int xCurr, int yCurr);
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
 	int CheckCompletedTrail(int xPos, int yPos);
 	int CheckCompletedDen(int xPos, int yPos);
@@ -40,15 +40,15 @@ public:
 	Board();
 	~Board();
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 
-=======
+//=======
 	int GetPlayer1Score();
 	int GetPlayer2score();
 	int GetPlayer1TigerCount();
 	int GetPlayer2TigerCount();
->>>>>>> 7ba9144632adcdca8e50e044923b4cba929c78c3
+//>>>>>>> 7ba9144632adcdca8e50e044923b4cba929c78c3
     int DisplayBoard();
     int DisplayNextTile(int turn);
 	int PlaceTile(Tile* tile, int xPos, int yPos);
@@ -64,6 +64,6 @@ public:
 
 	Tile* deck[77];
 	Tile* board[143][143];
-	int* tigers[143][143];
+	int tigers[143][143];
 	
 };
