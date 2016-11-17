@@ -34,6 +34,7 @@ private:
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
 	int CheckCompletedTrail(int xPos, int yPos);
 	int CheckCompletedDen(int xPos, int yPos);
+	//int CheckCompletedJungle(int xPos, int yPos);
 	
 	
 public:

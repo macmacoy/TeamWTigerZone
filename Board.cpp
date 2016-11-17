@@ -774,32 +774,32 @@ int Board::CheckCompletedLake(int xPos, int yPos){
   	queue<int> queueA; queue<int> queueB;
   	int countA = 0; int countB = 0; int x = 0; int y = 0;
 	vector<int> visit;
-
+	int checkFor = 2;
 	//First checks if the center piece is a town
 	//if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
  	//if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
-  	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit); visit.clear();}
+  	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit, checkFor); visit.clear();}
 	
   	else if(board[xPos][yPos]->getCenter() != 2){
   		if(board[xPos][yPos]->getN() == 2){
  			if(board[xPos][yPos-1]->getS() != 2){if(x == 0){x = -1;} else{y = -1;}}
-  			else if(x == 0){queueA.push((xPos*1000)+(yPos-1)); x = Traverse(queueA, 1, visit); visit.clear();}
-  			else{queueB.push((xPos*1000)+(yPos-1)); y = Traverse(queueB, 1, visit); visit.clear();}}
+  			else if(x == 0){queueA.push((xPos*1000)+(yPos-1)); x = Traverse(queueA, 1, visit, checkFor); visit.clear();}
+  			else{queueB.push((xPos*1000)+(yPos-1)); y = Traverse(queueB, 1, visit, checkFor); visit.clear();}}
 
   		if(board[xPos][yPos]->getE() == 2){
  			if(board[xPos+1][yPos]->getW() != 2){if(x == 0){x = -1;} else{y = -1;}}
-  			else if(x == 0){queueA.push(((xPos+1)*1000)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
-  			else{queueB.push(((xPos+1)*1000)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
+  			else if(x == 0){queueA.push(((xPos+1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor); visit.clear();}
+  			else{queueB.push(((xPos+1)*1000)+yPos); y = Traverse(queueB, 1, visit, checkFor); visit.clear();}}
 
   		if(board[xPos][yPos]->getS() == 2){
  			if(board[xPos][yPos+1]->getN() != 2){if(x == 0){x = -1;} else{y = -1;}}
-  			else if(x == 0){queueA.push((xPos*1000)+(yPos+1)); x = Traverse(queueA, 1, visit); visit.clear();}
-  			else{queueB.push((xPos*1000)+(yPos+1)); y = Traverse(queueB, 1, visit); visit.clear();}}
+  			else if(x == 0){queueA.push((xPos*1000)+(yPos+1)); x = Traverse(queueA, 1, visit, checkFor); visit.clear();}
+  			else{queueB.push((xPos*1000)+(yPos+1)); y = Traverse(queueB, 1, visit, checkFor); visit.clear();}}
 
   		if(board[xPos][yPos]->getW() == 2){
  			if(board[xPos-1][yPos]->getE() != 2){if(x == 0){x = -1;} else{y = -1;}}
-  			else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
- 			else{queueB.push(((xPos-1)*1000)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
+  			else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor); visit.clear();}
+ 			else{queueB.push(((xPos-1)*1000)+yPos); y = Traverse(queueB, 1, visit, checkFor); visit.clear();}}
  	}
  	if(x > 0){countA += x;} if(y > 0){countB += y;}
  	return (countA * 100 + countB);
@@ -807,7 +807,7 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 
 //traversal method with the queue as the input
 
-int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit){
+int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int checkFor){
 
  	if(myqueue.empty() == true){return tileCount;}
  	int xPos = myqueue.front() / 1000;
@@ -827,26 +827,26 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit){
  	//if no, end search for this portion
  	//if yes, add every unvisited neighboring tile to the queue
  	//if any of the tiles neighboring a town side are empty/NULL tile, return false
-  	if(board[xPos][yPos]->getCenter() != 2){myqueue.pop(); return tileCount;}
-  	if(board[xPos][yPos]->getCenter() == 2){
-  		if(board[xPos][yPos]->getN() == 2){
-  			if(board[xPos][yPos-1]->getS() != 2){return -1;}
-  			else{myqueue.push((xPos*1000)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+  	if(board[xPos][yPos]->getCenter() != checkFor){myqueue.pop(); return tileCount;}
+  	if(board[xPos][yPos]->getCenter() == checkFor){
+  		if(board[xPos][yPos]->getN() == checkFor){
+  			if(board[xPos][yPos-1]->getS() != checkFor){return -1;}
+  			else{myqueue.push((xPos*1000)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit, checkFor);}
   			if(x == -1){return -1;} else{tileCount += x;}}
 
-  		if(board[xPos][yPos]->getE() == 2){
-  			if(board[xPos+1][yPos]->getW() != 2){return -1;}
-  			else{myqueue.push(((xPos+1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+  		if(board[xPos][yPos]->getE() == checkFor){
+  			if(board[xPos+1][yPos]->getW() != checkFor){return -1;}
+  			else{myqueue.push(((xPos+1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit, checkFor);}
   			if(x == -1){return -1;} else{tileCount += x;}}
 		
-  		if(board[xPos][yPos]->getS() == 2){
- 			if(board[xPos][yPos+1]->getN() != 2){return -1;}
-  			else{myqueue.push((xPos*1000)+(yPos+1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+  		if(board[xPos][yPos]->getS() == checkFor){
+ 			if(board[xPos][yPos+1]->getN() != checkFor){return -1;}
+  			else{myqueue.push((xPos*1000)+(yPos+1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit, checkFor);}
   			if(x == -1){return -1;} else{tileCount += x;}}
 	
-  		if(board[xPos][yPos]->getW() == 2){
-  			if(board[xPos-1][yPos]->getE() != 2){return -1;}
- 			else{myqueue.push(((xPos-1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+  		if(board[xPos][yPos]->getW() == checkFor){
+  			if(board[xPos-1][yPos]->getE() != checkFor){return -1;}
+ 			else{myqueue.push(((xPos-1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit, checkFor);}
  			if(x == -1){return -1;} else{tileCount += x;}}
  		}
  	return tileCount;
@@ -900,7 +900,7 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 	}
 
 	while(!Q.empty()){
-		struct coordinate c = Q.front();
+		inate c = Q.front();
 		Q.pop();
 		Tile* denTile = board[c.x][c.y];
 		if(board[c.x][c.y-1] != NULL){
@@ -935,6 +935,20 @@ int Board::CheckCompletedDen(int xPos, int yPos)
 	// all sides are surrounded by jungle
 	return numDensCompleted;
 }
+/*
+int Board::CheckCompletedJungle(int xPos, int yPos) {
+
+	int numCompletedJungles = 0;
+	queue<int> queueA;queue<int> queueB;
+	vector<int> visit;	
+	int jungleN = 0;
+	int jungleE = 0;
+	int	jungleS = 0;
+	int	jungleW = 0;
+
+}
+*/
+
 
 // Print the state of the board
 int Board::DisplayBoard()
