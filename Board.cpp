@@ -16,10 +16,10 @@
 Board::Board()
 {
 	//initialize player scores and tiger inventory
-	int player1Score = 0;
-	int player2Score = 0;
-	int player1TigerCount = 7;
-	int player2TigerCount = 7;
+	player1Score = 0;
+	player2Score = 0;
+	player1TigerCount = 7;
+	player2TigerCount = 7;
 	
 	// place start tile
 #ifdef DEBUG_TILE
@@ -28,6 +28,7 @@ Board::Board()
 	startTile = new Tile(3, 2, 3, 1, 5, 0);
 #endif
 	PlaceStartTile();
+	InitializeTigerArray();
 	// MakeDeck() only for testing
 	// he will give us the deck from the server
 	MakeDeck();
@@ -46,6 +47,17 @@ int Board::PlaceStartTile()
 	// start tile initialized in Board constructor
 	board[71][71] = startTile;
 	return 1;
+}
+
+void Board::InitializeTigerArray()
+{
+	for(int i = 0; i < 143; ++i)
+	{
+		for(int j = 0; j < 143; ++j)
+		{
+			tigers[i][j] = 0;
+		}
+	}
 }
 
 // used in BFS
@@ -120,7 +132,22 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 	if(board[xCurr][yCurr]->getCenter() != 3)	//tile is an end to the Trail
 	{
 		// add tigers to queue to settle disputes and give points later
-		CheckTileForTiger(xCurr, yCurr);
+		if(left && board[xCurr][yCurr]->getTigerE() == 2)
+		{
+			CheckTileForTiger(xCurr, yCurr);
+		}
+		if(right && board[xCurr][yCurr]->getTigerW() == 2)
+		{
+			CheckTileForTiger(xCurr, yCurr);
+		}
+		if(up && board[xCurr][yCurr]->getTigerS() == 2)
+		{
+			CheckTileForTiger(xCurr, yCurr);
+		}
+		if(down && board[xCurr][yCurr]->getTigerN() == 2)
+		{
+			CheckTileForTiger(xCurr, yCurr);
+		}
 		return 1;
 	}
 	else				//otherwise, find where the Trail continues
@@ -133,7 +160,14 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 			}
 			else
 			{
-				CheckTileForTiger(xCurr, yCurr);
+				//check if tiger is on road on tile
+				if(tigers[xCurr][yCurr] != NULL && tigers[xCurr][yCurr] != 0)
+				if(board[xCurr][yCurr]->getTigerN() == 2 || (up && board[xCurr][yCurr]->getTigerS())
+					|| (left && board[xCurr][yCurr]->getTigerE())
+					|| (right && board[xCurr][yCurr]->getTigerW()))
+				{
+					CheckTileForTiger(xCurr, yCurr);
+				}
 				return 1 + board[xCurr][yCurr]->isprey() + 
 								CountTrail(xCurr, yCurr, xCurr, yCurr-1, xStart, yStart);
 			}

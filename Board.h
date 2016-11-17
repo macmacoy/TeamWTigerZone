@@ -25,6 +25,7 @@ private:
 	Tile* startTile;
 
 	int PlaceStartTile();
+	void InitializeTigerArray();
 	int CheckTilePlacement(Tile* tile, int xPos, int yPos);
 	int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
 	//int Traverse(queue myqueue, int tileCount, vector visit);
