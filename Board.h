@@ -25,7 +25,6 @@ private:
 	Tile* startTile;
 
 	int PlaceStartTile();
-	void InitializeTigerArray();
 	int CheckTilePlacement(Tile* tile, int xPos, int yPos);
 	int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
 	//int Traverse(queue myqueue, int tileCount, vector visit);
@@ -68,7 +67,7 @@ public:
 	int MakeDeck();
 
 	int CheckCompletedLake(int xPos, int yPos);
-	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit);
+	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
 	
 
 	Tile* deck[77];
