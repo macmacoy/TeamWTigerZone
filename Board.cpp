@@ -161,12 +161,14 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 			else
 			{
 				//check if tiger is on road on tile
-				if(tigers[xCurr][yCurr] != NULL && tigers[xCurr][yCurr] != 0)
-				if(board[xCurr][yCurr]->getTigerN() == 2 || (up && board[xCurr][yCurr]->getTigerS())
-					|| (left && board[xCurr][yCurr]->getTigerE())
-					|| (right && board[xCurr][yCurr]->getTigerW()))
+				if(tigers[xCurr][yCurr] != 0)
 				{
-					CheckTileForTiger(xCurr, yCurr);
+					if(board[xCurr][yCurr]->getTigerN() == 2 || (up && board[xCurr][yCurr]->getTigerS())
+						|| (left && board[xCurr][yCurr]->getTigerE())
+						|| (right && board[xCurr][yCurr]->getTigerW()))
+					{
+						CheckTileForTiger(xCurr, yCurr);
+					}
 				}
 				return 1 + board[xCurr][yCurr]->isprey() + 
 								CountTrail(xCurr, yCurr, xCurr, yCurr-1, xStart, yStart);
@@ -181,7 +183,15 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 			}
 			else
 			{
-				CheckTileForTiger(xCurr, yCurr);
+				if(tigers[xCurr][yCurr] != 0)
+				{
+					if(board[xCurr][yCurr]->getTigerS() == 2 || (down && board[xCurr][yCurr]->getTigerN())
+						|| (left && board[xCurr][yCurr]->getTigerE())
+						|| (right && board[xCurr][yCurr]->getTigerW()))
+					{
+						CheckTileForTiger(xCurr, yCurr);
+					}
+				}
 				return 1 + board[xCurr][yCurr]->isprey() + 
 								CountTrail(xCurr, yCurr, xCurr, yCurr+1, xStart, yStart);
 			}
@@ -194,7 +204,15 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 			}
 			else
 			{
-				CheckTileForTiger(xCurr, yCurr);
+				if(tigers[xCurr][yCurr] != 0)
+				{
+					if(board[xCurr][yCurr]->getTigerE() == 2 || (up && board[xCurr][yCurr]->getTigerS())
+						|| (down && board[xCurr][yCurr]->getTigerN())
+						|| (right && board[xCurr][yCurr]->getTigerW()))
+					{
+						CheckTileForTiger(xCurr, yCurr);
+					}
+				}
 				return 1 + board[xCurr][yCurr]->isprey() + 
 								CountTrail(xCurr, yCurr, xCurr+1, yCurr, xStart, yStart);
 			}
@@ -207,7 +225,15 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 			}
 			else
 			{
-				CheckTileForTiger(xCurr, yCurr);
+				if(tigers[xCurr][yCurr] != 0)
+				{
+					if(board[xCurr][yCurr]->getTigerW() == 2 || (up && board[xCurr][yCurr]->getTigerS())
+						|| (left && board[xCurr][yCurr]->getTigerE())
+						|| (down && board[xCurr][yCurr]->getTigerN()))
+					{
+						CheckTileForTiger(xCurr, yCurr);
+					}
+				}
 				return 1 + board[xCurr][yCurr]->isprey() + 
 								CountTrail(xCurr, yCurr, xCurr-1, yCurr, xStart, yStart);
 			}
@@ -216,7 +242,6 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 	// if not returned by now
 	return -1;
 }
-
 
 int Board::CheckCompletedTrail(int xPos, int yPos)
 {
@@ -294,24 +319,186 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 		{					//check for any completed trails (all would be separate)
 			if(pointsN != 0)
 			{
-				//Need a function to settle Tiger displutes
-				// and to return which player(s) recieve the points
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerN() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
 				
-				//Player.score += pointsN + board[xPos][yPos]->isprey()
-				//Player.returnTiger
+				//adds points to whoever controls the road (more tigers)
+				if(player1Tigers.size() > player2Tigers.size())
+				{
+					player1Score += pointsN + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() < player2Tigers.size())
+				{
+					player1Score += pointsN + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+				{
+					player1Score += pointsN + board[xPos][yPos]->isprey();
+					player2Score += pointsN + board[xPos][yPos]->isprey();
+				}
+				
+				struct coordinate c;
+				//return any tigers on roads
+				while(!player1Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player1TigerCount++;
+					player1Tigers.pop();
+					
+				}
+				while(!player2Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player2TigerCount++;
+					player2Tigers.pop();
+					
+				}
 				cout << "North road Completed for tile" << xPos << ", " << yPos << ". Add " << pointsN << " points." << endl;
 			}
 			if(pointsS != 0)
 			{
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerS() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
+				
+				//adds points to whoever controls the road (more tigers)
+				if(player1Tigers.size() > player2Tigers.size())
+				{
+					player1Score += pointsS + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() < player2Tigers.size())
+				{
+					player1Score += pointsS + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+				{
+					player1Score += pointsS + board[xPos][yPos]->isprey();
+					player2Score += pointsS + board[xPos][yPos]->isprey();
+				}
+				
+				struct coordinate c;
+				//return any tigers on roads
+				while(!player1Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player1TigerCount++;
+					player1Tigers.pop();
+					
+				}
+				while(!player2Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player2TigerCount++;
+					player2Tigers.pop();
+					
+				}
 				cout << "South road Completed for tile" << xPos << ", " << yPos << ". Add " << pointsS << " points." << endl;
 			}
 			if(pointsE != 0)
 			{
-				cout << endl;
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerE() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
+				
+				//adds points to whoever controls the road (more tigers)
+				if(player1Tigers.size() > player2Tigers.size())
+				{
+					player1Score += pointsE + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() < player2Tigers.size())
+				{
+					player1Score += pointsE + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+				{
+					player1Score += pointsE + board[xPos][yPos]->isprey();
+					player2Score += pointsE + board[xPos][yPos]->isprey();
+				}
+				
+				struct coordinate c;
+				//return any tigers on roads
+				while(!player1Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player1TigerCount++;
+					player1Tigers.pop();
+					
+				}
+				while(!player2Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player2TigerCount++;
+					player2Tigers.pop();
+					
+				}
 				cout << "East road completed for tile " << xPos << ", " << yPos << ". Add " << pointsE << " points." << endl;
 			}
 			if(pointsW != 0)
 			{
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerW() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
+				
+				//adds points to whoever controls the road (more tigers)
+				if(player1Tigers.size() > player2Tigers.size())
+				{
+					player1Score += pointsW + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() < player2Tigers.size())
+				{
+					player1Score += pointsW + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+				{
+					player1Score += pointsW + board[xPos][yPos]->isprey();
+					player2Score += pointsW + board[xPos][yPos]->isprey();
+				}
+				
+				struct coordinate c;
+				//return any tigers on roads
+				while(!player1Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player1TigerCount++;
+					player1Tigers.pop();
+					
+				}
+				while(!player2Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player2TigerCount++;
+					player2Tigers.pop();
+					
+				}
 				cout << "West road Completed for tile" << xPos << ", " << yPos << ". Add " << pointsW << " points." << endl;
 			}
 			
@@ -323,8 +510,14 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 			int points = 0;
 			if(pointsN != 0)
 			{
-				//Need a function to settle Tiger displutes
-				// and to return which player(s) recieve the points
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerN() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
 				points1 += pointsN;
 			}
 			if(pointsS != 0)
@@ -334,6 +527,14 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 					points1 += pointsS;
 				}
 				else points2 = pointsS;
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerS() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
 			}
 			if(pointsE != 0)
 			{
@@ -342,6 +543,14 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 					points1 += pointsE;
 				}
 				else points2 = pointsE;
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerE() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
 			}
 			if(pointsW != 0)
 			{
@@ -350,22 +559,58 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 					points1 += pointsW;
 				}
 				else points2 = pointsW;
+				//Checks if tiger is on the tile
+				if(tigers[xPos][yPos] != 0)
+				{
+					if(board[xPos][yPos]->getTigerW() == 2 )
+					{
+						CheckTileForTiger(xPos, yPos);
+					}
+				}
 			}
 			
 			if(points1 != 0 && points2 != 0)
 			{
 				points = points1 + points2 + board[xPos][yPos]->isprey();
-				//player.score += points
-				//player.ReturnTiger?
+				
+				//adds points to whoever controls the road (more tigers)
+				if(player1Tigers.size() > player2Tigers.size())
+				{
+					player1Score += points + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() < player2Tigers.size())
+				{
+					player1Score += points + board[xPos][yPos]->isprey();
+				}
+				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+				{
+					player1Score += points + board[xPos][yPos]->isprey();
+					player2Score += points + board[xPos][yPos]->isprey();
+				}
+				
+				struct coordinate c;
+				//return any tigers on roads
+				while(!player1Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player1TigerCount++;
+					player1Tigers.pop();
+					
+				}
+				while(!player2Tigers.empty())
+				{
+					c = player1Tigers.front();
+					tigers[c.x][c.y] = 0;
+					player2TigerCount++;
+					player2Tigers.pop();
+					
+				}
 				cout << "Road Completed for tile" << xPos << ", " << yPos << ". Add " << points << " points." << endl;
 			}
 		}
 	}
 	
-	//settle any tiger disputes (if there are meeples from multiple players,
-	// the player with more meeples on the trail gets the points)
-	
-	//return tiger and add to score for corresponding player
 	return 0;
 }
 
