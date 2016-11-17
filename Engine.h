@@ -9,8 +9,6 @@ public:
 	Engine();
 	~Engine();
 
-	void Initialize();
-
 private:
 	Gamebase * game;
 };

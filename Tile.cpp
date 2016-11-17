@@ -139,3 +139,15 @@ int Tile::getTigerW()
 {
 	return TigerW;
 }
+
+// print the tile
+void Tile::DisplayTile(){
+	// next tile in the deck
+	std::cout << " ____ \n";
+	std::cout << "| " << sideN << TigerN << " |\n";
+	std::cout << "|" << sideW << center << " " << sideE << "|\n";
+	std::cout << "|" << TigerW << prey << " " << TigerE << "|\n";
+	std::cout << "| " << sideS << TigerS << " |\n";
+	std::cout << " ____ \n"; 
+	return 1;
+}

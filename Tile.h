@@ -84,4 +84,7 @@ public:
 	int getTigerS();
 	int getTigerE();
 	int getTigerW();
+
+	//Display the tile
+	void DisplayTile();
 };

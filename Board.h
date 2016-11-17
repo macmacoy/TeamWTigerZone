@@ -17,7 +17,6 @@ class Board
 {
 private:
 
-	
 	int player1Score;
 	int player2Score;
 	int player1TigerCount;
@@ -40,24 +39,16 @@ public:
 	Board();
 	~Board();
 
-//<<<<<<< HEAD
-
-
-//=======
 	int GetPlayer1Score();
 	int GetPlayer2score();
 	int GetPlayer1TigerCount();
 	int GetPlayer2TigerCount();
-//>>>>>>> 7ba9144632adcdca8e50e044923b4cba929c78c3
     int DisplayBoard();
-    int DisplayNextTile(int turn);
 	int PlaceTile(Tile* tile, int xPos, int yPos);
 	int PlaceTiger(int x, int y, string location, int player);
 	int CheckAvailibleSpots(Tile* tile);
 	int ShowAvailibleTigerSpots();
 	int CountEndGameScore(int playerNumber);
-	int MakeDeck();
-
 	int CheckCompletedLake(int xPos, int yPos);
 	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit);
 	

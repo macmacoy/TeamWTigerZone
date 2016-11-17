@@ -9,10 +9,6 @@
 #include <stdio.h>
 
 // constructor
-/*
-*	1. need x and y coordinate for each placed tile
-	2. need a function to display the next tile on the deck.
-*/
 Board::Board()
 {
 	//initialize player scores and tiger inventory
@@ -22,15 +18,7 @@ Board::Board()
 	int player2TigerCount = 7;
 	
 	// place start tile
-#ifdef DEBUG_TILE
-	startTile = new Tile(1, 1, 1, 1, 1, 1);
-#else
-	startTile = new Tile(3, 2, 3, 1, 5, 0);
-#endif
 	PlaceStartTile();
-	// MakeDeck() only for testing
-	// he will give us the deck from the server
-	MakeDeck();
 }
 
 // destructor
@@ -44,7 +32,7 @@ int Board::PlaceStartTile()
 {
 	// place the starting tile in the middle of the board
 	// start tile initialized in Board constructor
-	board[71][71] = startTile;
+	board[71][71] = new Tile(3, 2, 3, 1, 5, 0);
 	return 1;
 }
 
@@ -1020,19 +1008,6 @@ int Board::DisplayBoard()
 	return 0;
 }
 
-// print the next tile in the deck
-int Board::DisplayNextTile(int turn){
-	// next tile in the deck
-	Tile* tile = deck[turn];
-	std::cout << " ____ \n";
-	std::cout << "| " << tile->getN() << tile->getTigerN() << " |\n";
-	std::cout << "|" << tile->getW() << tile->getCenter() << " " << tile->getE() << "|\n";
-	std::cout << "|" << tile->getTigerW() << "  " << tile->getTigerE() << "|\n";
-	std::cout << "| " << tile->getS() << tile->getTigerS() << " |\n";
-	std::cout << " ____ \n"; 
-	return 1;
-}
-
 // return value: 0=invalid tile placement
 // 				 1=successful tile placement
 int Board::PlaceTile(Tile* tile, int xPos, int yPos)
@@ -1119,112 +1094,112 @@ int Board::CountEndGameScore(int playerNumber)
 }
 
 
-int Board::MakeDeck()
-{
-/* 
- * Value for sideX: 
- * 			0. Empty
- * 			1. Jungle
- * 			2. Town
- * 			3. Jungle with Trail
- * Value for center:
- * 			0. Empty
- * 			1. Jungle
- * 			2. House
- * 			3. CrossTrail
- * 			4. Den
-*/
+// int Board::MakeDeck()
+// {
+// /* 
+//  * Value for sideX: 
+//  * 			0. Empty
+//  * 			1. Jungle
+//  * 			2. Town
+//  * 			3. Jungle with Trail
+//  * Value for center:
+//  * 			0. Empty
+//  * 			1. Jungle
+//  * 			2. House
+//  * 			3. CrossTrail
+//  * 			4. Den
+// */
 
-	//shield: 1 = true, 0 = false	
-#ifdef DEBUG_TILE
-	for (int i = 0; i < 76;i++)
-		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
-#else
-	//Type 1
-	//deck[0] 	= new Tile(1,1,1,1,1,0);
-	deck[0] = new Tile(3, 2, 3, 1, 5, 0);
-	//Type 2
-	deck[1] 	= new Tile(1,1,1,1,4,0);
-	deck[2] 	= new Tile(1,1,1,1,4,0);
-	deck[3] 	= new Tile(1,1,1,1,4,0);
-	deck[4] 	= new Tile(1,1,1,1,4,0);
-	//Type 3
-	deck[5]		= new Tile(1,1,3,1,4,0);
-	deck[6]		= new Tile(1,1,3,1,4,0);
-	//Type 4
-	deck[7] 	= new Tile(3,3,3,3,3,0);
-	//Type 5
-	deck[8] 	= new Tile(3,1,3,1,5,0);
-	deck[9] 	= new Tile(3,1,3,1,5,0);
-	deck[10] 	= new Tile(3,1,3,1,5,0);
-	deck[11] 	= new Tile(3,1,3,1,5,0);
-	deck[12] 	= new Tile(3,1,3,1,5,0);
-	deck[13] 	= new Tile(3,1,3,1,5,0);
-	deck[14] 	= new Tile(3,1,3,1,5,0);
-	deck[15] 	= new Tile(3,1,3,1,5,0);
-	//Type 6
-	deck[16] 	= new Tile(3,1,1,3,5,0);
-	deck[17] 	= new Tile(3,1,1,3,5,0);	
-	deck[18] 	= new Tile(3,1,1,3,5,0);
-	deck[19] 	= new Tile(3,1,1,3,5,0);
-	deck[20] 	= new Tile(3,1,1,3,5,0);
-	deck[21] 	= new Tile(3,1,1,3,5,0);
-	deck[22] 	= new Tile(3,1,1,3,5,0);
-	deck[23] 	= new Tile(3,1,1,3,5,0);
-	deck[24] 	= new Tile(3,1,1,3,5,0);
-	deck[25] 	= new Tile(3,1,3,3,3,0);
-	deck[26] 	= new Tile(3,1,3,3,3,0);
-	deck[27] 	= new Tile(3,1,3,3,3,0);
-	deck[28] 	= new Tile(3,1,3,3,3,0);
-	deck[29] 	= new Tile(2,2,2,2,2,0);
-	deck[30] 	= new Tile(1,2,2,2,2,0);
-	deck[31] 	= new Tile(1,2,2,2,2,0);
-	deck[32] 	= new Tile(1,2,2,2,2,0);
-	deck[33] 	= new Tile(1,2,2,2,2,0);
-	deck[34] 	= new Tile(2,2,1,1,2,0);
-	deck[35] 	= new Tile(2,2,1,1,2,0);
-	deck[36] 	= new Tile(2,2,1,1,2,0);
-	deck[37] 	= new Tile(2,2,1,1,2,0);
-	deck[38] 	= new Tile(2,2,1,1,2,0);
-	deck[39] 	= new Tile(1,2,1,2,2,0);
-	deck[40] 	= new Tile(1,2,1,2,2,0);
-	deck[41] 	= new Tile(1,2,1,2,2,0);
-	deck[42] 	= new Tile(2,1,2,1,1,0);
-	deck[43] 	= new Tile(2,1,2,1,1,0);
-	deck[44] 	= new Tile(2,1,2,1,1,0);
-	deck[45] 	= new Tile(2,1,1,1,1,0);
-	deck[46] 	= new Tile(2,1,1,1,1,0);
-	deck[47] 	= new Tile(2,1,1,1,1,0);
-	deck[48] 	= new Tile(2,1,1,1,1,0);
-	deck[49] 	= new Tile(2,1,1,1,1,0);
-	deck[50] 	= new Tile(1,2,2,1,1,0);
-	deck[51] 	= new Tile(1,2,2,1,1,0);
-	deck[52] 	= new Tile(3,2,1,3,5,0);
-	deck[53] 	= new Tile(3,2,1,3,5,1);
-	deck[54] 	= new Tile(3,2,1,3,5,1);
-	deck[55] 	= new Tile(1,2,3,3,5,0);
-	deck[56] 	= new Tile(1,2,3,3,5,1);
-	deck[57] 	= new Tile(1,2,3,3,5,1);
-	deck[58] 	= new Tile(3,2,3,1,5,0);
-	deck[59] 	= new Tile(3,2,3,1,5,0); //starting 
-	deck[60] 	= new Tile(3,2,3,1,5,0);
-	deck[61] 	= new Tile(3,2,3,1,5,1);
-	deck[62] 	= new Tile(3,2,3,1,5,1);
-	deck[63] 	= new Tile(3,2,2,2,2,0);
-	deck[64] 	= new Tile(3,2,2,2,2,0);
-	deck[65] 	= new Tile(3,2,2,2,2,0);
-	deck[66] 	= new Tile(3,2,3,3,3,0);
-	deck[67] 	= new Tile(3,2,3,3,3,1);
-	deck[68] 	= new Tile(3,2,3,3,3,1);
-	deck[69] 	= new Tile(3,2,2,3,5,0);
-	deck[70] 	= new Tile(3,2,2,3,5,0);
-	deck[71] 	= new Tile(3,2,2,3,5,0);
-	deck[72] 	= new Tile(3,2,2,3,5,1);
-	deck[73] 	= new Tile(3,2,2,3,5,1);
-	deck[74] 	= new Tile(2,1,3,1,1,0);
-	deck[75] 	= new Tile(2,1,3,1,1,1);
-	deck[76] 	= new Tile(2,1,3,1,1,1);
+// 	//shield: 1 = true, 0 = false	
+// #ifdef DEBUG_TILE
+// 	for (int i = 0; i < 76;i++)
+// 		deck[i] = new Tile(1, 1, 1, 1, 1, 1);
+// #else
+// 	//Type 1
+// 	//deck[0] 	= new Tile(1,1,1,1,1,0);
+// 	deck[0] = new Tile(3, 2, 3, 1, 5, 0);
+// 	//Type 2
+// 	deck[1] 	= new Tile(1,1,1,1,4,0);
+// 	deck[2] 	= new Tile(1,1,1,1,4,0);
+// 	deck[3] 	= new Tile(1,1,1,1,4,0);
+// 	deck[4] 	= new Tile(1,1,1,1,4,0);
+// 	//Type 3
+// 	deck[5]		= new Tile(1,1,3,1,4,0);
+// 	deck[6]		= new Tile(1,1,3,1,4,0);
+// 	//Type 4
+// 	deck[7] 	= new Tile(3,3,3,3,3,0);
+// 	//Type 5
+// 	deck[8] 	= new Tile(3,1,3,1,5,0);
+// 	deck[9] 	= new Tile(3,1,3,1,5,0);
+// 	deck[10] 	= new Tile(3,1,3,1,5,0);
+// 	deck[11] 	= new Tile(3,1,3,1,5,0);
+// 	deck[12] 	= new Tile(3,1,3,1,5,0);
+// 	deck[13] 	= new Tile(3,1,3,1,5,0);
+// 	deck[14] 	= new Tile(3,1,3,1,5,0);
+// 	deck[15] 	= new Tile(3,1,3,1,5,0);
+// 	//Type 6
+// 	deck[16] 	= new Tile(3,1,1,3,5,0);
+// 	deck[17] 	= new Tile(3,1,1,3,5,0);	
+// 	deck[18] 	= new Tile(3,1,1,3,5,0);
+// 	deck[19] 	= new Tile(3,1,1,3,5,0);
+// 	deck[20] 	= new Tile(3,1,1,3,5,0);
+// 	deck[21] 	= new Tile(3,1,1,3,5,0);
+// 	deck[22] 	= new Tile(3,1,1,3,5,0);
+// 	deck[23] 	= new Tile(3,1,1,3,5,0);
+// 	deck[24] 	= new Tile(3,1,1,3,5,0);
+// 	deck[25] 	= new Tile(3,1,3,3,3,0);
+// 	deck[26] 	= new Tile(3,1,3,3,3,0);
+// 	deck[27] 	= new Tile(3,1,3,3,3,0);
+// 	deck[28] 	= new Tile(3,1,3,3,3,0);
+// 	deck[29] 	= new Tile(2,2,2,2,2,0);
+// 	deck[30] 	= new Tile(1,2,2,2,2,0);
+// 	deck[31] 	= new Tile(1,2,2,2,2,0);
+// 	deck[32] 	= new Tile(1,2,2,2,2,0);
+// 	deck[33] 	= new Tile(1,2,2,2,2,0);
+// 	deck[34] 	= new Tile(2,2,1,1,2,0);
+// 	deck[35] 	= new Tile(2,2,1,1,2,0);
+// 	deck[36] 	= new Tile(2,2,1,1,2,0);
+// 	deck[37] 	= new Tile(2,2,1,1,2,0);
+// 	deck[38] 	= new Tile(2,2,1,1,2,0);
+// 	deck[39] 	= new Tile(1,2,1,2,2,0);
+// 	deck[40] 	= new Tile(1,2,1,2,2,0);
+// 	deck[41] 	= new Tile(1,2,1,2,2,0);
+// 	deck[42] 	= new Tile(2,1,2,1,1,0);
+// 	deck[43] 	= new Tile(2,1,2,1,1,0);
+// 	deck[44] 	= new Tile(2,1,2,1,1,0);
+// 	deck[45] 	= new Tile(2,1,1,1,1,0);
+// 	deck[46] 	= new Tile(2,1,1,1,1,0);
+// 	deck[47] 	= new Tile(2,1,1,1,1,0);
+// 	deck[48] 	= new Tile(2,1,1,1,1,0);
+// 	deck[49] 	= new Tile(2,1,1,1,1,0);
+// 	deck[50] 	= new Tile(1,2,2,1,1,0);
+// 	deck[51] 	= new Tile(1,2,2,1,1,0);
+// 	deck[52] 	= new Tile(3,2,1,3,5,0);
+// 	deck[53] 	= new Tile(3,2,1,3,5,1);
+// 	deck[54] 	= new Tile(3,2,1,3,5,1);
+// 	deck[55] 	= new Tile(1,2,3,3,5,0);
+// 	deck[56] 	= new Tile(1,2,3,3,5,1);
+// 	deck[57] 	= new Tile(1,2,3,3,5,1);
+// 	deck[58] 	= new Tile(3,2,3,1,5,0);
+// 	deck[59] 	= new Tile(3,2,3,1,5,0); //starting 
+// 	deck[60] 	= new Tile(3,2,3,1,5,0);
+// 	deck[61] 	= new Tile(3,2,3,1,5,1);
+// 	deck[62] 	= new Tile(3,2,3,1,5,1);
+// 	deck[63] 	= new Tile(3,2,2,2,2,0);
+// 	deck[64] 	= new Tile(3,2,2,2,2,0);
+// 	deck[65] 	= new Tile(3,2,2,2,2,0);
+// 	deck[66] 	= new Tile(3,2,3,3,3,0);
+// 	deck[67] 	= new Tile(3,2,3,3,3,1);
+// 	deck[68] 	= new Tile(3,2,3,3,3,1);
+// 	deck[69] 	= new Tile(3,2,2,3,5,0);
+// 	deck[70] 	= new Tile(3,2,2,3,5,0);
+// 	deck[71] 	= new Tile(3,2,2,3,5,0);
+// 	deck[72] 	= new Tile(3,2,2,3,5,1);
+// 	deck[73] 	= new Tile(3,2,2,3,5,1);
+// 	deck[74] 	= new Tile(2,1,3,1,1,0);
+// 	deck[75] 	= new Tile(2,1,3,1,1,1);
+// 	deck[76] 	= new Tile(2,1,3,1,1,1);
 
-#endif
-	return 1;
-}
+// #endif
+// 	return 1;
+// }

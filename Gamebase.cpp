@@ -1,14 +1,18 @@
 #include "GameBase.h"
 #include <string>
-Gamebase::Gamebase()
+Gamebase::Gamebase(Tile* P1_deck, Tile* P2_deck)
 {
-	start = true;
-	//std::cout << start << std::endl;
-	turn = 0;
-	board = new Board();
-	//tile = new Tile();
+	gameOver = 0; // game is not over
+	turn = 1; // player 1 gets first turn
+	turnCount = 0; // number of turns that have occured
+	board = new Board(); // board
+	this->P1_deck = P1_deck; // player 1's deck of cards
+	this->P2_deck = P2_deck; // player 2's deck of cards
+	P1_deck_index = 0; // player 1's deck of cards index
+	P2_deck_index = 0; // player 2's deck of cards index
+
+	std::cout << " ** Starting Board ** \n";
 	board->DisplayBoard();
-	board->MakeDeck();
 }
 
 Gamebase::~Gamebase()
@@ -16,51 +20,22 @@ Gamebase::~Gamebase()
 	delete board;
 }
 
-bool Gamebase::Run() {
-	//Gamebase routine
-	//returns true while exit has not been pressed
-		//Board
-		//Players/logics
-		//Input
-		/*
-		if (isGameEnded())
-		{
-			start = 0;
-			std::cout << "Game Ended" << std::endl;
-		}*/
-	
-		DisplayNextTile();
-		PlaceTile();
-		DisplayBoard();
-		turn++;
-	
-		
-		cout << "Current Turn: " << turn << endl;
-		cout << endl;
-
-	return start;
-}
-
-bool Gamebase::isGameEnded()
+int Gamebase::Run() 
 {
-
-	//Just for testing
-	bool isEnded = 0;
-
-	std::cout << "Is Game Ended? ";
-
-	std::cin >> isEnded;
-
-	if (isEnded)
-	{
-		end = 1;
-		return end;
+	if(turn == 1){
+		std::cout << " ** Player 1's turn **\n";
 	}
-
-	else
-	{
-		end = 0;
-		return end;
+	else if(turn == 2){
+		std::cout << " ** Player 2's turn **\n";
+	}
+	DisplayBoard()
+	if(turn == 1){
+		std::cout << " ** Player 1's Next Tile **\n";
+		DisplayNextTile(P1_deck_index);
+	}
+	else if(turn == 2){
+		std::cout << " ** Player 2's Next Tile **\n";
+		DisplayNextTile(P2_deck_index);
 	}
 }
 
@@ -141,13 +116,16 @@ void Gamebase::PlaceTiger(int x, int y)
 
 void Gamebase::DisplayBoard()
 {
-	cout << "--------------------------------------------------------" << endl;
+	cout << " ** Current Board ** " << endl;
 	board->DisplayBoard();
 }
 
-void Gamebase::DisplayNextTile()
+void Gamebase::DisplayNextTile(int player, int deckIndex)
 {
-	cout << "---------------------------------------------------------" << endl;
-	cout << "Next Tile in Deck" << endl;
-	board->DisplayNextTile(turn);
+	if(player == 1){
+		P1_deck[deckIndex]->DisplayTile();
+	}
+	else if(player == 2){
+		P2_deck[deckIndex]->DisplayTile();
+	}
 }
