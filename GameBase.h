@@ -13,38 +13,23 @@ public:
 //	Gamebase(Board* b, Player* p1, Player* p2);
 	~Gamebase();
 
-	bool Run();
-	
-
-	bool start;
-	bool exit;
-
-	bool end;
+	int Run();
 
 private:
-	bool isGameEnded();
-	void PlaceTile();
-	void PlaceTiger(int x, int y);
+	Board* board;
+	Tile* P1_deck[36];
+	int P1_deck_index;
+	Tile* P2_deck[36];
+	int P2_deck_index;
+	int turn; // 1 = Player1's turn, 2 = Player2's turn
+	int turnCount; // how many turns have occurred
+	int gameOver; // is game over?
+
+	int PlaceTile(int x, int y);
+	int PlaceTiger(int x, int y);
 
 	void DisplayBoard();
 
 	void DisplayNextTile();
 	
-	Board* board;
-	
-	int turn;
-	int player;
-	bool turnOver;
-	//Tile* tile; Unnecessary
-	//Player* player1;
-	//Player* player2;
-	
-
-
-
-
-
-
-
-
 };
