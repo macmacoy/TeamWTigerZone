@@ -4,6 +4,7 @@
 Engine::Engine()
 {
 	//Initialize the game engine
+	MakeDecksTest();
 	Gamebase* game = new Gamebase(P1_deck, P2_deck);
 	while (game->RunTest()){}
 	cout << "GAME OVER\n\n";

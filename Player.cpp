@@ -1,7 +1,7 @@
 #include "Player.h"
 
 using namespace std;
-
+#ifdef Player
 Player::Player(Tile* deck[]){
 
 	this->deck = deck;
@@ -9,3 +9,4 @@ Player::Player(Tile* deck[]){
 	points = 0;
 
 }
+#endif

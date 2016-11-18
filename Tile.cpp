@@ -17,7 +17,7 @@ Tile::Tile()
 
 Tile::~Tile()
 {
-	delete this;
+//	delete this;
 }
 
 Tile::Tile(int north, int east, int south, int west, int center, int prey)

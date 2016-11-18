@@ -10,6 +10,8 @@ private:
 	int points;
 
 public:
+	Player();
+
 	Tile* GetNextTile();
 	int GetTigerCount();
 	int GetPoints();

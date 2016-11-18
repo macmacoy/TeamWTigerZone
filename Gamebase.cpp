@@ -56,6 +56,7 @@ int Gamebase::RunTest()
 		std::cout << "\n";
 
 		Tile* tile;
+		tile = new Tile(0, 0, 0, 0, 0, 0);
 		if(turn == 1)
 			tile = &P1_deck.at(P1_deck_index);
 		else if(turn == 2)
