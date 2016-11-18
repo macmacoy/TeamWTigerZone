@@ -24,15 +24,16 @@ private:
 	Tile* startTile;
 
 	int PlaceStartTile();
+	void InitializeTigerArray();
 	int CheckTilePlacement(Tile* tile, int xPos, int yPos);
 	int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
-	//int Traverse(queue myqueue, int tileCount, vector visit);
 	// int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
 	void CheckTileForTiger(int xCurr, int yCurr);
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
 	int CheckCompletedTrail(int xPos, int yPos);
 	int CheckCompletedDen(int xPos, int yPos);
-	//int CheckCompletedJungle(int xPos, int yPos);
+	int CheckCompletedLake(int xPos, int yPos);
+	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
 	
 	
 public:
@@ -45,12 +46,6 @@ public:
     int DisplayBoard();
 	int PlaceTile(Tile* tile, int xPos, int yPos);
 	int PlaceTiger(int x, int y, string location, int player);
-	int CheckAvailibleSpots(Tile* tile);
-	int ShowAvailibleTigerSpots();
-	int CountEndGameScore(int playerNumber);
-	int CheckCompletedLake(int xPos, int yPos);
-	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
-	
 
 	Tile* board[143][143];
 	int tigers[143][143];
