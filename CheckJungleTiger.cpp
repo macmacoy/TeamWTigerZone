@@ -77,13 +77,18 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	6. South West
 	7. East Center
 	8. North East
+	9. North West NO ROAD Enclosing
+	10. South East NO ROAD
+	11. South West NO ROAD
+	12. North East NO ROAD
 	*/
 
 	/*Case :  Northern Center*/
 	if (TigerN == 2) { //tiger is on north center grab east and west and northern adjacencies
+	//And the tiger is encased in roads
 		if (board[xPos][yPos + 1] != NULL) { // check North : if exists -> push on queue
 			Tile* adjacent = board[xPos][yPos + 1];
-			if (adjacent->getN() == terrainType) { // If Jungle push normal 
+			if (adjacent->getN() == terrainType || adjacent->getN() == 3) { // If Jungle push normal 
 				if (adjacent->getTigerN() != 0) {
 					return 0;
 				}
@@ -98,8 +103,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos - 1][yPos] != NULL) { // check West :  if exists -> push on queue
 			Tile* adjacent = board[xPos - 1][yPos];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getW() == terrainType || adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
 					return 0;
 				}
 				else {
@@ -113,8 +118,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos + 1][yPos] != NULL) { // check East : if exsists -> push on queue
 			Tile* adjacent = board[xPos + 1][yPos];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getE() == terrainType || || adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
 					return 0;
 				}
 				else {
@@ -129,11 +134,11 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	}
 	/*End of Northern center jungle tiger*/
 
-	/*Case :  North West*/
-	if (TigerN == 1) { //tiger is on north center grab east and west and northern adjacencies
+	/*Case :  North West NO ROAD*/
+	if (TigerN == 1 && root->getS() == 3 && root->getE() == 3) { //tiger is on north center grab east and west and northern adjacencies
 		if (board[xPos][yPos + 1] != NULL) { // check North : if exists -> push on queue
 			Tile* adjacent = board[xPos][yPos + 1];
-			if (adjacent->getN() == terrainType) {
+			if (adjacent->getN() == terrainType || adjacent->getN() == 3) {
 				if (adjacent->getTigerN() != 0) {
 					return 0;
 				}
@@ -148,7 +153,72 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos - 1][yPos] != NULL) { // check West :  if exists -> push on queue
 			Tile* adjacent = board[xPos - 1][yPos];
-			if (adjacent->getN() == terrainType) {
+			if (adjacent->getW() == terrainType || adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos - 1;
+					c.y = yPos;
+					Q.push(c); \
+						lastVisited.push("W");
+				}
+			}
+		}
+		if (board[xPos + 1][yPos] != NULL) { // check East : if exsists -> push on queue
+			Tile* adjacent = board[xPos + 1][yPos];
+			if (adjacent->getE() == terrainType || adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos + 1;
+					c.y = yPos;
+					Q.push(c);
+					lastVisited.push("E");
+				}
+			}
+		}
+		if (board[xPos][yPos - 1] != NULL) { // check South : If exists -> push on queue
+			Tile* adjacent = board[xPos][yPos - 1];
+			if (adjacent->getS() == terrainType || adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos - 1;
+					Q.push(c);
+					lastVisited.push("S");
+				}
+			}
+		}
+	}
+	/*End of North West jungle tiger*/
+	
+	/*Case :  North West*/
+	if (TigerN == 1 && root->getN() == 3 && root->getW() == 3) { //tiger is on north center grab east and west and northern adjacencies
+		if (board[xPos][yPos + 1] != NULL) { // check North : if exists -> push on queue
+			Tile* adjacent = board[xPos][yPos + 1];
+			if (adjacent->getN() == terrainType || adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos + 1;
+					Q.push(c);
+					lastVisited.push("N");
+				}
+			}
+		}
+		if (board[xPos - 1][yPos] != NULL) { // check West :  if exists -> push on queue
+			Tile* adjacent = board[xPos - 1][yPos];
+			if (adjacent->getN() == terrainType || adjacent->getN() == 3) {
 				if (adjacent->getTigerN() != 0) {
 					return 0;
 				}
@@ -168,8 +238,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	if (TigerS == 2) {//Tiger is on South Center -> Grab East, West, Southern adjacent tiles
 		if (board[xPos][yPos - 1] != NULL) { // check South : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos - 1];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
 					return 0;
 				}
 				else {
@@ -183,8 +253,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos - 1][yPos] != NULL) { // check West : If exists -> push on queue
 			Tile* adjacent = board[xPos - 1][yPos];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getW() == terrainType|| adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
 					return 0;
 				}
 				else {
@@ -198,8 +268,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos + 1][yPos] != NULL) { // check East : If exists -> push on queue
 			Tile* adjacent = board[xPos + 1][yPos];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getE() == terrainType|| adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
 					return 0;
 				}
 				else {
@@ -215,11 +285,11 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	/*End Southern Center*/
 
 	/*Case : Southern East*/
-	if (TigerS == 1) {//Tiger is on South Center -> Grab East, West, Southern adjacent tiles
+	if (TigerS == 1 && root->getS() == 3 && root->getE() == 3) {//Tiger is on South Center -> Grab East, West, Southern adjacent tiles
 		if (board[xPos][yPos - 1] != NULL) { // check South : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos - 1];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
 					return 0;
 				}
 				else {
@@ -233,8 +303,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos + 1][yPos] != NULL) { // check East : If exists -> push on queue
 			Tile* adjacent = board[xPos + 1][yPos];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getE() == terrainType|| adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
 					return 0;
 				}
 				else {
@@ -248,13 +318,78 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 	}
 	/*End Southern Center*/
+	
+	/*Case :  SE NO ROAD*/
+	if (TigerN == 1 && root->getN() == 3 && root->getW() == 3) { //tiger is on north center grab east and west and northern adjacencies
+		if (board[xPos][yPos + 1] != NULL) { // check North : if exists -> push on queue
+			Tile* adjacent = board[xPos][yPos + 1];
+			if (adjacent->getN() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos + 1;
+					Q.push(c);
+					lastVisited.push("N");
+				}
+			}
+		}
+		if (board[xPos - 1][yPos] != NULL) { // check West :  if exists -> push on queue
+			Tile* adjacent = board[xPos - 1][yPos];
+			if (adjacent->getW() == terrainType|| adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos - 1;
+					c.y = yPos;
+					Q.push(c); \
+						lastVisited.push("W");
+				}
+			}
+		}
+		if (board[xPos + 1][yPos] != NULL) { // check East : if exsists -> push on queue
+			Tile* adjacent = board[xPos + 1][yPos];
+			if (adjacent->getE() == terrainType || adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos + 1;
+					c.y = yPos;
+					Q.push(c);
+					lastVisited.push("E");
+				}
+			}
+		}
+		if (board[xPos][yPos - 1] != NULL) { // check South : If exists -> push on queue
+			Tile* adjacent = board[xPos][yPos - 1];
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos - 1;
+					Q.push(c);
+					lastVisited.push("S");
+				}
+			}
+		}
+	}
+	/*End of North West jungle tiger*/
 
 	/*Case : West Center*/
 	if (TigerW == 2) {
 		if (board[xPos - 1][yPos] != NULL) {//Check West : If exists -> push on queue
 			Tile* adjacent = board[xPos - 1][yPos];
-			if (adjacent->getE() == terrainType) {
-				if (adjacent->getTigerE() != 0) {
+			if (adjacent->getW() == terrainType || adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
 					return 0;
 				}
 				else {
@@ -268,8 +403,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos + 1] != NULL) {//Check North : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos + 1];
-			if (adjacent->getE() == terrainType) {
-				if (adjacent->getTigerE() != 0) {
+			if (adjacent->getN() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
 					return 0;
 				}
 				else {
@@ -283,8 +418,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos - 1] != NULL) {//Check South : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos - 1];
-			if (adjacent->getE() == terrainType) {
-				if (adjacent->getTigerE() != 0) {
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
 					return 0;
 				}
 				else {
@@ -300,11 +435,11 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	/*End West Center*/
 
 	/*Case : South West*/
-	if (TigerW == 1) {
+	if (TigerW == 1 && root->getS() == 3 && root->getW() == 3) {
 		if (board[xPos - 1][yPos] != NULL) {//Check West : If exists -> push on queue
 			Tile* adjacent = board[xPos - 1][yPos];
-			if (adjacent->getE() == terrainType) {
-				if (adjacent->getTigerE() != 0) {
+			if (adjacent->getW() == terrainType || adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
 					return 0;
 				}
 				else {
@@ -318,8 +453,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos - 1] != NULL) {//Check South : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos - 1];
-			if (adjacent->getE() == terrainType) {
-				if (adjacent->getTigerE() != 0) {
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
 					return 0;
 				}
 				else {
@@ -334,12 +469,77 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	}
 	/*End South West*/
 
+	/*Case :  SW NO ROAD*/
+	if (TigerN == 1 && root->getN() == 3 && root->getE() == 3) { //tiger is on north center grab east and west and northern adjacencies
+		if (board[xPos][yPos + 1] != NULL) { // check North : if exists -> push on queue
+			Tile* adjacent = board[xPos][yPos + 1];
+			if (adjacent->getN() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos + 1;
+					Q.push(c);
+					lastVisited.push("N");
+				}
+			}
+		}
+		if (board[xPos - 1][yPos] != NULL) { // check West :  if exists -> push on queue
+			Tile* adjacent = board[xPos - 1][yPos];
+			if (adjacent->getW() == terrainType|| adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos - 1;
+					c.y = yPos;
+					Q.push(c); \
+						lastVisited.push("W");
+				}
+			}
+		}
+		if (board[xPos + 1][yPos] != NULL) { // check East : if exsists -> push on queue
+			Tile* adjacent = board[xPos + 1][yPos];
+			if (adjacent->getE() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerE() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos + 1;
+					c.y = yPos;
+					Q.push(c);
+					lastVisited.push("E");
+				}
+			}
+		}
+		if (board[xPos][yPos - 1] != NULL) { // check South : If exists -> push on queue
+			Tile* adjacent = board[xPos][yPos - 1];
+			if (adjacent->getS() == terrainType || adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos - 1;
+					Q.push(c);
+					lastVisited.push("S");
+				}
+			}
+		}
+	}
+	/*End of North West jungle tiger*/
+	
 	/*Case : East Center*/
 	if (TigerE == 2) {
 		if (board[xPos + 1][yPos] != NULL) {//Check East : If exists -> push on queue
 			Tile* adjacent = board[xPos + 1][yPos];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getE() == terrainType|| adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
 					return 0;
 				}
 				else {
@@ -353,8 +553,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos + 1] != NULL) {//Check North : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos + 1];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getN() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
 					return 0;
 				}
 				else {
@@ -368,8 +568,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos - 1] != NULL) {//Check South : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos - 1];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
 					return 0;
 				}
 				else {
@@ -385,11 +585,11 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	/*End East Center*/
 
 	/*Case 8 : North East*/
-	if (TigerE == 1) {
+	if (TigerE == 1 && root->getN() == 3 && root->getE() == 3) {
 		if (board[xPos + 1][yPos] != NULL) {//Check East : If exists -> push on queue
 			Tile* adjacent = board[xPos + 1][yPos];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getE() == terrainType|| adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
 					return 0;
 				}
 				else {
@@ -403,8 +603,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos + 1] != NULL) {//Check North : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos + 1];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getN() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
 					return 0;
 				}
 				else {
@@ -417,14 +617,79 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 			}
 		}
 	}
-	/*End East Center*/
+	/*End North East*/
+	
+	/*Case :  NE NO ROAD*/
+	if (TigerN == 1 && root->getS() == 3 && root->getW() == 3) { //tiger is on north center grab east and west and northern adjacencies
+		if (board[xPos][yPos + 1] != NULL) { // check North : if exists -> push on queue
+			Tile* adjacent = board[xPos][yPos + 1];
+			if (adjacent->getN() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos + 1;
+					Q.push(c);
+					lastVisited.push("N");
+				}
+			}
+		}
+		if (board[xPos - 1][yPos] != NULL) { // check West :  if exists -> push on queue
+			Tile* adjacent = board[xPos - 1][yPos];
+			if (adjacent->getW() == terrainType|| adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos - 1;
+					c.y = yPos;
+					Q.push(c); \
+						lastVisited.push("W");
+				}
+			}
+		}
+		if (board[xPos + 1][yPos] != NULL) { // check East : if exsists -> push on queue
+			Tile* adjacent = board[xPos + 1][yPos];
+			if (adjacent->getE() == terrainType || adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos + 1;
+					c.y = yPos;
+					Q.push(c);
+					lastVisited.push("E");
+				}
+			}
+		}
+		if (board[xPos][yPos - 1] != NULL) { // check South : If exists -> push on queue
+			Tile* adjacent = board[xPos][yPos - 1];
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
+					return 0;
+				}
+				else {
+					struct coordinate c;
+					c.x = xPos;
+					c.y = yPos - 1;
+					Q.push(c);
+					lastVisited.push("S");
+				}
+			}
+		}
+	}
+	/*End of North West jungle tiger*/
 
 	/*Case 9 : Center*/
 	if (TigerE == 1) {
 		if (board[xPos + 1][yPos] != NULL) {//Check East : If exists -> push on queue
 			Tile* adjacent = board[xPos + 1][yPos];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getE() == terrainType|| adjacent->getE() == 3) {
+				if (adjacent->getTigerE() != 0) {
 					return 0;
 				}
 				else {
@@ -438,8 +703,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos + 1] != NULL) {//Check North : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos + 1];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getN() == terrainType|| adjacent->getN() == 3) {
+				if (adjacent->getTigerN() != 0) {
 					return 0;
 				}
 				else {
@@ -453,8 +718,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos][yPos - 1] != NULL) {//Check South : If exists -> push on queue
 			Tile* adjacent = board[xPos][yPos - 1];
-			if (adjacent->getW() == terrainType) {
-				if (adjacent->getTigerW() != 0) {
+			if (adjacent->getS() == terrainType|| adjacent->getS() == 3) {
+				if (adjacent->getTigerS() != 0) {
 					return 0;
 				}
 				else {
@@ -468,8 +733,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 		if (board[xPos - 1][yPos] != NULL) { // check West :  if exists -> push on queue
 			Tile* adjacent = board[xPos - 1][yPos];
-			if (adjacent->getN() == terrainType) {
-				if (adjacent->getTigerN() != 0) {
+			if (adjacent->getW() == terrainType|| adjacent->getW() == 3) {
+				if (adjacent->getTigerW() != 0) {
 					return 0;
 				}
 				else {
