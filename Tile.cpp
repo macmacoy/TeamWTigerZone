@@ -149,5 +149,4 @@ void Tile::DisplayTile(){
 	std::cout << "|" << TigerW << prey << " " << TigerE << "|\n";
 	std::cout << "| " << sideS << TigerS << " |\n";
 	std::cout << " ____ \n"; 
-	return 1;
 }

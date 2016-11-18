@@ -1,10 +1,8 @@
-#include "engine.h"
+#include "Engine.cpp"
 
 int main()
 {
-	Engine * e = new Engine;
-
-	e->Initialize();
+	Engine * e = new Engine();
 
 	delete e;
 
