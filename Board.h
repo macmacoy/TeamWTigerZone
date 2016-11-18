@@ -27,6 +27,7 @@ private:
 	void InitializeTigerArray();
 	int CheckTilePlacement(Tile* tile, int xPos, int yPos);
 	int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
+	//int Traverse(queue myqueue, int tileCount, vector visit, int checkFor);
 	// int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
 	void CheckTileForTiger(int xCurr, int yCurr);
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
