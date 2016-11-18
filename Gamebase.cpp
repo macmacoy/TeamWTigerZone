@@ -51,7 +51,7 @@ int Gamebase::RunTest()
 		int rotations = 0;
 		std::cout << "Enter index to place tile (x y): ";
 		std::cin >> x >> y;
-		std::cout << "\nEnter how many 90 deg. counterclockwise rotations: ";
+		std::cout << "\nEnter how many 90 deg. counter-clockwise rotations: ";
 		std::cin >> rotations;
 		std::cout << "\n";
 

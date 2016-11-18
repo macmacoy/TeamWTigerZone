@@ -6,6 +6,8 @@ int main()
 
 	delete e;
 
+	system("pause");
+
 	return 0;
 
 }
