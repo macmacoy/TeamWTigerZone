@@ -1,5 +1,5 @@
+#pragma once
 #include "Engine.h"
-#include "Gamebase.cpp"
 
 Engine::Engine()
 {
@@ -105,9 +105,9 @@ void Engine::MakeDecksTest(){
 	int index = 0;
 	for(int i=2; i<78; i++){
 		if(i%2 == 0)
-			P1_deck[index] = deck[i-2];
+			P1_deck.push_back(*deck[i-2]);
 		if(i%2 == 1){
-			P2_deck[index] = deck[i-2];
+			P2_deck.push_back(*deck[i-2]);
 			index++;
 		}
 	}

@@ -1,7 +1,9 @@
+#pragma once
 #include "GameBase.h"
 #include <iostream>
 #include <stdio.h>
-Gamebase::Gamebase(Tile* P1_deck, Tile* P2_deck)
+
+Gamebase::Gamebase(std::vector<Tile> P1_deck, std::vector<Tile> P2_deck)
 {
 	gameOver = 0; // game is not over
 	turn = 1; // player 1 gets first turn
@@ -55,9 +57,9 @@ int Gamebase::RunTest()
 
 		Tile* tile;
 		if(turn == 1)
-			tile = P1_deck[P1_deck_index];
+			tile = &P1_deck.at(P1_deck_index);
 		else if(turn == 2)
-			tile = P2_deck[P2_deck_index];
+			tile = &P2_deck.at(P2_deck_index);
 		for(int i=0; i<rotations; i++)
 			tile->Rotate90();
 		TilePlaced = board->PlaceTile(tile, x, y);
@@ -95,9 +97,9 @@ int Gamebase::RunTest()
 void Gamebase::DisplayNextTile(int player, int deckIndex)
 {
 	if(player == 1){
-		P1_deck[P1_deck_index]->DisplayTile();
+		P1_deck.at(deckIndex).DisplayTile();
 	}
 	else if(player == 2){
-		P2_deck[P2_deck_index]->DisplayTile();
+		P2_deck.at(deckIndex).DisplayTile();
 	}
 }

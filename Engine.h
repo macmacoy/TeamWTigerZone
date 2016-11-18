@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameBase.h"
+#include <vector>
 // #include <Windows.h>
 
 class Engine
@@ -11,8 +12,8 @@ public:
 
 private:
 	Gamebase * game;
-	Tile P1_deck[38];
-	Tile P2_deck[38];
+	std::vector<Tile> P1_deck;
+	std::vector<Tile> P2_deck;
 
 	// for testing
 	void MakeDecksTest();
