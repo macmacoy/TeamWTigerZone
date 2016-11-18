@@ -12,7 +12,13 @@
 */
 
 using namespace std;
-
+/* 
+	*AI section
+	*Priority for placement 
+	*1st Priority: Check soemthing is completed when placing down
+	*2nd Priority: The amount of connected tiles you will get from placing the tile
+	*3rd Priority: Place anywhere
+	*/
 class Board
 {
 private:
@@ -50,5 +56,12 @@ public:
 
 	Tile* board[143][143];
 	int tigers[143][143];
+
+
+	//AI section
+	//Priority for placement 
+	//1st Priority: Check soemthing is completed when placing down
+	//2nd Priority: The amount of connected tiles you will get from placing the tile
+	//3rd Priority: Place anywhere
 	
 };

@@ -13,6 +13,8 @@ Gamebase::Gamebase(std::vector<Tile> P1_deck, std::vector<Tile> P2_deck)
 	this->P2_deck = P2_deck; // player 2's deck of cards
 	P1_deck_index = 0; // player 1's deck of cards index
 	P2_deck_index = 0; // player 2's deck of cards index
+	std::cout << " ** Starting Board ** \n";
+	board->DisplayBoard();
 }
 
 Gamebase::~Gamebase()
@@ -27,8 +29,7 @@ int Gamebase::Run(){
 
 int Gamebase::RunTest() 
 {
-	std::cout << " ** Starting Board ** \n";
-	board->DisplayBoard();
+	
 
 	if(turn == 1){
 		std::cout << " ** Player 1's turn **\n";
