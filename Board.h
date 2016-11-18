@@ -3,14 +3,6 @@
 #include "Tile.h"
 #include <queue>
 
-//#define DEBUG_TILE
-
-/*
-	DEBUG Mode: 
-		1. Sets all the tiles to 1,1,1,1,1,1 in deck[72]
-		2. Starting tile becomes 1,1,1,1,1,1
-*/
-
 using namespace std;
 
 class Board
@@ -36,7 +28,6 @@ private:
 	int CheckCompletedLake(int xPos, int yPos);
 	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
 	
-	
 public:
 
 	Board();
@@ -50,5 +41,7 @@ public:
 
 	Tile* board[143][143];
 	int tigers[143][143];
+
+	// AI
 	
 };
