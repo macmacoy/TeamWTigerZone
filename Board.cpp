@@ -970,7 +970,7 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 // 	//First checks if the center piece is a town
 // 	//if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
 //  	//if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
-// 	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit); visit.clear();}
+// 	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit, checkFor); visit.clear();}
 	
 
 //   	else if(board[xPos][yPos]->getCenter() != 2){
@@ -991,8 +991,8 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 
 //   		if(board[xPos][yPos]->getW() == 2){
 //  			if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != 2){if(x == 0){x = -1;} else{y = -1;}}
-//   			else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit); visit.clear();}
-//  			else{queueB.push(((xPos-1)*1000)+yPos); y = Traverse(queueB, 1, visit); visit.clear();}}
+//   			else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor); visit.clear();}
+//  			else{queueB.push(((xPos-1)*1000)+yPos); y = Traverse(queueB, 1, visit, checkFor); visit.clear();}}
 //   			else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor); visit.clear();}
 //  			else{queueB.push(((xPos-1)*1000)+yPos); y = Traverse(queueB, 1, visit, checkFor); visit.clear();}}
 //   	if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit, checkFor); visit.clear();}
@@ -1148,7 +1148,7 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 //   	if(board[xPos][yPos]->getCenter() == checkFor){
 //   		if(board[xPos][yPos]->getN() == checkFor){
 //   			if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != checkFor){return -1;}
-//   			else{myqueue.push((xPos*1000)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+//   			else{myqueue.push((xPos*1000)+(yPos-1)); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit, checkFor);}
 //   			if(x == -1){return -1;} else{tileCount += x;}}
  	//checks if center is a checkFor
  	//if no, end search for this portion
@@ -1180,7 +1180,7 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 	
 // //   		if(board[xPos][yPos]->getW() == 2){
 // //   			if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != 2){return -1;}
-// //  			else{myqueue.push(((xPos-1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit);}
+// //  			else{myqueue.push(((xPos-1)*1000)+yPos); myqueue.pop(); int x = Traverse(myqueue, tileCount, visit, checkFor);}
 
 // //   		if(board[xPos][yPos]->getW() == checkFor){
 // //   			if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != checkFor){return -1;}
