@@ -29,7 +29,8 @@ int Gamebase::Run(){
 
 int Gamebase::RunTest() 
 {
-	
+	//variable to test whether a move is for testing or real move
+	bool real = true;
 
 	if(turn == 1){
 		std::cout << " ** Player 1's turn **\n";
@@ -65,7 +66,7 @@ int Gamebase::RunTest()
 			tile = &P2_deck.at(P2_deck_index);
 		for(int i=0; i<rotations; i++)
 			tile->Rotate90();
-		TilePlaced = board->PlaceTile(tile, x, y);
+		TilePlaced = board->PlaceTile(tile, x, y, real);
 		if(!TilePlaced)
 			std::cout << "Invalid Placement\n";
 	}

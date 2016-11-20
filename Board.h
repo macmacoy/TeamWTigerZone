@@ -42,7 +42,7 @@ public:
 	int GetPlayerScore(int player);
 	int GetPlayerTigerCount(int player);
     int DisplayBoard();
-	int PlaceTile(Tile* tile, int xPos, int yPos);
+	int PlaceTile(Tile* tile, int xPos, int yPos, bool real);
 	int PlaceTiger(int x, int y, string location, int player);
 
 	Tile* board[143][143];
