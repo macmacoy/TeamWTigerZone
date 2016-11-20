@@ -985,7 +985,7 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 
 //traversal method with the queue as the input
 
-int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int checkFor, int entry){
+int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int checkFor){
  	if(myqueue.empty() == true){return tileCount;}
  	int xPos = myqueue.front() / 1000;
  	int yPos = myqueue.front() % 1000;
