@@ -234,7 +234,7 @@ int Board::CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart,
 
 // return value: 0=?
 // 				 1=?
-int Board::CheckCompletedTrail(int xPos, int yPos)
+int Board::CheckCompletedTrail(int xPos, int yPos, bool real)
 {
 	//need to add 1 extra point per prey on the trail
 	Tile* tile = board[xPos][yPos];
@@ -319,36 +319,45 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 					}
 				}
 				
-				//adds points to whoever controls the road (more tigers)
-				if(player1Tigers.size() > player2Tigers.size())
+				//if actual turn, do points
+				if(real)
 				{
-					player1Score += pointsN + board[xPos][yPos]->isPrey();
+					//adds points to whoever controls the road (more tigers)
+					if(player1Tigers.size() > player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() < player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+						player2Score += pointsN + board[xPos][yPos]->isPrey();
+					}
 				}
-				else if(player1Tigers.size() < player2Tigers.size())
-				{
-					player1Score += pointsN + board[xPos][yPos]->isPrey();
-				}
-				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
-				{
-					player1Score += pointsN + board[xPos][yPos]->isPrey();
-					player2Score += pointsN + board[xPos][yPos]->isPrey();
-				}
-				
 				struct coordinate c;
 				//return any tigers on roads
 				while(!player1Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player1TigerCount++;
+					if(real)
+					{
+						c = player1Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player1TigerCount++;
+					}
 					player1Tigers.pop();
 					
 				}
 				while(!player2Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player2TigerCount++;
+					if(real)
+					{
+						c = player2Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player2TigerCount++;
+					}
 					player2Tigers.pop();
 					
 				}
@@ -365,36 +374,45 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 					}
 				}
 				
-				//adds points to whoever controls the road (more tigers)
-				if(player1Tigers.size() > player2Tigers.size())
+				//if actual turn, do points
+				if(real)
 				{
-					player1Score += pointsS + board[xPos][yPos]->isPrey();
+					//adds points to whoever controls the road (more tigers)
+					if(player1Tigers.size() > player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() < player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+						player2Score += pointsN + board[xPos][yPos]->isPrey();
+					}
 				}
-				else if(player1Tigers.size() < player2Tigers.size())
-				{
-					player1Score += pointsS + board[xPos][yPos]->isPrey();
-				}
-				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
-				{
-					player1Score += pointsS + board[xPos][yPos]->isPrey();
-					player2Score += pointsS + board[xPos][yPos]->isPrey();
-				}
-				
 				struct coordinate c;
 				//return any tigers on roads
 				while(!player1Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player1TigerCount++;
+					if(real)
+					{
+						c = player1Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player1TigerCount++;
+					}
 					player1Tigers.pop();
 					
 				}
 				while(!player2Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player2TigerCount++;
+					if(real)
+					{
+						c = player2Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player2TigerCount++;
+					}
 					player2Tigers.pop();
 					
 				}
@@ -411,36 +429,45 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 					}
 				}
 				
-				//adds points to whoever controls the road (more tigers)
-				if(player1Tigers.size() > player2Tigers.size())
+				//if actual turn, do points
+				if(real)
 				{
-					player1Score += pointsE + board[xPos][yPos]->isPrey();
+					//adds points to whoever controls the road (more tigers)
+					if(player1Tigers.size() > player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() < player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+						player2Score += pointsN + board[xPos][yPos]->isPrey();
+					}
 				}
-				else if(player1Tigers.size() < player2Tigers.size())
-				{
-					player1Score += pointsE + board[xPos][yPos]->isPrey();
-				}
-				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
-				{
-					player1Score += pointsE + board[xPos][yPos]->isPrey();
-					player2Score += pointsE + board[xPos][yPos]->isPrey();
-				}
-				
 				struct coordinate c;
 				//return any tigers on roads
 				while(!player1Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player1TigerCount++;
+					if(real)
+					{
+						c = player1Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player1TigerCount++;
+					}
 					player1Tigers.pop();
 					
 				}
 				while(!player2Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player2TigerCount++;
+					if(real)
+					{
+						c = player2Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player2TigerCount++;
+					}
 					player2Tigers.pop();
 					
 				}
@@ -457,36 +484,45 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 					}
 				}
 				
-				//adds points to whoever controls the road (more tigers)
-				if(player1Tigers.size() > player2Tigers.size())
+				//if actual turn, do points
+				if(real)
 				{
-					player1Score += pointsW + board[xPos][yPos]->isPrey();
+					//adds points to whoever controls the road (more tigers)
+					if(player1Tigers.size() > player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() < player2Tigers.size())
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+					{
+						player1Score += pointsN + board[xPos][yPos]->isPrey();
+						player2Score += pointsN + board[xPos][yPos]->isPrey();
+					}
 				}
-				else if(player1Tigers.size() < player2Tigers.size())
-				{
-					player1Score += pointsW + board[xPos][yPos]->isPrey();
-				}
-				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
-				{
-					player1Score += pointsW + board[xPos][yPos]->isPrey();
-					player2Score += pointsW + board[xPos][yPos]->isPrey();
-				}
-				
 				struct coordinate c;
 				//return any tigers on roads
 				while(!player1Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player1TigerCount++;
+					if(real)
+					{
+						c = player1Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player1TigerCount++;
+					}
 					player1Tigers.pop();
 					
 				}
 				while(!player2Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player2TigerCount++;
+					if(real)
+					{
+						c = player2Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player2TigerCount++;
+					}
 					player2Tigers.pop();
 					
 				}
@@ -564,36 +600,45 @@ int Board::CheckCompletedTrail(int xPos, int yPos)
 			{
 				points = points1 + points2 + board[xPos][yPos]->isPrey();
 				
-				//adds points to whoever controls the road (more tigers)
-				if(player1Tigers.size() > player2Tigers.size())
+				if(real)
 				{
-					player1Score += points + board[xPos][yPos]->isPrey();
-				}
-				else if(player1Tigers.size() < player2Tigers.size())
-				{
-					player1Score += points + board[xPos][yPos]->isPrey();
-				}
-				else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
-				{
-					player1Score += points + board[xPos][yPos]->isPrey();
-					player2Score += points + board[xPos][yPos]->isPrey();
+					//adds points to whoever controls the road (more tigers)
+					if(player1Tigers.size() > player2Tigers.size())
+					{
+						player1Score += points + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() < player2Tigers.size())
+					{
+						player1Score += points + board[xPos][yPos]->isPrey();
+					}
+					else if(player1Tigers.size() == player2Tigers.size() && player1Tigers.size() != 0)
+					{
+						player1Score += points + board[xPos][yPos]->isPrey();
+						player2Score += points + board[xPos][yPos]->isPrey();
+					}
 				}
 				
 				struct coordinate c;
 				//return any tigers on roads
 				while(!player1Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player1TigerCount++;
+					if(real)
+					{
+						c = player1Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player1TigerCount++;
+					}
 					player1Tigers.pop();
 					
 				}
 				while(!player2Tigers.empty())
 				{
-					c = player1Tigers.front();
-					tigers[c.x][c.y] = 0;
-					player2TigerCount++;
+					if(real)
+					{
+						c = player2Tigers.front();
+						tigers[c.x][c.y] = 0;
+						player2TigerCount++;
+					}
 					player2Tigers.pop();
 					
 				}
