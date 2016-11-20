@@ -8,6 +8,7 @@ class Engine
 public:
 	Engine();
 	Engine(int localTest);
+	Engine(std::vector<std::string>& collection);
 	~Engine();
 
 private:

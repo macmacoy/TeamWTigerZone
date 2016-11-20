@@ -126,10 +126,10 @@ void Engine::MakeDecksTest(){
 }
 
 // translate string values to our tiles
-void MakeDecks(std::vector<std::string>& collection){
+void Engine::MakeDecks(std::vector<std::string>& collection){
 
 }
 
 int DoTurn(){
-	
+	return 0;
 }

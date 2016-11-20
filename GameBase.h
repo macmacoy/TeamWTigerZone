@@ -14,6 +14,7 @@ public:
 	~Gamebase();
 
 	int Run();
+	int RunTurn();
 	int RunTest();
 
 private:
