@@ -928,11 +928,59 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 			*/
 			if (current->getCenter() == 3) {
 				/*
-				Just Traversed North, on **** side of the road, Check the Left and Right if the 
+				Just Traversed North, with no road, Check the Left and Right if either is a pure jungle then check north 
 				*/
-				if (prevDirection == "N" && prevRoad == 1) {//If Previous Previous direciion is north and the road was on the left side
-					if (current->getW() == terrainType && prevDirection != "W") {//Check West: If Exists add to queue and no meeple on the left side
-						if (current->getTigerW() != 0) {
+				if (prevDirection == "N" && prevRoad == 2) {//If Previous Previous direciion is north and no road
+					int checkNorth = 1;
+					if (current->getW() == terrainType || current->getW() == 3) {//Check West: If Exists add to queue and no meeple on the left side
+						if (current->getW() == 3) {
+							checkNorth = 0;
+						}
+						if (current->getTigerW() != 0  && ) {
+							return 0;
+						}
+						if (board[c.x - 1][c.y] != NULL) {
+							Tile* adjacent = board[c.x - 1][c.y];
+							if (adjacent->getE() == terrainType) {
+								if (adjacent->getTigerE() == 3) {
+									return 0;
+								}
+								else {
+									c.x = c.x - 1;
+									c.y = c.y;
+									Q.push(c);
+									lastVisited.push("W");
+								}
+							}
+						}
+					}
+					if (current->getE() == terrainType && prevDirection != "E") {//Check West: If Exists add to queue and no meeple on the left side
+						if (current->getE() == 3) {
+							checkNorth = 0;
+						}
+						if (current->getTigerE() != 0) {
+							return 0;
+						}
+						if (board[c.x - 1][c.y] != NULL) {
+							Tile* adjacent = board[c.x - 1][c.y];
+							if (adjacent->getE() == terrainType) {
+								if (adjacent->getTigerE() == 3) {
+									return 0;
+								}
+								else {
+									c.x = c.x - 1;
+									c.y = c.y;
+									Q.push(c);
+									lastVisited.push("W");
+								}
+							}
+						}
+					}
+					if (checkNorth == 1 && current->getN() == terrainType && prevDirection != "E") {//Check West: If Exists add to queue and no meeple on the left side
+						if (current->getE() == 3) {
+							checkNorth = 0;
+						}
+						if (current->getTigerE() != 0) {
 							return 0;
 						}
 						if (board[c.x - 1][c.y] != NULL) {
@@ -952,45 +1000,6 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					}
 				}
 
-
-				if (prevDirection != "S") {//If Previous Previous direciion is south
-					if (current->getTigerS() != 0) {
-						return 0;
-					}
-					if (board[c.x][c.y + 1] != NULL) {
-						Tile* adjacent = board[c.x][c.y + 1];
-						if (adjacent->getN() == terrainType) {
-							if (adjacent->getTigerN() != 0) {
-								return 0;
-							}
-							else {
-								c.x = c.x;
-								c.y = c.y + 1;
-								Q.push(c);
-								lastVisited.push("S");
-							}
-						}
-					}
-				}
-				if (prevDirection != "W") {//If Previous Previous direciion is west
-					if (current->getTigerW() != 0) {
-						return 0;
-					}
-					if (board[c.x - 1][c.y] != NULL) {
-						Tile* adjacent = board[c.x - 1][c.y];
-						if (adjacent->getE() == terrainType) {
-							if (adjacent->getTigerE() != 0) {
-								return 0;
-							}
-							else {
-								c.x = c.x - 1;
-								c.y = c.y;
-								Q.push(c);
-								lastVisited.push("W");
-							}
-						}
-					}
-				}
 				if (prevDirection != "E") {//If Previous Previous direciion is east
 					if (current->getTigerE() != 0) {
 						return 0;
