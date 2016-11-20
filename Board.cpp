@@ -1475,7 +1475,7 @@ int Board::DisplayBoard()
 
 // return value: 0=invalid tile placement
 // 				 1=successful tile placement
-int Board::PlaceTile(Tile* tile, int xPos, int yPos)
+int Board::PlaceTile(Tile* tile, int xPos, int yPos, bool real)
 {
 	// if tile placement is illegal, return 0
 	if (CheckTilePlacement(tile, xPos, yPos) == 0)
@@ -1485,6 +1485,11 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 	}
 	// if tile placement is legal, place tile at position
 	board[xPos][yPos] = tile;
+
+	if (!real)
+	{
+		board[xPos][yPos] = NULL;
+	}
 	
 	// //check is Lake is completed
 	// int pts = CheckCompletedLake(xPos, yPos);
