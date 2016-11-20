@@ -29,7 +29,7 @@ private:
 	// int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
 	void CheckTileForTiger(int xCurr, int yCurr);
 	int CountTrail(int xPrev, int yPrev, int xCurr, int yCurr, int xStart, int yStart);
-	int CheckCompletedTrail(int xPos, int yPos);
+	int CheckCompletedTrail(int xPos, int yPos, bool real);
 	int CheckCompletedDen(int xPos, int yPos);
 	int CheckCompletedLake(int xPos, int yPos);
 	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
@@ -44,6 +44,8 @@ public:
     int DisplayBoard();
 	int PlaceTile(Tile* tile, int xPos, int yPos, bool real);
 	int PlaceTiger(int x, int y, string location, int player);
+
+	int CheckEverything(int xPos, int yPos, bool real);
 
 	Tile* board[143][143];
 	int tigers[143][143];

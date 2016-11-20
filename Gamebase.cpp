@@ -83,6 +83,9 @@ int Gamebase::RunTest()
 			}
 		}
 	}
+
+	board->CheckEverything(x, y, real);
+
 	std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
 	if(turn == 1){
 		P1_deck_index++;

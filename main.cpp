@@ -1,5 +1,6 @@
 #include "Engine.h"
-
+#ifdef Testing
+#else
 int main()
 {
 	Engine * e = new Engine();
@@ -11,3 +12,4 @@ int main()
 	return 0;
 
 }
+#endif

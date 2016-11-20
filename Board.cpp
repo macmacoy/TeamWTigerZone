@@ -29,7 +29,11 @@ int Board::PlaceStartTile()
 {
 	// place the starting tile in the middle of the board
 	// start tile initialized in Board constructor
+#ifdef TESTING
+	board[71][71] = new Tile(2, 2, 2, 2, 2, 0);
+#else
 	board[71][71] = new Tile(3, 2, 3, 1, 5, 0);
+#endif
 	return 1;
 }
 
@@ -1023,6 +1027,7 @@ int Board::CheckCompletedLake(int xPos, int yPos){
 					y = Traverse(queueB, 1, visit, checkFor); visit.clear();}}}
 	}
  	if(x > 0){countA += x;} if(y > 0){countB += y;}
+	//cout << countA * 100 + countB << endl;
  	return (countA * 100 + countB);
 }
 
@@ -1034,6 +1039,7 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
  	if(myqueue.empty() == true){return tileCount;}
  	int xPos = myqueue.front() / 1000;
  	int yPos = myqueue.front() % 1000;
+	int pos = myqueue.front();
 
 	//bool visitedN = false;
 	//bool visitedE = false;
@@ -1045,8 +1051,18 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
  	//reads top tile
  	//marks it as visited
 
- 	for(int i = 0; i < visit.size(); i++){if(visit[i] == (myqueue.front())){return tileCount;}}
- 	visit.push_back(myqueue.front());
+ 	for(int i = 0; i < visit.size(); i++)
+	{	
+		//cout << visit[i]<<" ";
+		if(visit[i] == (myqueue.front()))
+		{
+			cout << "Got me!" << endl;
+			return tileCount;
+		}
+		
+	}
+	cout << " " << xPos << " " << yPos << endl;
+ 	visit.push_back(pos);	
 
  	//add one to tileCount
  	tileCount += 1;
@@ -1343,7 +1359,8 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos, bool real)
 	{
 		board[xPos][yPos] = NULL;
 	}
-	
+
+
 	// //check is Lake is completed
 	// int pts = CheckCompletedLake(xPos, yPos);
 	// if(pts != 0){}
@@ -1399,4 +1416,36 @@ int Board::GetPlayerTigerCount(int player){
 	else if(player == 2)
 		return player2TigerCount;
 	return -1;
+}
+
+int Board::CheckEverything(int xPos, int yPos, bool real)
+{
+
+	//CheckCompletedLake
+
+	int isLake = CheckCompletedLake(xPos, yPos);
+	if (isLake == 0)
+	{
+		cout << "No lake is completed" << endl;
+	}
+	else if (isLake != 0)
+	{
+		if (isLake / 100 != 0 && isLake % 100 != 0)
+		{
+			cout << "Two lakes are completed" << endl;
+			//cout << isLake / 100 << " tiles for first lake completed" << endl;
+			//cout << isLake % 100 << " tiles for second lake completed" << endl;
+		}
+		else if ((isLake / 100 != 0) || (isLake % 100 != 0))
+		{
+			isLake = max(isLake / 100, isLake % 100);
+			//cout << "One lake is completed" << endl;
+			//cout << isLake << " Tiles completed for one lake" << endl;
+		}
+	}
+
+	//CheckCompletedTrail
+	int i = CheckCompletedTrail(xPos, yPos, real);
+	
+	return 0;
 }
