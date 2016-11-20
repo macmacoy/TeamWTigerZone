@@ -1,8 +1,4 @@
 #include "Board.h"
-//#define MAC (1)
-#if(MAC)
-	#include "Tile.cpp"
-#endif
 #include <queue>                                               
 #include <vector>
 #include <iostream>
@@ -1505,9 +1501,21 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos)
 // 				 1=successful tiger placement
 int Board::PlaceTiger(int x, int y, string location, int player)
 {
+	if(player == 1){
+		if(player1Tigers == 0)
+			return 0;
+	}
+	else if(player == 2){
+		if(player1Tigers == 0)
+			return 0;
+	}
 	if(CheckTigerPlacement(x, y, location) == 1){
 		board[x][y]->PlaceTiger(location);
 		tigers[x][y] = player;
+		if(player == 1)
+			player1Tigers--;
+		else if(player == 2)
+			player2Tigers--;
 		return 1;
 	}
 	return 0;

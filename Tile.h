@@ -1,6 +1,28 @@
 #include <iostream>
 using namespace std;
-
+/*
+* Value for sideX:
+* 			0. Empty
+* 			1. Jungle
+* 			2. Lake
+* 			3. Jungle with Trail
+* Value for center:
+* 			0. Empty
+* 			1. Jungle
+* 			2. Lake
+* 			3. Trail Continuing
+* 			4. Den
+*			5. Trail Ending
+* Tiger Locations
+* 		Definition of Location: 1 is front left, 2 is center, 3 is front right.
+*
+* 			0. No Tiger
+* 			1. Location 1
+* 			2. Location 2
+* 			3. Location 3
+*			4. Center
+*
+*/
 class Tile {
 private:
 	/*North*/
