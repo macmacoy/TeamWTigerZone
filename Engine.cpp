@@ -1,10 +1,20 @@
 #pragma once
 #include "Engine.h"
 
-Engine::Engine()
+// local testing engine
+Engine::Engine(int localTest)
 {
 	//Initialize the game engine
-	MakeDecksTest();
+	MakeDecksTest(); // for testing
+	Gamebase* game = new Gamebase(P1_deck, P2_deck);
+	while (!game->RunTest()){}
+	cout << "GAME OVER\n\n";
+}
+
+// server game engine
+Engine::Engine() // some unkown input
+{
+	MakeDecks();
 	Gamebase* game = new Gamebase(P1_deck, P2_deck);
 	while (!game->RunTest()){}
 	cout << "GAME OVER\n\n";
@@ -112,4 +122,9 @@ void Engine::MakeDecksTest(){
 			index++;
 		}
 	}
+}
+
+// translate string values to our tiles
+void MakeDecks(std::vector<std::string>& collection){
+
 }
