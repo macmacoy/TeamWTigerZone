@@ -61,6 +61,12 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 	// queue of coordinates for BFS
 	queue<coordinate> Q;
 	queue<string> lastVisited;
+	queue<int> road; 
+	/*
+	Push 1 if left side of road
+	Push 3 if right side of road
+	Push 2 if no road
+	*/
 
 	/*We can make assumptions based upon meeple placement
 	1. The meeple is on a jungle
@@ -98,6 +104,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(2);
 				}
 			}
 		}
@@ -113,12 +120,13 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("W");
+					road.push(3);
 				}
 			}
 		}
 		if (board[xPos + 1][yPos] != NULL) { // check East : if exsists -> push on queue
 			Tile* adjacent = board[xPos + 1][yPos];
-			if (adjacent->getE() == terrainType || || adjacent->getE() == 3) {
+			if (adjacent->getE() == terrainType ||  adjacent->getE() == 3) {
 				if (adjacent->getTigerE() != 0) {
 					return 0;
 				}
@@ -128,6 +136,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(2);
 				}
 			}
 		}
@@ -148,6 +157,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(2);
 				}
 			}
 		}
@@ -161,8 +171,9 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					struct coordinate c;
 					c.x = xPos - 1;
 					c.y = yPos;
-					Q.push(c); \
-						lastVisited.push("W");
+					Q.push(c); 
+					lastVisited.push("W");
+					road.push(2);
 				}
 			}
 		}
@@ -178,6 +189,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(1);
 				}
 			}
 		}
@@ -193,6 +205,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(3);
 				}
 			}
 		}
@@ -213,6 +226,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(1);
 				}
 			}
 		}
@@ -226,8 +240,9 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					struct coordinate c;
 					c.x = xPos - 1;
 					c.y = yPos;
-					Q.push(c); \
-						lastVisited.push("W");
+					Q.push(c);
+					lastVisited.push("W");
+					road.push(3);
 				}
 			}
 		}
@@ -248,6 +263,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(2);
 				}
 			}
 		}
@@ -263,6 +279,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("W");
+					road.push(1);
 				}
 			}
 		}
@@ -278,6 +295,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(3);
 				}
 			}
 		}
@@ -298,6 +316,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(1);
 				}
 			}
 		}
@@ -313,6 +332,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(3);
 				}
 			}
 		}
@@ -333,6 +353,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(3);
 				}
 			}
 		}
@@ -346,8 +367,9 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					struct coordinate c;
 					c.x = xPos - 1;
 					c.y = yPos;
-					Q.push(c); \
-						lastVisited.push("W");
+					Q.push(c); 
+					lastVisited.push("W");
+					road.push(1);
 				}
 			}
 		}
@@ -363,6 +385,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(2);
 				}
 			}
 		}
@@ -378,6 +401,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(2);
 				}
 			}
 		}
@@ -398,6 +422,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("W");
+					road.push(2);
 				}
 			}
 		}
@@ -413,6 +438,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(3);
 				}
 			}
 		}
@@ -428,6 +454,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(1);
 				}
 			}
 		}
@@ -448,6 +475,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("W");
+					road.push(1);
 				}
 			}
 		}
@@ -463,6 +491,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(3);
 				}
 			}
 		}
@@ -483,6 +512,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(1);
 				}
 			}
 		}
@@ -496,8 +526,9 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					struct coordinate c;
 					c.x = xPos - 1;
 					c.y = yPos;
-					Q.push(c); \
-						lastVisited.push("W");
+					Q.push(c); 
+					lastVisited.push("W");
+					road.push(2);
 				}
 			}
 		}
@@ -513,6 +544,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(3);
 				}
 			}
 		}
@@ -528,6 +560,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(2);
 				}
 			}
 		}
@@ -548,6 +581,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(2);
 				}
 			}
 		}
@@ -563,6 +597,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(3);
 				}
 			}
 		}
@@ -578,6 +613,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(1);
 				}
 			}
 		}
@@ -598,6 +634,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(1);
 				}
 			}
 		}
@@ -613,6 +650,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(3);
 				}
 			}
 		}
@@ -633,6 +671,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(2);
 				}
 			}
 		}
@@ -646,8 +685,9 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					struct coordinate c;
 					c.x = xPos - 1;
 					c.y = yPos;
-					Q.push(c); \
-						lastVisited.push("W");
+					Q.push(c); 
+					lastVisited.push("W");
+					road.push(3);
 				}
 			}
 		}
@@ -663,6 +703,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(2);
 				}
 			}
 		}
@@ -678,6 +719,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(1);
 				}
 			}
 		}
@@ -698,6 +740,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("E");
+					road.push(2);
 				}
 			}
 		}
@@ -713,6 +756,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos + 1;
 					Q.push(c);
 					lastVisited.push("N");
+					road.push(2);
 				}
 			}
 		}
@@ -728,6 +772,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos - 1;
 					Q.push(c);
 					lastVisited.push("S");
+					road.push(2);
 				}
 			}
 		}
@@ -743,6 +788,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 					c.y = yPos;
 					Q.push(c);
 					lastVisited.push("W");
+					road.push(2);
 				}
 			}
 		}
@@ -757,6 +803,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		Tile* current = board[c.x][c.y];
 		string prevDirection = lastVisited.front();
 		lastVisited.pop();
+		int prevRoad = road.front();
+		road.pop();
 		// if the search cycles back to the root
 		if (current == root)
 			return 1;
@@ -775,8 +823,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		Case : Center Jungle, Center End Trail, Center Den
 		prevent previous tile from being added to the queue
 		*/
-		if (current->getCenter() == terrainType) {
-			if (current->getN() == terrainType && prevDirection != "N") {//Check North: If Exists add to queue
+		if (current->getCenter() == terrainType || current->getCenter() == 5 || current->getCenter() == 4) {
+			if ((current->getN() == terrainType || current->getN()==3 ) && prevDirection != "N") {//Check North: If Exists add to queue
 				if (current->getTigerN() != 0) {
 					return 0;
 				}
@@ -790,11 +838,13 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 							c.x = c.x;
 							c.y = c.y - 1;
 							Q.push(c);
+							lastVisited.push("N");
+							road.push(2);
 						}
 					}
 				}
 			}
-			if (current->getS() == terrainType && prevDirection != "S") {//Check South: If Exists add to queue
+			if ((current->getS() == terrainType || current->getN() == 3) && prevDirection != "S") {//Check South: If Exists add to queue
 				if (current->getTigerS() != 0) {
 					return 0;
 				}
@@ -808,11 +858,13 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 							c.x = c.x;
 							c.y = c.y + 1;
 							Q.push(c);
+							lastVisited.push("S");
+							road.push(2);
 						}
 					}
 				}
 			}
-			if (current->getW() == terrainType && prevDirection != "W") {//Check West: If Exists add to queue
+			if ((current->getW() == terrainType || current->getN() == 3) && prevDirection != "W") {//Check West: If Exists add to queue
 				if (current->getTigerW() != 0) {
 					return 0;
 				}
@@ -826,11 +878,13 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 							c.x = c.x - 1;
 							c.y = c.y;
 							Q.push(c);
+							lastVisited.push("W");
+							road.push(2);
 						}
 					}
 				}
 			}
-			if (current->getE() == terrainType && prevDirection != "E") {//Check East: If Exists add to queue
+			if ((current->getE() == terrainType || current->getN() == 3) && prevDirection != "E") {//Check East: If Exists add to queue
 				if (current->getTigerE() != 0) {
 					return 0;
 				}
@@ -844,6 +898,8 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 							c.x = c.x + 1;
 							c.y = c.y;
 							Q.push(c);
+							lastVisited.push("E");
+							road.push(2);
 						}
 					}
 				}
@@ -855,69 +911,95 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 			/*
 			Case : Center Road Continueing
 			prevent previous tile from being added to the queue
+
+			8 cases of road
+			1. North and Left
+			2. North Center
+			3. North and Rigth
+			4. South Left
+			5. South Center
+			6. South Right
+			7. East Left
+			8. East Center
+			9. East Right
+			10. West Left
+			11. West Center
+			12. West Right
 			*/
 			if (current->getCenter() == 3) {
 				/*
-				Just Traversed North, on **** side of the road, Check the Left and
+				Just Traversed North, with no road, Check the Left and Right if either is a pure jungle then check north 
 				*/
-				if (prevDirection == "N") {//If Previous Previous direciion is north
-					if (current->getW() == terrainType && prevDirection != "W") {//Check West: If Exists add to queue
-						if (current->getTigerW() != 0) {
+				if (prevDirection == "N" && prevRoad == 2) {//If Previous Previous direciion is north and no road
+					int checkNorth = 1;
+					if (current->getW() == terrainType || current->getW() == 3) {//Check West: If Exists add to queue and no meeple on the left side
+						if (current->getW() == 3) {
+							checkNorth = 0;
+						}
+						if (current->getTigerW() != 0  && ) {
 							return 0;
 						}
 						if (board[c.x - 1][c.y] != NULL) {
 							Tile* adjacent = board[c.x - 1][c.y];
 							if (adjacent->getE() == terrainType) {
-								if (adjacent->getTigerE() != 0) {
+								if (adjacent->getTigerE() == 3) {
 									return 0;
 								}
 								else {
 									c.x = c.x - 1;
 									c.y = c.y;
 									Q.push(c);
+									lastVisited.push("W");
+								}
+							}
+						}
+					}
+					if (current->getE() == terrainType && prevDirection != "E") {//Check West: If Exists add to queue and no meeple on the left side
+						if (current->getE() == 3) {
+							checkNorth = 0;
+						}
+						if (current->getTigerE() != 0) {
+							return 0;
+						}
+						if (board[c.x - 1][c.y] != NULL) {
+							Tile* adjacent = board[c.x - 1][c.y];
+							if (adjacent->getE() == terrainType) {
+								if (adjacent->getTigerE() == 3) {
+									return 0;
+								}
+								else {
+									c.x = c.x - 1;
+									c.y = c.y;
+									Q.push(c);
+									lastVisited.push("W");
+								}
+							}
+						}
+					}
+					if (checkNorth == 1 && current->getN() == terrainType && prevDirection != "E") {//Check West: If Exists add to queue and no meeple on the left side
+						if (current->getE() == 3) {
+							checkNorth = 0;
+						}
+						if (current->getTigerE() != 0) {
+							return 0;
+						}
+						if (board[c.x - 1][c.y] != NULL) {
+							Tile* adjacent = board[c.x - 1][c.y];
+							if (adjacent->getE() == terrainType) {
+								if (adjacent->getTigerE() == 3) {
+									return 0;
+								}
+								else {
+									c.x = c.x - 1;
+									c.y = c.y;
+									Q.push(c);
+									lastVisited.push("W");
 								}
 							}
 						}
 					}
 				}
 
-
-				if (prevDirection != "S") {//If Previous Previous direciion is south
-					if (current->getTigerS() != 0) {
-						return 0;
-					}
-					if (board[c.x][c.y + 1] != NULL) {
-						Tile* adjacent = board[c.x][c.y + 1];
-						if (adjacent->getN() == terrainType) {
-							if (adjacent->getTigerN() != 0) {
-								return 0;
-							}
-							else {
-								c.x = c.x;
-								c.y = c.y + 1;
-								Q.push(c);
-							}
-						}
-					}
-				}
-				if (prevDirection != "W") {//If Previous Previous direciion is west
-					if (current->getTigerW() != 0) {
-						return 0;
-					}
-					if (board[c.x - 1][c.y] != NULL) {
-						Tile* adjacent = board[c.x - 1][c.y];
-						if (adjacent->getE() == terrainType) {
-							if (adjacent->getTigerE() != 0) {
-								return 0;
-							}
-							else {
-								c.x = c.x - 1;
-								c.y = c.y;
-								Q.push(c);
-							}
-						}
-					}
-				}
 				if (prevDirection != "E") {//If Previous Previous direciion is east
 					if (current->getTigerE() != 0) {
 						return 0;
@@ -932,6 +1014,7 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 								c.x = c.x + 1;
 								c.y = c.y;
 								Q.push(c);
+								lastVisited.push("E");
 							}
 						}
 					}
