@@ -7,6 +7,7 @@ class Engine
 {
 public:
 	Engine();
+	Engine(int localTest);
 	~Engine();
 
 private:
@@ -16,4 +17,6 @@ private:
 
 	// for testing
 	void MakeDecksTest();
+	void MakeDecks(std::vector<std::string>& collection);
+	int DoTurn(); // some input
 };

@@ -9,10 +9,12 @@ Gamebase::Gamebase(std::vector<Tile> P1_deck, std::vector<Tile> P2_deck)
 	turn = 1; // player 1 gets first turn
 	turnCount = 0; // number of turns that have occured
 	board = new Board(); // board
-	this->P1_deck = P1_deck; // player 1's deck of cards
+	this->P1_deck = P1_deck; // player 1's deck of cards; AI is always P1_deck
 	this->P2_deck = P2_deck; // player 2's deck of cards
 	P1_deck_index = 0; // player 1's deck of cards index
 	P2_deck_index = 0; // player 2's deck of cards index
+	
+	// for testing
 	std::cout << " ** Starting Board ** \n";
 	board->DisplayBoard();
 }
@@ -22,8 +24,9 @@ Gamebase::~Gamebase()
 	delete board;
 }
 
-int Gamebase::Run(){
-	// server game implementation
+// server game implementation
+int Gamebase::RunTurn(){
+	
 	return 0;
 }
 
