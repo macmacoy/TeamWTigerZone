@@ -1319,20 +1319,20 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos, bool real)
 int Board::PlaceTiger(int x, int y, string location, int player)
 {
 	if(player == 1){
-		if(player1Tigers == 0)
+		if(player1TigerCount == 0)
 			return 0;
 	}
 	else if(player == 2){
-		if(player1Tigers == 0)
+		if(player1TigerCount == 0)
 			return 0;
 	}
 	if(CheckTigerPlacement(x, y, location) == 1){
 		board[x][y]->PlaceTiger(location);
 		tigers[x][y] = player;
 		if(player == 1)
-			player1Tigers--;
+			player1TigerCount--;
 		else if(player == 2)
-			player2Tigers--;
+			player2TigerCount--;
 		return 1;
 	}
 	return 0;
