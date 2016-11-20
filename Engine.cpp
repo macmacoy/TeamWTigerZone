@@ -12,12 +12,13 @@ Engine::Engine(int localTest)
 }
 
 // server game engine
-Engine::Engine() // some unkown input
+Engine::Engine(std::vector<std::string>& collection) // some unkown input
 {
-	MakeDecks();
-	Gamebase* game = new Gamebase(P1_deck, P2_deck);
-	while (!game->RunTest()){}
-	cout << "GAME OVER\n\n";
+	MakeDecks(collection);
+	// AI is player 1
+	Gamebase* game1 = new Gamebase(P1_deck, P2_deck);
+	// AI is player 2
+	Gamebase* game2 = new Gamebase(P2_deck, P1_deck);
 }
 
 Engine::~Engine()
@@ -127,4 +128,8 @@ void Engine::MakeDecksTest(){
 // translate string values to our tiles
 void MakeDecks(std::vector<std::string>& collection){
 
+}
+
+int DoTurn(){
+	
 }

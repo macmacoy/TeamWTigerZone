@@ -18,4 +18,5 @@ private:
 	// for testing
 	void MakeDecksTest();
 	void MakeDecks(std::vector<std::string>& collection);
+	int DoTurn(); // some input
 };
