@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Tile.h"
+// #include "Tile.cpp"
 #include <queue>
 
 using namespace std;
@@ -51,7 +52,7 @@ public:
 	int tigers[143][143];
 
 	// AI
-	// *vector GetAvailablePlacements(Tile* tile);
+	std::vector<struct coordinate> GetAvailablePlacements(Tile* tile);
 	//AI section
 	//Priority for placement 
 	//1st Priority: Check soemthing is completed when placing down

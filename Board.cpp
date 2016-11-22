@@ -3,7 +3,6 @@
 #include <vector>
 #include <iostream>
 #include <stdio.h>
-#include <algorithm>
 
 // constructor
 Board::Board()
@@ -55,6 +54,7 @@ void Board::InitializeTigerArray()
 struct coordinate{
 	int x;
 	int y;
+	int rotations;
 };
 
 //used for finding tigers on completed areas
@@ -1451,95 +1451,100 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 	return 0;
 }
 
-// *vector Board::GetAvailablePlacements(Tile* tile){
+std::vector<coordinate> Board::GetAvailablePlacements(Tile* tile){
 
-// 	queue<coordinate> checkAvailable;
-// 	vector<coordinate> isAvailable;
-// 	vector<coordinate> visited;
+	queue<coordinate> checkAvailable;
+	vector<coordinate> isAvailable;
+	vector<coordinate> visited;
 
-// 	struct coordinate c;
-// 	c.x = 71;
-// 	c.y = 71;
-// 	checkAvailable.push(c);
+	struct coordinate c;
+	c.x = 71;
+	c.y = 71;
+	checkAvailable.push(c);
 
-// 	while(!checkAvailable.empty()){
-// 		c = checkAvailable.front();
-// 		checkAvailable.pop();
-// 		if(find(visited.begin(), visited.end(), c) == visited.end()) {
-// 			if(board[c.x][c.y-1] != NULL){ // check north
-// 				struct coordinate d;
-// 				d.x = c.x;
-// 				d.y = c.y-1;
-// 				checkAvailable.push(d);
-// 			}
-// 			else{
-// 				struct coordinate d;
-// 				d.x = c.x;
-// 				d.y = c.y-1;
-// 				for(int i=0; i<4; i++){
-// 					if(tile->sideS == board[c.x][c.y]){
-// 						d.rotations = i;
-// 						isAvailable.push_back(d);
-// 					}
-// 					tile->Rotate90();
-// 				}
-// 			}
-// 			if(board[c.x][c.y+1] != NULL){ // check south
-// 				struct coordinate d;
-// 				d.x = c.x;
-// 				d.y = c.y+1;
-// 				checkAvailable.push(d);
-// 			}
-// 			else{
-// 				struct coordinate d;
-// 				d.x = c.x;
-// 				d.y = c.y+1;
-// 				for(int i=0; i<4; i++){
-// 					if(tile->sideN == board[c.x][c.y]){
-// 						d.rotations = i;
-// 						isAvailable.push_back(d);
-// 					}
-// 					tile->Rotate90();
-// 				}
-// 			}
-// 			if(board[c.x-1][c.y] != NULL){ // check west
-// 				struct coordinate d;
-// 				d.x = c.x-1;
-// 				d.y = c.y;
-// 				checkAvailable.push(d);
-// 			}
-// 			else{
-// 				struct coordinate d;
-// 				d.x = c.x-1;
-// 				d.y = c.y;
-// 				for(int i=0; i<4; i++){
-// 					if(tile->sideE == board[c.x][c.y]){
-// 						d.rotations = i;
-// 						isAvailable.push_back(d);
-// 					}
-// 					tile->Rotate90();
-// 				}
-// 			}
-// 			if(board[c.x+1][c.y] != NULL){ // check east
-// 				struct coordinate d;
-// 				d.x = c.x+1;
-// 				d.y = c.y;
-// 				checkAvailable.push(d);
-// 			}
-// 			else{
-// 				struct coordinate d;
-// 				d.x = c.x+1;
-// 				d.y = c.y;
-// 				for(int i=0; i<4; i++){
-// 					if(tile->sideW == board[c.x][c.y]){
-// 						d.rotations = i;
-// 						isAvailable.push_back(d);
-// 					}
-// 					tile->Rotate90();
-// 				}
-// 			}
-// 		}
-// 		visited.push_back(c);
-// 	}
-
-// }
+	while(!checkAvailable.empty()){
+		c = checkAvailable.front();
+		checkAvailable.pop();
+		bool isVisited = false;
+		for(int i=0; i<visited.size(); i++){
+			if(visited[i].x == c.x && visited[i].y == c.y)
+				isVisited = true;
+		}
+		if(!isVisited) {
+			if(board[c.x][c.y-1] != NULL){ // check north
+				struct coordinate d;
+				d.x = c.x;
+				d.y = c.y-1;
+				checkAvailable.push(d);
+			}
+			else{
+				struct coordinate d;
+				d.x = c.x;
+				d.y = c.y-1;
+				for(int i=0; i<4; i++){
+					if(tile->getS() == board[c.x][c.y]->getN()){
+						d.rotations = i;
+						isAvailable.push_back(d);
+					}
+					tile->Rotate90();
+				}
+			}
+			if(board[c.x][c.y+1] != NULL){ // check south
+				struct coordinate d;
+				d.x = c.x;
+				d.y = c.y+1;
+				checkAvailable.push(d);
+			}
+			else{
+				struct coordinate d;
+				d.x = c.x;
+				d.y = c.y+1;
+				for(int i=0; i<4; i++){
+					if(tile->getN() == board[c.x][c.y]->getS()){
+						d.rotations = i;
+						isAvailable.push_back(d);
+					}
+					tile->Rotate90();
+				}
+			}
+			if(board[c.x-1][c.y] != NULL){ // check west
+				struct coordinate d;
+				d.x = c.x-1;
+				d.y = c.y;
+				checkAvailable.push(d);
+			}
+			else{
+				struct coordinate d;
+				d.x = c.x-1;
+				d.y = c.y;
+				for(int i=0; i<4; i++){
+					if(tile->getE() == board[c.x][c.y]->getW()){
+						d.rotations = i;
+						isAvailable.push_back(d);
+					}
+					tile->Rotate90();
+				}
+			}
+			if(board[c.x+1][c.y] != NULL){ // check east
+				struct coordinate d;
+				d.x = c.x+1;
+				d.y = c.y;
+				checkAvailable.push(d);
+			}
+			else{
+				struct coordinate d;
+				d.x = c.x+1;
+				d.y = c.y;
+				for(int i=0; i<4; i++){
+					if(tile->getW() == board[c.x][c.y]->getE()){
+						d.rotations = i;
+						isAvailable.push_back(d);
+					}
+					tile->Rotate90();
+				}
+			}
+		}
+		visited.push_back(c);
+	}
+	return isAvailable;
+}
