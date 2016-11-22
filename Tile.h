@@ -41,7 +41,7 @@ private:
 	int center;
 	
 	int prey; // 0 if prey not present, 1 if present
-
+	int crocodile; // if 0 crocodile not present, 1 if present
 
 	//Tiger Locations
 	/*North*/
@@ -86,7 +86,8 @@ public:
 
 
 	int Rotate90(); //Roate the tile by 90 degrees counter-clockwise
-	int PlaceTiger(string str); // place Tiger on board
+	int PlaceTiger(string tigerSpot); // place Tiger on board
+	int PlaceCrocodile(); // place crocodile on tile
 
 	//Tile Side Values
 	int getN();
@@ -99,6 +100,9 @@ public:
 
 	//Is there a prey (T/F)
 	int isPrey();
+
+	//Is there a crocodile (T/F)
+	int isCrocodile();
 	
 	//Get Tiger Locations
 	int getTigerN();

@@ -12,6 +12,8 @@ Board::Board()
 	player2Score = 0;
 	player1TigerCount = 7;
 	player2TigerCount = 7;
+	player1CrocCount = 2;
+	player2CrocCount = 2;
 	
 	// place start tile
 	PlaceStartTile();
@@ -969,7 +971,6 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 	return 1; // success
 }
 
-
 // // return value: 0=?
 // // 				 1=?
 
@@ -1401,6 +1402,24 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 	return 0;
 }
 
+// place crocodile on board
+// return value: 0 if cannot be placed
+// 				 1 if can be placed
+int Board::PlaceCrocodile(int x, int y, int player){
+	if(player == 1 && player1CrocCount == 0)
+		return 0;
+	else if(player == 2 && player2CrocCount == 0)
+		return 0;
+	if(board[x][y]->PlaceCrocodile() == 1){
+		if(player == 1)
+			player1CrocCount--;
+		else if(player == 2)
+			player2CrocCount--;
+		return 1;
+	}
+	return 0;
+}
+
 // get the player's score
 int Board::GetPlayerScore(int player){
 	if(player == 1)
@@ -1451,6 +1470,19 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 	return 0;
 }
 
+std::vector<int> Board::AiDoTurn(Tile* tile){
+	// struct coordinate c = AiPlaceTile(Tile* tile);
+	// int tiger = AiPlaceTiger(c);
+	// int croc = AiPlaceCrocodile(c);
+
+	std::vector<int> v;
+	// return x, y, #rotations, tiger, croc, unplacable
+	return v;
+}
+
+// find the available spots to place a tile
+// return value: vector of coordinates of possible locations
+// 					coordinates contain x,y,#rotations
 std::vector<coordinate> Board::GetAvailablePlacements(Tile* tile){
 
 	queue<coordinate> checkAvailable;

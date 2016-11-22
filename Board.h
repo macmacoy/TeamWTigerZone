@@ -20,6 +20,8 @@ private:
 	int player2Score;
 	int player1TigerCount;
 	int player2TigerCount;
+	int player1CrocCount;
+	int player2CrocCount;
 	Tile* startTile;
 
 	int PlaceStartTile();
@@ -45,6 +47,7 @@ public:
     int DisplayBoard();
 	int PlaceTile(Tile* tile, int xPos, int yPos, bool real);
 	int PlaceTiger(int x, int y, string location, int player);
+	int PlaceCrocodile(int x, int y, int player);
 
 	int CheckEverything(int xPos, int yPos, bool real);
 
@@ -52,6 +55,7 @@ public:
 	int tigers[143][143];
 
 	// AI
+	std::vector<int> AiDoTurn(Tile* tile);
 	std::vector<struct coordinate> GetAvailablePlacements(Tile* tile);
 	//AI section
 	//Priority for placement 

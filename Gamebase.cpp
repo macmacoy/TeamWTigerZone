@@ -25,9 +25,12 @@ Gamebase::~Gamebase()
 }
 
 // server game implementation
-int Gamebase::RunTurn(){
-	
-	return 0;
+std::vector<string> Gamebase::DoAiTurn(Tile* tile){
+	std::vector<int> turn = board->AiDoTurn(tile);
+
+	std::vector<string> response;
+	// translate int values to string responses
+	return response;
 }
 
 int Gamebase::RunTest() 

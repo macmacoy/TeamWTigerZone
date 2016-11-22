@@ -12,13 +12,13 @@ Engine::Engine(int localTest)
 }
 
 // server game engine
-Engine::Engine(std::vector<std::string>& collection) // some unkown input
+Engine::Engine(std::vector<std::string>& tiles) // some unkown input
 {
-	MakeDecks(collection);
+	MakeDecks(tiles);
 	// AI is player 1
-	Gamebase* game1 = new Gamebase(P1_deck, P2_deck);
+	game1 = new Gamebase(P1_deck, P2_deck);
 	// AI is player 2
-	Gamebase* game2 = new Gamebase(P2_deck, P1_deck);
+	game2 = new Gamebase(P2_deck, P1_deck);
 }
 
 Engine::~Engine()
@@ -126,10 +126,21 @@ void Engine::MakeDecksTest(){
 }
 
 // translate string values to our tiles
-void Engine::MakeDecks(std::vector<std::string>& collection){
+void Engine::MakeDecks(std::vector<std::string>& tiles){
 
 }
 
-int DoTurn(){
-	return 0;
+// does AI turn
+// input: game number 1 or 2
+// return value: string vector of responses
+std::vector<string> DoTurn(int game){
+	Gamebase* game;
+	if(game == 1)
+		game = game1;
+	else if(game == 2)
+		game = game2;
+
+	std::vector<string> response = game->AiDoTurn(P1_deck.pop());
+
+	return response;
 }

@@ -81,6 +81,12 @@ int Tile::PlaceTiger(string tigerSpot)
 	return 1; // success
 }
 
+// return value: 0 if crocodile cannot be placed
+// 				 1 if crocodile can be placed
+int Tile::PlaceCrocodile(){
+	//
+	return 0;
+}
 
 //Tile Side Values
 /* 
@@ -112,6 +118,10 @@ int Tile::getCenter(){
 
 int Tile::isPrey(){
 	return prey;
+}
+
+int Tile::isCrocodile(){
+	return crocodile;
 }
 
 //Tile Tiger Values

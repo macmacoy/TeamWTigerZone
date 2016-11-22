@@ -27,6 +27,10 @@ private:
 	int turnCount; // how many turns have occurred
 	int gameOver; // is game over?
 
+	// AI server game
+	std::vector<string> Gamebase::DoAiTurn(Tile* tile);
+
+	// for testing
 	int PlaceTile(int x, int y);
 	int PlaceTiger(int x, int y);
 
