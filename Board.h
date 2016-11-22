@@ -51,7 +51,7 @@ public:
 	int tigers[143][143];
 
 	// AI
-
+	// *vector GetAvailablePlacements(Tile* tile);
 	//AI section
 	//Priority for placement 
 	//1st Priority: Check soemthing is completed when placing down

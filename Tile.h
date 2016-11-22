@@ -85,7 +85,7 @@ public:
 	Tile(int north, int east, int south, int west, int center, int prey);
 
 
-	int Rotate90(); //Roate the tile by 90 degrees anti-clockwise
+	int Rotate90(); //Roate the tile by 90 degrees counter-clockwise
 	int PlaceTiger(string str); // place Tiger on board
 
 	//Tile Side Values
