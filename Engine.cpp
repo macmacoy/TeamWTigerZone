@@ -16,9 +16,9 @@ Engine::Engine(std::vector<std::string>& tiles) // some unkown input
 {
 	MakeDecks(tiles);
 	// AI is player 1
-	game1 = new Gamebase(P1_deck, P2_deck);
+	game1 = new Gamebase(deck);
 	// AI is player 2
-	game2 = new Gamebase(P2_deck, P1_deck);
+	game2 = new Gamebase(deck);
 }
 
 Engine::~Engine()
@@ -135,12 +135,36 @@ void Engine::MakeDecks(std::vector<std::string>& tiles){
 // return value: string vector of responses
 std::vector<string> DoTurn(int game){
 	Gamebase* game;
+	std::vector<string> response;
+	if(game == 1){
+		game = game1;
+		response = game->DoAiTurn(deck.top());
+		deck.pop();
+	}
+	else if(game == 2){
+		game = game2;
+		response = game->DoAiTurn(deck.top());
+		deck.pop();
+	}
+
+	return response;
+}
+
+// sets opponents move on our board
+// move format: x, y, tigerOrCroc
+// 				x: x coordinate
+// 				y: y coordinate
+//				rotations: degrees of rotation
+// 				tigerOrCroc: 0 did not place a tiger
+// 				 			 -1 crocodile was placed
+// 				 			 1-9 location where the tiger was placed
+void Engine::OpponentTurn(std::vector<string> move, int game){
+	Gamebase* game;
 	if(game == 1)
 		game = game1;
 	else if(game == 2)
 		game = game2;
 
-	std::vector<string> response = game->AiDoTurn(P1_deck.pop());
-
-	return response;
+	game->OpponentTurn(move, deck.top());
+	deck.pop();
 }

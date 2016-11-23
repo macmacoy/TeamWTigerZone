@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameBase.h"
+#include <stack>
 #include <vector>
 
 class Engine
@@ -14,11 +15,11 @@ public:
 private:
 	Gamebase * game1;
 	Gamebase * game2;
-	std::vector<Tile> P1_deck;
-	std::vector<Tile> P2_deck;
+	std::stack<Tile> deck;
 
 	// for testing
 	void MakeDecksTest();
 	void MakeDecks(std::vector<std::string>& collection);
 	std::vector<string> DoTurn(int game);
+	void OpponentTurn(std::vector<string> move, int game);
 };

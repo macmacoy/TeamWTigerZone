@@ -78,6 +78,12 @@ int Tile::PlaceTiger(string tigerSpot)
 		TigerS = 3;
 		TigerW = 1;
 	}
+	else if(tigerSpot == "C"){
+		TigerN = 4;
+		TigerW = 4;
+		TigerE = 4;
+		TigerS = 4;
+	}
 	return 1; // success
 }
 

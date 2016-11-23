@@ -1472,11 +1472,15 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 
 std::vector<int> Board::AiDoTurn(Tile* tile){
 	// struct coordinate c = AiPlaceTile(Tile* tile);
-	// int tiger = AiPlaceTiger(c);
-	// int croc = AiPlaceCrocodile(c);
+	// int tigerOrCroc = AiPlaceTiger(c);
 
 	std::vector<int> v;
-	// return x, y, #rotations, tiger, croc, unplacable
+	// v.push_back(c.x);
+	// v.push_back(c.y);
+	// v.push_back(c.rotations);
+	// v.push_back(tigerOrCroc);
+
+	// return x, y, #rotations, tiger or croc
 	return v;
 }
 
@@ -1579,4 +1583,20 @@ std::vector<coordinate> Board::GetAvailablePlacements(Tile* tile){
 		visited.push_back(c);
 	}
 	return isAvailable;
+}
+
+// decide where to place tile
+// return value: coordinate of placement (includes # rotations)
+// *if unplacable, return coordinate with x,y = -1
+struct coordinate Board::AiPlaceTile(Tile* tile){
+
+}
+
+// decide if to place tiger, if so, where
+// return value: 0 did not place a tiger
+// 				 -1 crocodile was placed
+// 				 1-9 location where the tiger was placed
+// ** remember rules->place tiger on lowest number of desired terrain
+int Board::AiPlaceTigerOrCroc(struct coordinate c){
+
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include "Tile.h"
-// #include "Tile.cpp"
+// #include "Tile.h"
+#include "Tile.cpp"
 #include <queue>
 
 using namespace std;
@@ -57,7 +57,11 @@ public:
 	// AI
 	std::vector<int> AiDoTurn(Tile* tile);
 	std::vector<struct coordinate> GetAvailablePlacements(Tile* tile);
-	//AI section
+
+	// need to be implemented
+	struct coordinate AiPlaceTile(Tile* tile);
+	int AiPlaceTigerOrCroc(struct coordinate c);
+	
 	//Priority for placement 
 	//1st Priority: Check soemthing is completed when placing down
 	//2nd Priority: The amount of connected tiles you will get from placing the tile

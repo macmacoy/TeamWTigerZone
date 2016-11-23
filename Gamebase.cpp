@@ -3,16 +3,13 @@
 #include <iostream>
 #include <stdio.h>
 
-Gamebase::Gamebase(std::vector<Tile> P1_deck, std::vector<Tile> P2_deck)
+Gamebase::Gamebase(std::stack<Tile> deck)
 {
 	gameOver = 0; // game is not over
 	turn = 1; // player 1 gets first turn
 	turnCount = 0; // number of turns that have occured
 	board = new Board(); // board
-	this->P1_deck = P1_deck; // player 1's deck of cards; AI is always P1_deck
-	this->P2_deck = P2_deck; // player 2's deck of cards
-	P1_deck_index = 0; // player 1's deck of cards index
-	P2_deck_index = 0; // player 2's deck of cards index
+	this->deck = deck;
 	
 	// for testing
 	std::cout << " ** Starting Board ** \n";
@@ -30,7 +27,82 @@ std::vector<string> Gamebase::DoAiTurn(Tile* tile){
 
 	std::vector<string> response;
 	// translate int values to string responses
+	int x = turn[0];
+	if(x == -1){
+		response.push_back("UNPLACEABLE PASS");
+		return response;
+	}
+	x = x - 71; // convert coordinate to server's protocol
+	response.push_back(std::to_string(x));
+	int y = turn[1];
+	y = 71 - y; // convert coordinate to server's protocol
+	response.push_back(std::to_string(y));
+	int r = turn[2];
+	string rotations = "";
+	if(r==0)
+		rotations = "0";
+	else if(r==1)
+		rotations = "90";
+	else if(r==2)
+		rotations = "180";
+	else if(r==3)
+		rotations = "270";
+	response.push_back(rotations);
+	int t = turn[3];
+	if(t==-1)
+		response.push_back("CROCODILE");
+	else if(t==0)
+		response.push_back("NONE");
+	else{
+		string place = std::to_string(t);
+		response.push_back("TIGER");
+		response.push_back(place);
+	}
+
 	return response;
+}
+
+void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile){
+	int x = std::stoi(move[0]);
+	int y = std::stoi(move[1]);
+	string r = move[2];
+	int rotations = 0;
+	if(r.compare("90") == 0)
+		rotations = 1;
+	if(r.compare("180") == 0)
+		rotations = 2;
+	if(r.compare("270") == 0)
+		rotations = 3;
+	int tigerOrCroc = std::stoi(move[3]);
+	x = x + 71;
+	y = 71 - y;
+	for(int i=0; i<rotations; i++){
+		tile->Rotate90();
+	}
+	board->PlaceTile(tile,x,y,true);
+	if(tigerOrCroc == -1)
+		board->PlaceCrocodile(x, y, 0);
+	else if(tigerOrCroc > 0){
+		if(tigerOrCroc == 1)
+			board->PlaceTiger(x,y,"NW",0);
+		else if(tigerOrCroc == 2)
+			board->PlaceTiger(x,y,"N",0);
+		else if(tigerOrCroc == 3)
+			board->PlaceTiger(x,y,"NE",0);
+		else if(tigerOrCroc == 4)
+			board->PlaceTiger(x,y,"W",0);
+		else if(tigerOrCroc == 5)
+			board->PlaceTiger(x,y,"C",0);
+		else if(tigerOrCroc == 6)
+			board->PlaceTiger(x,y,"E",0);
+		else if(tigerOrCroc == 7)
+			board->PlaceTiger(x,y,"SW",0);
+		else if(tigerOrCroc == 8)
+			board->PlaceTiger(x,y,"S",0);
+		else if(tigerOrCroc == 9)
+			board->PlaceTiger(x,y,"SE",0);
+	}
+
 }
 
 int Gamebase::RunTest() 
@@ -47,11 +119,11 @@ int Gamebase::RunTest()
 	board->DisplayBoard();
 	if(turn == 1){
 		std::cout << " ** Player 1's Next Tile **\n";
-		DisplayNextTile(turn, P1_deck_index);
+		DisplayNextTile(turn);
 	}
 	else if(turn == 2){
 		std::cout << " ** Player 2's Next Tile **\n";
-		DisplayNextTile(turn,P2_deck_index);
+		DisplayNextTile(turn);
 	}
 	int TilePlaced = 0;
 	int x, y = 0;
@@ -66,10 +138,14 @@ int Gamebase::RunTest()
 
 		Tile* tile;
 		tile = new Tile(0, 0, 0, 0, 0, 0);
-		if(turn == 1)
-			tile = &P1_deck.at(P1_deck_index);
-		else if(turn == 2)
-			tile = &P2_deck.at(P2_deck_index);
+		if(turn == 1){
+			tile = &deck.top();
+			deck.pop();
+		}
+		else if(turn == 2){
+			tile = &deck.top();
+			deck.pop();
+		}
 		for(int i=0; i<rotations; i++)
 			tile->Rotate90();
 		TilePlaced = board->PlaceTile(tile, x, y, real);
@@ -94,11 +170,9 @@ int Gamebase::RunTest()
 
 	std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
 	if(turn == 1){
-		P1_deck_index++;
 		turn = 2;
 	}
 	else if(turn == 2){
-		P2_deck_index++;
 		turn = 1;
 	}
 	turnCount++;
@@ -107,12 +181,14 @@ int Gamebase::RunTest()
 	return gameOver;
 }
 
-void Gamebase::DisplayNextTile(int player, int deckIndex)
+void Gamebase::DisplayNextTile(int player)
 {
 	if(player == 1){
-		P1_deck.at(deckIndex).DisplayTile();
+		deck.top().DisplayTile();
+		deck.pop();
 	}
 	else if(player == 2){
-		P2_deck.at(deckIndex).DisplayTile();
+		deck.top().DisplayTile();
+		deck.pop();
 	}
 }
