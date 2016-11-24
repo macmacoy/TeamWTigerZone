@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-// #include "Tile.h"
-#include "Tile.cpp"
+#include "Tile.h"
+// #include "Tile.cpp"
 #include <queue>
 
 using namespace std;

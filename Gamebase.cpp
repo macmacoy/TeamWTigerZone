@@ -2,8 +2,9 @@
 #include "GameBase.h"
 #include <iostream>
 #include <stdio.h>
+using namespace std;
 
-Gamebase::Gamebase(std::stack<Tile> deck)
+Gamebase::Gamebase(std::stack<Tile*> deck)
 {
 	gameOver = 0; // game is not over
 	turn = 1; // player 1 gets first turn
@@ -139,11 +140,11 @@ int Gamebase::RunTest()
 		Tile* tile;
 		tile = new Tile(0, 0, 0, 0, 0, 0);
 		if(turn == 1){
-			tile = &deck.top();
+			tile = deck.top();
 			deck.pop();
 		}
 		else if(turn == 2){
-			tile = &deck.top();
+			tile = deck.top();
 			deck.pop();
 		}
 		for(int i=0; i<rotations; i++)
@@ -184,11 +185,11 @@ int Gamebase::RunTest()
 void Gamebase::DisplayNextTile(int player)
 {
 	if(player == 1){
-		deck.top().DisplayTile();
+		deck.top()->DisplayTile();
 		deck.pop();
 	}
 	else if(player == 2){
-		deck.top().DisplayTile();
+		deck.top()->DisplayTile();
 		deck.pop();
 	}
 }
