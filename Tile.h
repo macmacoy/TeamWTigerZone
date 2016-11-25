@@ -86,6 +86,7 @@ public:
 
 
 	int Rotate90(); //Roate the tile by 90 degrees counter-clockwise
+	int RotateN90(int r);
 	int PlaceTiger(string tigerSpot); // place Tiger on board
 	int PlaceCrocodile(); // place crocodile on tile
 

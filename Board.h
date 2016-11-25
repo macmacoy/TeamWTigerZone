@@ -45,6 +45,7 @@ public:
 	int GetPlayerScore(int player);
 	int GetPlayerTigerCount(int player);
     int DisplayBoard();
+	int RemoveTile(int xPos, int yPos);
 	int PlaceTile(Tile* tile, int xPos, int yPos, bool real);
 	int PlaceTiger(int x, int y, string location, int player);
 	int PlaceCrocodile(int x, int y, int player);
@@ -59,12 +60,17 @@ public:
 	std::vector<struct coordinate> GetAvailablePlacements(Tile* tile);
 
 	// need to be implemented
-	struct coordinate AiPlaceTile(Tile* tile);
+	coordinate* AiPlaceTile(Tile* tile);
+	int AiPlaceTile(Tile * tile, int xPos, int yPos);
 	int AiPlaceTigerOrCroc(struct coordinate c);
+
 	
 	//Priority for placement 
 	//1st Priority: Check soemthing is completed when placing down
 	//2nd Priority: The amount of connected tiles you will get from placing the tile
 	//3rd Priority: Place anywhere
+
+	coordinate * AiPriority(int a, int b, int c, int d, int e, int f);
+
 	
 };

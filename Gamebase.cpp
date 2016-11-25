@@ -193,3 +193,233 @@ void Gamebase::DisplayNextTile(int player)
 		deck.pop();
 	}
 }
+
+
+struct coordinate {
+	int x;
+	int y;
+	int rotations;
+};
+
+int Gamebase::DoAiTurnShen()
+{
+	//variable to test whether a move is for testing or real move
+	bool real = true;
+
+	if (turn == 1) {
+		std::cout << " ** Player 1's turn **\n";
+	}
+	else if (turn == 2) {
+		std::cout << " ** AI's turn **\n";
+	}
+	board->DisplayBoard();
+	if (turn == 1) {
+		std::cout << " ** Player 1's Next Tile **\n";
+		DisplayNextTile(turn);
+	}
+	else if (turn == 2) {
+		std::cout << " ** AI's Next Tile **\n";
+		DisplayNextTile(turn);
+	}
+	if (turn == 1) {
+		int TilePlaced = 0;
+		int x, y = 0;
+		while (!TilePlaced) {
+			int rotations = 0;
+			std::cout << "Enter index to place tile (x y): ";
+			std::cin >> x >> y;
+			x = x + 71; y = 71 - y;
+			std::cout << "\nEnter how many 90 deg. counter-clockwise rotations: ";
+			std::cin >> rotations;
+			std::cout << "\n";
+
+			Tile* tile;
+			tile = new Tile(0, 0, 0, 0, 0, 0);
+			if (turn == 1) {
+				tile = deck.top();
+				deck.pop();
+			}
+			else if (turn == 2) {
+				tile = deck.top();
+				deck.pop();
+			}
+			for (int i = 0; i < rotations; i++)
+				tile->Rotate90();
+			TilePlaced = board->PlaceTile(tile, x, y, real);
+			if (!TilePlaced)
+				std::cout << "Invalid Placement\n";
+		}
+		if (board->GetPlayerTigerCount(turn) > 0) {
+			int PlaceTiger = 0;
+			std::cout << "Would you like to place a tiger? (0=N, 1=Y): ";
+			std::cin >> PlaceTiger;
+			if (PlaceTiger) {
+				string location;
+				std::cout << "\nWhere would you like to place the tiger? (N,S,etc.): ";
+				std::cin >> location;
+				if (board->PlaceTiger(x, y, location, turn) == 0) {
+					std::cout << "\nCannot place tiger there, sorry\n";
+				}
+			}
+		}
+
+		board->CheckEverything(x, y, real);
+
+		std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
+	}
+	else if (turn == 2)
+	{
+		vector<coordinate> availPlacements = board->GetAvailablePlacements(deck.top());
+		int counter = 0;
+		int bad = 0;
+		
+			availPlacements = board->GetAvailablePlacements(deck.top());
+			//cout << "=========================================================" << endl;
+			//b->DisplayBoard();
+			//cout << "Next Tile:" << endl;
+			//deck.top()->DisplayTile();
+
+			Tile* newTile = new Tile(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+
+			coordinate * spot = 0;
+			spot = board->AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+			while (spot == 0)
+			{
+				deck.pop();
+				cout << "spot = 0" << endl;
+				deck.top()->DisplayTile();
+				spot = board->AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+			}
+
+			//cout << "=========================================================" << endl;
+			//cout << "x: "<<spot->x << " y: "<< spot->y <<" r:"<<spot->rotations << endl;
+			//cout << "=========================================================" << endl;
+			newTile->RotateN90(spot->rotations);
+			//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
+			bool placed = board->AiPlaceTile(newTile, spot->x, spot->y);
+			//if (!placed) //cout << "Not placed" << endl;
+			//int i; cin >> i;
+
+
+			deck.pop();
+	}
+	if (turn == 1) {
+		turn = 2;
+	}
+	else if (turn == 2) {
+		turn = 1;
+	}
+	turnCount++;
+	if (turnCount == 76)
+		gameOver = 1;
+	return gameOver;
+}
+
+int Gamebase::DoAiTurnShenAiVSAi()
+{
+	//variable to test whether a move is for testing or real move
+	bool real = true;
+
+	if (turn == 1) {
+		std::cout << " ** Player 1's turn **\n";
+	}
+	else if (turn == 2) {
+		std::cout << " ** AI's turn **\n";
+	}
+	board->DisplayBoard();
+	if (turn == 1) {
+		std::cout << " ** Player 1's Next Tile **\n";
+		//DisplayNextTile(turn);
+	}
+	else if (turn == 2) {
+		std::cout << " ** AI's Next Tile **\n";
+		//DisplayNextTile(turn);
+	}
+	if (turn == 1) {
+		vector<coordinate> availPlacements = board->GetAvailablePlacements(deck.top());
+		int counter = 0;
+		int bad = 0;
+
+		availPlacements = board->GetAvailablePlacements(deck.top());
+		//cout << "=========================================================" << endl;
+		//b->DisplayBoard();
+		//cout << "Next Tile:" << endl;
+		//deck.top()->DisplayTile();
+
+		Tile* newTile = new Tile(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+
+		coordinate * spot = 0;
+		spot = board->AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+		while (spot == 0)
+		{
+			deck.pop();
+			cout << "spot = 0" << endl;
+			deck.top()->DisplayTile();
+			spot = board->AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+		}
+
+		//cout << "=========================================================" << endl;
+		//cout << "x: "<<spot->x << " y: "<< spot->y <<" r:"<<spot->rotations << endl;
+		//cout << "=========================================================" << endl;
+		newTile->RotateN90(spot->rotations);
+		//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
+		bool placed = board->AiPlaceTile(newTile, spot->x, spot->y);
+		//if (!placed) //cout << "Not placed" << endl;
+		//int i; cin >> i;
+
+
+		deck.pop();
+		board->CheckEverything(spot->x, spot->y, real);
+
+		std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
+	}
+	else if (turn == 2)
+	{
+		vector<coordinate> availPlacements = board->GetAvailablePlacements(deck.top());
+		int counter = 0;
+		int bad = 0;
+
+		availPlacements = board->GetAvailablePlacements(deck.top());
+		//cout << "=========================================================" << endl;
+		//b->DisplayBoard();
+		//cout << "Next Tile:" << endl;
+		//deck.top()->DisplayTile();
+
+		Tile* newTile = new Tile(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+
+		coordinate * spot = 0;
+		spot = board->AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+		while (spot == 0)
+		{
+			deck.pop();
+			cout << "spot = 0" << endl;
+			deck.top()->DisplayTile();
+			spot = board->AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+		}
+
+		//cout << "=========================================================" << endl;
+		//cout << "x: "<<spot->x << " y: "<< spot->y <<" r:"<<spot->rotations << endl;
+		//cout << "=========================================================" << endl;
+		newTile->RotateN90(spot->rotations);
+		//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
+		bool placed = board->AiPlaceTile(newTile, spot->x, spot->y);
+		//if (!placed) //cout << "Not placed" << endl;
+		//int i; cin >> i;
+
+
+		deck.pop();
+	}
+	if (turn == 1) {
+		turn = 2;
+	}
+	else if (turn == 2) {
+		turn = 1;
+	}
+	turnCount++;
+	if (deck.empty())
+	{
+		//board->DisplayBoard();
+		gameOver = 1;
+	}
+	return gameOver;
+}

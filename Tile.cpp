@@ -18,6 +18,7 @@ Tile::Tile()
 Tile::~Tile()
 {
 //	delete this;
+	delete this;
 }
 
 Tile::Tile(int north, int east, int south, int west, int center, int prey)
@@ -48,6 +49,25 @@ int Tile::Rotate90(){
 	this->TigerW = temp;
 	return 1;
 }
+
+int Tile::RotateN90(int r) {
+	while (r > 0)
+	{
+		int temp = sideN;
+		sideN = sideE;
+		sideE = sideS;
+		sideS = sideW;
+		sideW = temp;
+		temp = TigerN;
+		TigerN = TigerE;
+		TigerE = TigerS;
+		TigerS = TigerW;
+		TigerW = temp;
+		r--;
+	}
+	return 1;
+}
+
 
 
 //Place Tiger

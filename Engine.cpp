@@ -3,6 +3,10 @@
 using namespace std;
 
 // local testing engine
+/*
+	Change Runtest() to DoAiRunShen for Human vs Ai
+						DoAiRunAiVSAi for ai vs ai
+*/
 Engine::Engine(int localTest)
 {
 	//Initialize the game engine
@@ -10,6 +14,7 @@ Engine::Engine(int localTest)
 	game1 = new Gamebase(deck);
 	while (!game1->RunTest()){}
 	cout << "GAME OVER\n\n";
+	system("pause");
 }
 
 // server game engine
@@ -124,6 +129,7 @@ void Engine::MakeDecks(std::vector<std::string>& tiles){
 // return value: string vector of responses
 std::vector<string> Engine::DoTurn(int g){
 	Gamebase* game;
+	
 	std::vector<string> response;
 	if(g == 1){
 		game = game1;
@@ -151,6 +157,7 @@ std::vector<string> Engine::DoTurn(int g){
 // 				 			 1-9 location where the tiger was placed
 void Engine::OpponentTurn(std::vector<string> move, int g){
 	Gamebase* game;
+	game = NULL;
 	if(g == 1)
 		game = game1;
 	else if(g == 2)

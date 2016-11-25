@@ -18,6 +18,11 @@ public:
 	int RunTurn();
 	int RunTest();
 
+	//Run test for human vs ai
+	int DoAiTurnShen();
+	//AI vs AI
+	int DoAiTurnShenAiVSAi();
+
 	// AI server game
 	std::vector<string> DoAiTurn(Tile* tile);
 	void OpponentTurn(std::vector<string> move, Tile* tile);
@@ -30,11 +35,13 @@ private:
 	int gameOver; // is game over?
 
 	// for testing
-	int PlaceTile(int x, int y);
-	int PlaceTiger(int x, int y);
+	//int PlaceTile(int x, int y);
+	//int PlaceTiger(int x, int y);
 
 	void DisplayBoard();
 
 	void DisplayNextTile(int player);
+
+	
 	
 };
