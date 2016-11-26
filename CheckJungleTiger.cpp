@@ -13,6 +13,7 @@ Then iterate counterclockwise until a road is found
 /*
 PUT INTO BOARD.H IN ORDER TO COMPILE
 
+int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
 string closestClockwiseSide(int xPos, int yPos, string tigerSpot);
 string closestCClockwiseSide(int xPos, int yPos, string tigerSpot);
 bool checkJungleN(int xPos, int yPos, string tigerSpot, string last, int roadside);
@@ -693,3 +694,9 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 
 	}
+	// if function has not returned by now, Tiger may be placed
+	// place Tiger
+	root->PlaceTiger(tigerSpot);
+
+	return 1; // success
+}
