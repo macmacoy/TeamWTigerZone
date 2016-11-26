@@ -10,6 +10,23 @@ first find the tile closest clockwise to the tile
 Then iterate counterclockwise until a road is found
 */
 
+/*
+PUT INTO BOARD.H IN ORDER TO COMPILE
+
+string closestClockwiseSide(int xPos, int yPos, string tigerSpot);
+string closestCClockwiseSide(int xPos, int yPos, string tigerSpot);
+bool checkJungleN(int xPos, int yPos, string tigerSpot, string last, int roadside);
+bool checkJungleE(int xPos, int yPos, string tigerSpot, string last, int roadside);
+bool checkJungleW(int xPos, int yPos, string tigerSpot, string last, int roadside);
+bool checkJungleS(int xPos, int yPos, string tigerSpot, string last, int roadside);
+queue<struct coordinate> clockwise(int xPos, int yPos, string tigerSpot, string next, string last, int roadside);
+queue<struct coordinate> cclockwise(int xPos, int yPos, string tigerSpot, string next, string last, int roadside);
+queue<string> clockwiseDirections(int xPos, int yPos, string tigerSpot, string next, string last, int roadside);
+queue<string> cclockwiseDirections(int xPos, int yPos, string tigerSpot, string next, string last, int roadside);
+queue<int> clockwiseRoadSide(int xPos, int yPos, string tigerSpot, string next, string last, int roadside);
+queue<int> cclockwiseRoadSide(int xPos, int yPos, string tigerSpot, string next, string last, int roadside);
+*/
+
 /* Beginning of checkJungleTiger*/
 string Board::closestClockwiseSide(int xPos, int yPos, string tigerSpot) {
 	Tile* root = board[xPos][yPos];
