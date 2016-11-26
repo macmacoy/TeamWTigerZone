@@ -5,7 +5,6 @@ TODO
 3.Test the program
 */
 
-
 /*
 first find the tile closest clockwise to the tile
 Then iterate counterclockwise until a road is found
@@ -180,7 +179,7 @@ bool Board::checkJungleS(int xPos, int yPos, string tigerSpot, string last, int 
 	}
 }
 
-queue<coordinate> Board::clockwise(int xPos, int yPos, string tigerSpot, string next, string last, int roadside) {
+queue<struct coordinate> Board::clockwise(int xPos, int yPos, string tigerSpot, string next, string last, int roadside) {
 	Tile* root = board[xPos][yPos];
 	queue<coordinate> Q;
 
@@ -253,7 +252,7 @@ queue<coordinate> Board::clockwise(int xPos, int yPos, string tigerSpot, string 
 	return Q;
 }
 
-queue<coordinate> Board::cclockwise(int xPos, int yPos, string tigerSpot, string next, string last, int roadside) {
+queue<struct coordinate> Board::cclockwise(int xPos, int yPos, string tigerSpot, string next, string last, int roadside) {
 	Tile* root = board[xPos][yPos];
 	queue<coordinate> Q;
 
@@ -677,10 +676,3 @@ int Board::CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot)
 		}
 
 	}
-
-	// if function has not returned by now, Tiger may be placed
-	// place Tiger
-	root->PlaceTiger(tigerSpot);
-
-	return 1; // success
-}
