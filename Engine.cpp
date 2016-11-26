@@ -12,9 +12,25 @@ Engine::Engine(int localTest)
 	//Initialize the game engine
 	MakeDecksTest(); // for testing
 	game1 = new Gamebase(deck);
-	while (!game1->RunTest()){}
+
+	cout << "Enter 1 for Hum vs Hum; 2 for Hum vs Ai; 3 for Ai vs Ai" << endl;
+	int input = 0; cin >> input;
+	if (input == 1)
+	{
+		while (!game1->RunTest()) {}
+	}
+	else if (input == 2)
+	{
+		while (!game1->DoAiTurnShen()) {}
+	}
+	else if (input == 3)
+	{
+		while (!game1->DoAiTurnShenAiVSAi()) {}
+	}
+
+	//while (!game1->RunTest()){}
 	cout << "GAME OVER\n\n";
-	system("pause");
+	//system("pause");
 }
 
 // server game engine
