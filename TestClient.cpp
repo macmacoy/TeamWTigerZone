@@ -125,14 +125,14 @@ int main()
     while(!isExit)
     {
         cout << "Player: ";
-        while(*buffer != 10 || *buffer != 13)
+        while(*buffer != '\n' && *buffer != '\r')
         {
 			//send out messages
             cin >> buffer;
             send(client, buffer, bufsize, 0);
             if (*buffer == '#') {
                 send(client, buffer, bufsize, 0);
-                *buffer = '*';
+                *buffer = '\n';
                 isExit = true;
             }
         }
@@ -140,7 +140,7 @@ int main()
 		//NEED A WAY TO RECIEVE MULTIPLE MESSAGES FROM SERVER
 		//currently only is set up for 1 send and 1 recieve at a time
         cout << "Server: ";
-        while(*buffer != 10 || *buffer != 13)
+        while(*buffer != '\n' && buffer != '\r')
         {
             recv(client, buffer, bufsize, 0);
             //append message to string
@@ -211,7 +211,7 @@ int main()
             
             cout << buffer << " ";
             if (*buffer == '#') {
-                *buffer = '*';
+                *buffer = '\n';
                 isExit = true;
             }
 
