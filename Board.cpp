@@ -1851,12 +1851,12 @@ coordinate * Board::AiPriority(int a, int b, int c, int d, int e, int f)
 	bool placed = false;
 	for (int i = 0; i < availPlacements.size();i++)
 	{
-		
+
 		//delete newTile1;
 		Tile* newTile1 = new Tile(a, b, c, d, e, f);
 		newTile1->RotateN90(availPlacements[i].rotations);
-		 placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
-		
+		placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
+
 		//
 		if (placed)
 		{
@@ -1870,20 +1870,58 @@ coordinate * Board::AiPriority(int a, int b, int c, int d, int e, int f)
 				return bestSpot;
 			}
 			else {
+				/*
+				bestSpot->x = availPlacements[i].x;
+				bestSpot->y = availPlacements[i].y;
+				bestSpot->rotations = availPlacements[i].rotations;
+				RemoveTile(availPlacements[i].x, availPlacements[i].y);
+				return bestSpot;
+				*/
+			}
+			RemoveTile(availPlacements[i].x, availPlacements[i].y);
+
+		}
+		//else
+			//cout << "tile not placed" << endl;
+		//delete newTile;
+		
+	}
+	for (int i = 0; i < availPlacements.size();i++)
+	{
+
+		//delete newTile1;
+		Tile* newTile1 = new Tile(a, b, c, d, e, f);
+		newTile1->RotateN90(availPlacements[i].rotations);
+		placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
+
+		//
+		if (placed)
+		{
+			//cout << "Tile placed" << endl;
+			if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
+			{
 				bestSpot->x = availPlacements[i].x;
 				bestSpot->y = availPlacements[i].y;
 				bestSpot->rotations = availPlacements[i].rotations;
 				RemoveTile(availPlacements[i].x, availPlacements[i].y);
 				return bestSpot;
 			}
+			else {
+
+				bestSpot->x = availPlacements[i].x;
+				bestSpot->y = availPlacements[i].y;
+				bestSpot->rotations = availPlacements[i].rotations;
+				RemoveTile(availPlacements[i].x, availPlacements[i].y);
+				return bestSpot;
+
+			}
 			RemoveTile(availPlacements[i].x, availPlacements[i].y);
-			
+
 		}
 		//else
-			//cout << "tile not placed" << endl;
+		//cout << "tile not placed" << endl;
 		//delete newTile;
 	}
-
 	if (!placed)
 	{
 		cout << "No where to place this tile" << endl;
