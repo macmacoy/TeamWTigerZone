@@ -1744,9 +1744,17 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	coordinate * spot = 0;
 	spot = AiPriority(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
 
-
-
-	return spot;
+	if (CheckTilePlacement(tile, spot->x, spot->y))
+	{
+		board[spot->x][spot->y] = tile;
+		return spot;
+	}
+	else
+	{
+		spot->x = -1;
+		spot->y = -1;
+		return spot;
+	}
 }
 
 int Board::AiPlaceTile(stack<Tile*> deck, int player)
