@@ -57,7 +57,7 @@ public:
 	int tigers[143][143];
 
 	// AI
-	std::vector<int> AiDoTurn(Tile* tile);
+	std::vector<int> AiDoTurn(Tile* tile, int player);
 	std::vector<struct coordinate> GetAvailablePlacements(Tile* tile);
 
 	// need to be implemented

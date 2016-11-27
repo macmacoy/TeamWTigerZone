@@ -100,7 +100,7 @@ void MakeDecksTest() {
 	deck.push(new Tile(2, 1, 3, 1, 1, 1));
 
 }
-
+/*
 int mainX()
 {
 	MakeDecksTest();
@@ -134,7 +134,7 @@ int mainX()
 		//cout << "=========================================================" << endl;
 		newTile->RotateN90(spot->rotations);
 		//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
-		bool placed = b->AiPlaceTile(newTile, spot->x, spot->y);
+		//bool placed = b->AiPlaceTile(newTile, spot->x, spot->y);
 		//if (!placed) //cout << "Not placed" << endl;
 		//int i; cin >> i;
 		
@@ -198,4 +198,4 @@ int mainx()
 
 	system("pause");
 	return 0;
-}
+}*/

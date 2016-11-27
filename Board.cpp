@@ -993,37 +993,37 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 
 	// queue of coordinates for BFS
 	queue<coordinate> Q;
-
+	struct coordinate c;
 	if(root->getN() == 2 || root->getN() == 3){
 		if(board[xPos][yPos-1] != NULL){
-			struct coordinate c;
+		//	struct coordinate c;
 			c.x = xPos;
 			c.y = yPos-1;
-			Q.push_back(c);
+			Q.push(c);
 		}
 	}
 	if(root->getS() == 2 || root->getS() == 3){
 		if(board[xPos][yPos+1] != NULL){
-			struct coordinate c;
+		//	struct coordinate c;
 			c.x = xPos;
 			c.y = yPos+1;
-			Q.push_back(c);
+			Q.push(c);
 		}
 	}
 	if(root->getW() == 2 || root->getW() == 3){
 		if(board[xPos-1][yPos] != NULL){
-			struct coordinate c;
+		//	struct coordinate c;
 			c.x = xPos-1;
 			c.y = yPos;
-			Q.push_back(c);
+			Q.push(c);
 		}
 	}
 	if(root->getE() == 2 || root->getE() == 3){
 		if(board[xPos+1][yPos] != NULL){
-			struct coordinate c;
+		//	struct coordinate c;
 			c.x = xPos+1;
 			c.y = yPos;
-			Q.push_back(c);
+			Q.push(c);
 		}
 	}
 
@@ -1038,34 +1038,34 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 		if(current->getCenter() == 2 || current->getCenter() == 3 || current->getCenter() == 5){
 			if(current->getN() == 2 || current->getN() == 3){
 				if(board[c.x][c.y-1] != NULL){
-					struct coordinate c;
+				//	struct coordinate c;
 					c.x = c.x;
 					c.y = c.y-1;
-					Q.push_back(c);
+					Q.push(c);
 				}
 			}
 			if(current->getS() == 2 || current->getS() == 3){
 				if(board[c.x][c.y+1] != NULL){
-					struct coordinate c;
+				//	struct coordinate c;
 					c.x = c.x;
 					c.y = c.y+1;
-					Q.push_back(c);
+					Q.push(c);
 				}
 			}
 			if(current->getW() == 2 || current->getW() == 3){
 				if(board[c.x-1][c.y] != NULL){
-					struct coordinate c;
+				//	struct coordinate c;
 					c.x = c.x-1;
 					c.y = c.y;
-					Q.push_back(c);
+					Q.push(c);
 				}
 			}
 			if(current->getE() == 2 || current->getE() == 3){
 				if(board[c.x+1][c.y] != NULL){
-					struct coordinate c;
+				//	struct coordinate c;
 					c.x = c.x+1;
 					c.y = c.y;
-					Q.push_back(c);
+					Q.push(c);
 				}
 			}
 		}
@@ -1605,13 +1605,17 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 }
 
 std::vector<int> Board::AiDoTurn(Tile* tile, int player) {
-	// struct coordinate c = AiPlaceTile(Tile* tile);
+	coordinate * c1 = AiPlaceTile(tile);
+	struct coordinate c;
+	c.x = c1->x;
+	c.y = c1->y;
+	c.rotations = c1->rotations;
 	int tigerOrCroc = AiPlaceTigerOrCroc(c, player);
 
 	std::vector<int> v;
-	// v.push_back(c.x);
-	// v.push_back(c.y);
-	// v.push_back(c.rotations);
+	v.push_back(c.x);
+	v.push_back(c.y);
+	v.push_back(c.rotations);
 	v.push_back(tigerOrCroc);
 
 	// return x, y, #rotations, tiger or croc
@@ -1727,7 +1731,7 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	return cord;
 }
 
-int Board::AiPlaceTile(Tile* tile, int xPos, int yPos)
+int Board::AiPlaceTile(Tile* tile, int xPos, int yPos, int player)
 {
 	if (CheckTilePlacement(tile, xPos, yPos))
 	{

@@ -23,8 +23,8 @@ Gamebase::~Gamebase()
 }
 
 // server game implementation
-std::vector<string> Gamebase::DoAiTurn(Tile* tile){
-	std::vector<int> turn = board->AiDoTurn(tile);
+std::vector<string> Gamebase::DoAiTurn(Tile* tile, int player){
+	std::vector<int> turn = board->AiDoTurn(tile,player);
 
 	std::vector<string> response;
 	// translate int values to string responses
@@ -63,7 +63,7 @@ std::vector<string> Gamebase::DoAiTurn(Tile* tile){
 	return response;
 }
 
-void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile){
+void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile, int player){
 	int x = std::stoi(move[0]);
 	int y = std::stoi(move[1]);
 	string r = move[2];
@@ -296,7 +296,7 @@ int Gamebase::DoAiTurnShen()
 			//cout << "=========================================================" << endl;
 			newTile->RotateN90(spot->rotations);
 			//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
-			bool placed = board->AiPlaceTile(newTile, spot->x, spot->y);
+			bool placed = board->AiPlaceTile(newTile, spot->x, spot->y,2);
 			//if (!placed) //cout << "Not placed" << endl;
 			//int i; cin >> i;
 
@@ -319,7 +319,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 {
 	//variable to test whether a move is for testing or real move
 	bool real = true;
-
+	system("pause");
 	if (turn == 1) {
 		std::cout << " ** Player 1's turn **\n";
 	}
@@ -363,7 +363,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 		//cout << "=========================================================" << endl;
 		newTile->RotateN90(spot->rotations);
 		//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
-		bool placed = board->AiPlaceTile(newTile, spot->x, spot->y);
+		bool placed = board->AiPlaceTile(newTile, spot->x, spot->y,1);
 		//if (!placed) //cout << "Not placed" << endl;
 		//int i; cin >> i;
 
@@ -402,7 +402,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 		//cout << "=========================================================" << endl;
 		newTile->RotateN90(spot->rotations);
 		//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
-		bool placed = board->AiPlaceTile(newTile, spot->x, spot->y);
+		bool placed = board->AiPlaceTile(newTile, spot->x, spot->y,2);
 		//if (!placed) //cout << "Not placed" << endl;
 		//int i; cin >> i;
 
