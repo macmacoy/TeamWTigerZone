@@ -35,7 +35,8 @@ Engine::Engine(int localTest)
 // server game engine
 Engine::Engine(std::vector<std::string>& tiles) // some unkown input
 {
-	MakeDecks(tiles);
+	// MakeDecks(tiles);
+	MakeDecksTest();
 	// AI is player 1
 	game1 = new Gamebase(deck);
 	// AI is player 2
@@ -142,17 +143,27 @@ void Engine::MakeDecks(std::vector<std::string>& tiles){
 // does AI turn
 // input: game number 1 or 2
 // return value: string vector of responses
-std::vector<string> Engine::DoTurn(int g){
-	Gamebase* game;
+// return value format:
+// 		if unplacable, vector contains only 1 string: UNPLACEABLE PASS
+//      if placable, vector contains strings in this order
+// 			x coordinate in correct format
+// 			y coordinate in correct format
+// 			degrees of rotation: 0, 90, 180, 270
+//			1 of the following:
+// 				NONE
+//				CROCODILE
+//				TIGER LOCATION# (two separate strings)
+std::vector<string> Engine::DoTurn(int gameNum){
+	Gamebase* game = NULL;
 	
 	std::vector<string> response;
-	if(g == 1){
+	if(gameNum == 1){
 		game = game1;
 		Tile* tile = deck.top();
 		response = game->DoAiTurn(tile, 1);
 		deck.pop();
 	}
-	else if(g == 2){
+	else if(gameNum == 2){
 		game = game2;
 		Tile* tile = deck.top();
 		response = game->DoAiTurn(tile, 2);
@@ -170,15 +181,14 @@ std::vector<string> Engine::DoTurn(int g){
 // 				tigerOrCroc: 0 did not place a tiger
 // 				 			 -1 crocodile was placed
 // 				 			 1-9 location where the tiger was placed
-void Engine::OpponentTurn(std::vector<string> move, int g){
-	Gamebase* game;
-	game = NULL;
+void Engine::OpponentTurn(std::vector<string> move, int gameNum){
+	Gamebase* game = NULL;
 	Tile* tile = deck.top();
-	if(g == 1){
+	if(gameNum == 1){
 		game = game1;
 		game->OpponentTurn(move, tile, 1);
 	}
-	else if(g == 2){
+	else if(gameNum == 2){
 		game = game2;
 		game->OpponentTurn(move, tile, 2);
 	}

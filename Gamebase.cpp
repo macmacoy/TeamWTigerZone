@@ -12,9 +12,9 @@ Gamebase::Gamebase(std::stack<Tile*> deck)
 	board = new Board(); // board
 	this->deck = deck;
 	
-	// for testing
-	std::cout << " ** Starting Board ** \n";
-	board->DisplayBoard();
+	// // for testing
+	// std::cout << " ** Starting Board ** \n";
+	// board->DisplayBoard();
 }
 
 Gamebase::~Gamebase()
@@ -195,11 +195,11 @@ void Gamebase::DisplayNextTile(int player)
 }
 
 
-struct coordinate {
-	int x;
-	int y;
-	int rotations;
-};
+// struct coordinate {
+// 	int x;
+// 	int y;
+// 	int rotations;
+// };
 
 int Gamebase::DoAiTurnShen()
 {
