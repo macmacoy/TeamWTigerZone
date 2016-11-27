@@ -987,11 +987,97 @@ int Board::CheckTigerPlacement(int xPos, int yPos, string tigerSpot)
 	return 1; // success
 }
 
+int Board::CheckCrocPlacement(int xPos, int yPos){
+	
+	Tile* root = board[xPos][yPos];
+
+	// queue of coordinates for BFS
+	queue<coordinate> Q;
+
+	if(root->getN() == 2 || root->getN() == 3){
+		if(board[xPos][yPos-1] != NULL){
+			struct coordinate c;
+			c.x = xPos;
+			c.y = yPos-1;
+			Q.push_back(c);
+		}
+	}
+	if(root->getS() == 2 || root->getS() == 3){
+		if(board[xPos][yPos+1] != NULL){
+			struct coordinate c;
+			c.x = xPos;
+			c.y = yPos+1;
+			Q.push_back(c);
+		}
+	}
+	if(root->getW() == 2 || root->getW() == 3){
+		if(board[xPos-1][yPos] != NULL){
+			struct coordinate c;
+			c.x = xPos-1;
+			c.y = yPos;
+			Q.push_back(c);
+		}
+	}
+	if(root->getE() == 2 || root->getE() == 3){
+		if(board[xPos+1][yPos] != NULL){
+			struct coordinate c;
+			c.x = xPos+1;
+			c.y = yPos;
+			Q.push_back(c);
+		}
+	}
+
+	while(!Q.empty()){
+		struct coordinate c = Q.front();
+		Q.pop();
+		Tile* current = board[c.x][c.y];
+		if(current == root)
+			return 1;
+		if(current->isCrocodile() == 1)
+			return 0;
+		if(current->getCenter() == 2 || current->getCenter() == 3 || current->getCenter() == 5){
+			if(current->getN() == 2 || current->getN() == 3){
+				if(board[c.x][c.y-1] != NULL){
+					struct coordinate c;
+					c.x = c.x;
+					c.y = c.y-1;
+					Q.push_back(c);
+				}
+			}
+			if(current->getS() == 2 || current->getS() == 3){
+				if(board[c.x][c.y+1] != NULL){
+					struct coordinate c;
+					c.x = c.x;
+					c.y = c.y+1;
+					Q.push_back(c);
+				}
+			}
+			if(current->getW() == 2 || current->getW() == 3){
+				if(board[c.x-1][c.y] != NULL){
+					struct coordinate c;
+					c.x = c.x-1;
+					c.y = c.y;
+					Q.push_back(c);
+				}
+			}
+			if(current->getE() == 2 || current->getE() == 3){
+				if(board[c.x+1][c.y] != NULL){
+					struct coordinate c;
+					c.x = c.x+1;
+					c.y = c.y;
+					Q.push_back(c);
+				}
+			}
+		}
+	}
+
+	// no crocodiles found on roads or lakes
+	return 1;
+
+}
+
 // // return value: 0=?
 // // 				 1=?
-
-// //  // something weird going on with these nested parentheses
-// // }}}}}
 
 int Board::CheckCompletedLake(int xPos, int yPos) {
 
@@ -1147,7 +1233,7 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
 }
 
 // return value: 0=no newly completed dens
-// 				 !0=number newly completed dens found
+// 				 !0=number of newly completed dens found
 int Board::CheckCompletedDen(int xPos, int yPos)
 {
 	int numDensCompleted = 0;
@@ -1518,15 +1604,15 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 	return 0;
 }
 
-std::vector<int> Board::AiDoTurn(Tile* tile) {
+std::vector<int> Board::AiDoTurn(Tile* tile, int player) {
 	// struct coordinate c = AiPlaceTile(Tile* tile);
-	// int tigerOrCroc = AiPlaceTiger(c);
+	int tigerOrCroc = AiPlaceTigerOrCroc(c, player);
 
 	std::vector<int> v;
 	// v.push_back(c.x);
 	// v.push_back(c.y);
 	// v.push_back(c.rotations);
-	// v.push_back(tigerOrCroc);
+	v.push_back(tigerOrCroc);
 
 	// return x, y, #rotations, tiger or croc
 	return v;
@@ -1656,7 +1742,34 @@ int Board::AiPlaceTile(Tile* tile, int xPos, int yPos)
 // 				 -1 crocodile was placed
 // 				 1-9 location where the tiger was placed
 // ** remember rules->place tiger on lowest number of desired terrain
-int Board::AiPlaceTigerOrCroc(struct coordinate c) {
+int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
+	Tile* tile = board[c.x][c.y];
+	if(tile->getCenter() == 4){
+		PlaceTiger(c.x, c.y, "C", player);
+		return 5;
+	}
+	else if(tile->getN() == 2 || tile->getN() == 3){
+		PlaceTiger(c.x, c.y, "N", player);
+		return 2;
+	}
+	else if(tile->getS() == 2 || tile->getS() == 3){
+		PlaceTiger(c.x, c.y, "S", player);
+		return 8;
+	}
+	else if(tile->getW() == 2 || tile->getW() == 3){
+		PlaceTiger(c.x, c.y, "W", player);
+		return 4;
+	}
+	else if(tile->getE() == 2 || tile->getE() == 3){
+		PlaceTiger(c.x, c.y, "E", player);
+		return 6;
+	}
+
+	// farms
+
+	if(PlaceCrocodile(c.x, c.y, player))
+		return -1;
+
 	return 0;
 }
 

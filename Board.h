@@ -28,6 +28,7 @@ private:
 	void InitializeTigerArray();
 	int CheckTilePlacement(Tile* tile, int xPos, int yPos);
 	int CheckTigerPlacement(int xPos, int yPos, string tigerSpot);
+	int CheckCrocPlacement(int xPos, int yPos);
 	//int Traverse(queue myqueue, int tileCount, vector visit, int checkFor);
 	// int CheckTigerPlacementJungle(int xPos, int yPos, string tigerSpot);
 	void CheckTileForTiger(int xCurr, int yCurr);
@@ -61,10 +62,9 @@ public:
 
 	// need to be implemented
 	coordinate* AiPlaceTile(Tile* tile);
-	int AiPlaceTile(Tile * tile, int xPos, int yPos);
-	int AiPlaceTigerOrCroc(struct coordinate c);
+	int AiPlaceTile(Tile * tile, int xPos, int yPos, int player);
+	int AiPlaceTigerOrCroc(struct coordinate c, int player);
 
-	
 	//Priority for placement 
 	//1st Priority: Check soemthing is completed when placing down
 	//2nd Priority: The amount of connected tiles you will get from placing the tile

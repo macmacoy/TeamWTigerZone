@@ -107,13 +107,14 @@ int Tile::PlaceTiger(string tigerSpot)
 	return 1; // success
 }
 
-/*
+
 // return value: 0 if crocodile cannot be placed
 // 				 1 if crocodile can be placed
 int Tile::PlaceCrocodile(){
 	//checks if any of the sides contain game-trail
 	if((sideN == 3) || (sideE == 3) || (sideS == 3) || (sideW == 3)) {
 			if(crocodile == 0) {
+				crocodile = 1;
 				return 1;
 			} else {
 				return 0;
@@ -124,6 +125,7 @@ int Tile::PlaceCrocodile(){
 			return 0;
 		}
 		if(crocodile == 0) {
+			crocodile = 1;
 			return 1;
 		} else {
 			return 0;
@@ -133,7 +135,7 @@ int Tile::PlaceCrocodile(){
 	}
 	return 0;
 }
-*/
+
 
 //Tile Side Values
 /* 

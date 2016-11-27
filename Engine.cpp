@@ -150,13 +150,13 @@ std::vector<string> Engine::DoTurn(int g){
 	if(g == 1){
 		game = game1;
 		Tile* tile = deck.top();
-		response = game->DoAiTurn(tile);
+		response = game->DoAiTurn(tile, 1);
 		deck.pop();
 	}
 	else if(g == 2){
 		game = game2;
 		Tile* tile = deck.top();
-		response = game->DoAiTurn(tile);
+		response = game->DoAiTurn(tile, 2);
 		deck.pop();
 	}
 
@@ -174,12 +174,15 @@ std::vector<string> Engine::DoTurn(int g){
 void Engine::OpponentTurn(std::vector<string> move, int g){
 	Gamebase* game;
 	game = NULL;
-	if(g == 1)
-		game = game1;
-	else if(g == 2)
-		game = game2;
-
 	Tile* tile = deck.top();
-	game->OpponentTurn(move, tile);
+	if(g == 1){
+		game = game1;
+		game->OpponentTurn(move, tile, 1);
+	}
+	else if(g == 2){
+		game = game2;
+		game->OpponentTurn(move, tile, 2);
+	}
+
 	deck.pop();
 }
