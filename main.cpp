@@ -1,7 +1,7 @@
 #include "Engine.h"
 // #include "Engine.cpp"
 
-int main3()
+int main()
 {
 	Engine * e = new Engine(1);
 

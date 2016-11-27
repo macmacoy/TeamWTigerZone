@@ -13,7 +13,7 @@ public:
 	std::stack<Tile*> deck;
 
 	Engine(int localTest);
-	Engine(std::vector<std::string>& tiles);
+	Engine(string tiles);
 	~Engine();
 
 	std::vector<string> DoTurn(int gameNum);
