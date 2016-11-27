@@ -23,6 +23,5 @@ private:
 
 	// for testing
 	void MakeDecksTest();
-
-	void MakeDecks(std::vector<std::string>& collection);
+	void MakeDecks(string input);
 };

@@ -10,8 +10,11 @@ int main(int argc, char *argv[]){
 
 	v = round1->DoTurn(1);
 
-	// for(int i=0; i<v.size(); i++){
-	// 	std::cout << v[i] << "\n";
-	// }
+	for(int i=0; i<v.size(); i++){
+		std::cout << v[i] << "\n";
+	}
 
+	std::vector<string> move = 
+
+	v = round1->OpponentTurn(move, 1);
 }
