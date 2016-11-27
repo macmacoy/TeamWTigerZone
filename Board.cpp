@@ -670,6 +670,12 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 		return 0;
 	}
 
+	if (board[xPos - 1][yPos] == NULL&&board[xPos + 1][yPos] == NULL && board[xPos][yPos + 1] == NULL&&board[xPos][yPos - 1])
+	{
+		cout << "No adjacent tile" << endl;
+		return 0;
+	}
+
 	//check if tile is adjacent to another
 	bool isAdjacent = false;
 	bool nAdjacent = false;
@@ -1234,10 +1240,10 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
 	
 	bool found = false;
  	for(int i = 0; i < visit.size(); i++){
-	cout << visit[i] << " ";
+	//cout << visit[i] << " ";
 	if(visit[i] == (myqueue.front())){myqueue.pop(); found = true;}}
 	
-	if(found == true){cout << endl; continue;}
+	if(found == true){ continue;}
  	visit.push_back(myqueue.front());
 	
 
@@ -1247,7 +1253,7 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
 
  	tileCount += 1;
  	int x = 0;
-	cout << "	" << xPos << " " << yPos << " " << tileCount << endl;
+	//cout << "	" << xPos << " " << yPos << " " << tileCount << endl;
 
  	//checks if center is a town
  	//if no, end search for this portion
@@ -1664,6 +1670,7 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 
 std::vector<int> Board::AiDoTurn(Tile* tile, int player) {
 	coordinate * c1 = AiPlaceTile(tile);
+	
 	struct coordinate c;
 	c.x = c1->x;
 	c.y = c1->y;
@@ -1793,11 +1800,14 @@ std::vector<coordinate> Board::GetAvailablePlacements(Tile* tile) {
 */
 coordinate* Board::AiPlaceTile(Tile* tile) {
 	
-	vector<coordinate> availPlacements = GetAvailablePlacements(tile);
+	Tile* newTile = new Tile(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
+
+
+	vector<coordinate> availPlacements = GetAvailablePlacements(newTile);
 	int counter = 0;
 	int bad = 0;
 
-	availPlacements = GetAvailablePlacements(tile);
+	availPlacements = GetAvailablePlacements(newTile);
 	//cout << "=========================================================" << endl;
 	//b->DisplayBoard();
 	//cout << "Next Tile:" << endl;
@@ -1805,9 +1815,12 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	coordinate * spot = 0;
 	spot = AiPriority(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
 
-	if (CheckTilePlacement(tile, spot->x, spot->y))
+	
+	newTile->RotateN90(spot->rotations);
+
+	if (CheckTilePlacement(newTile, spot->x, spot->y))
 	{
-		board[spot->x][spot->y] = tile;
+		board[spot->x][spot->y] = newTile;
 		return spot;
 	}
 	else
@@ -1879,8 +1892,15 @@ int Board::AiPlaceTile(stack<Tile*> deck, int player)
 // 				 1-9 location where the tiger was placed
 // ** remember rules->place tiger on lowest number of desired terrain
 int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
+	
+	if(c.x == -1 && c.y == -1)
+	{
+		return 0;
+	}
 	Tile* tile = board[c.x][c.y];
 	
+
+
 	if(tile->getCenter() == 4){
 		PlaceTiger(c.x, c.y, "C", player);
 		return 5;
@@ -1929,34 +1949,43 @@ coordinate * Board::AiPriority(int a, int b, int c, int d, int e, int f)
 		Tile* newTile1 = new Tile(a, b, c, d, e, f);
 		newTile1->RotateN90(availPlacements[i].rotations);
 		placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
-
-		//
-		if (placed)
+		
+		if(board[availPlacements[i].x][availPlacements[i].x] == NULL)
 		{
-			//cout << "Tile placed" << endl;
-			if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
-			{
-				bestSpot->x = availPlacements[i].x;
-				bestSpot->y = availPlacements[i].y;
-				bestSpot->rotations = availPlacements[i].rotations;
-				RemoveTile(availPlacements[i].x, availPlacements[i].y);
-				return bestSpot;
-			}
-			else {
-				/*
-				bestSpot->x = availPlacements[i].x;
-				bestSpot->y = availPlacements[i].y;
-				bestSpot->rotations = availPlacements[i].rotations;
-				RemoveTile(availPlacements[i].x, availPlacements[i].y);
-				return bestSpot;
-				*/
-			}
 			RemoveTile(availPlacements[i].x, availPlacements[i].y);
-
 		}
-		//else
-			//cout << "tile not placed" << endl;
-		//delete newTile;
+		else {
+
+			if (placed)
+			{
+
+				//cout << "Tile placed" << endl;
+
+				if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
+				{
+
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+				}
+				else {
+					/*
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+					*/
+				}
+				RemoveTile(availPlacements[i].x, availPlacements[i].y);
+
+			}
+			//else
+				//cout << "tile not placed" << endl;
+			//delete newTile;
+		}
 		
 	}
 	for (int i = 0; i < availPlacements.size();i++)
@@ -1967,33 +1996,38 @@ coordinate * Board::AiPriority(int a, int b, int c, int d, int e, int f)
 		newTile1->RotateN90(availPlacements[i].rotations);
 		placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
 
-		//
-		if (placed)
+		if (board[availPlacements[i].x][availPlacements[i].x] == NULL)
 		{
-			//cout << "Tile placed" << endl;
-			if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
-			{
-				bestSpot->x = availPlacements[i].x;
-				bestSpot->y = availPlacements[i].y;
-				bestSpot->rotations = availPlacements[i].rotations;
-				RemoveTile(availPlacements[i].x, availPlacements[i].y);
-				return bestSpot;
-			}
-			else {
-
-				bestSpot->x = availPlacements[i].x;
-				bestSpot->y = availPlacements[i].y;
-				bestSpot->rotations = availPlacements[i].rotations;
-				RemoveTile(availPlacements[i].x, availPlacements[i].y);
-				return bestSpot;
-
-			}
 			RemoveTile(availPlacements[i].x, availPlacements[i].y);
-
 		}
-		//else
-		//cout << "tile not placed" << endl;
-		//delete newTile;
+		else {
+			if (placed)
+			{
+				//cout << "Tile placed" << endl;
+				if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
+				{
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+				}
+				else {
+
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+
+				}
+				RemoveTile(availPlacements[i].x, availPlacements[i].y);
+
+			}
+			//else
+			//cout << "tile not placed" << endl;
+			//delete newTile;
+		}
 	}
 	if (!placed)
 	{
