@@ -33,10 +33,10 @@ Engine::Engine(int localTest)
 }
 
 // server game engine
-Engine::Engine(std::vector<std::string>& tiles) // some unkown input
+Engine::Engine(string tiles) // some unkown input
 {
-	// MakeDecks(tiles);
-	MakeDecksTest();
+	// MakeDecks(tiles); // use this for the server game
+	MakeDecksTest(); // use this because MakeDecks(tiles) isn't finished yet
 	// AI is player 1
 	game1 = new Gamebase(deck);
 	// AI is player 2
@@ -136,7 +136,7 @@ void Engine::MakeDecksTest(){
 }
 
 // translate string values to our tiles
-void Engine::MakeDecks(std::vector<std::string>& tiles){
+void Engine::MakeDecks(string tiles){
 
 }
 
