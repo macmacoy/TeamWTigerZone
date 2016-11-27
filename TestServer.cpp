@@ -175,7 +175,7 @@ int main()
                 *buffer = '*';
                 isExit = true;
             }
-        } while (*buffer != '*');
+        } while (*buffer != 13 || *buffer != 10);
 
         do {
             cout << "\nServer: ";
@@ -184,7 +184,7 @@ int main()
                 send(server, buffer, bufsize, 0);
                 if (*buffer == '#') {
                     send(server, buffer, bufsize, 0);
-                    *buffer = '*';
+                    *buffer = 13;
                     isExit = true;
                 }
             } while (*buffer != 13);
@@ -194,10 +194,10 @@ int main()
                 recv(server, buffer, bufsize, 0);
                 cout << buffer << " ";
                 if (*buffer == '#') {
-                    *buffer == '*';
+                    *buffer == 13;
                     isExit = true;
                 }
-            } while (*buffer != '*');
+            } while (*buffer != 13 || *buffer != 10);
         } while (!isExit);
 
         /* 
