@@ -1727,8 +1727,22 @@ std::vector<coordinate> Board::GetAvailablePlacements(Tile* tile) {
 // return value: coordinate of placement (includes # frotations)
 // *if unplacable, return coordinate with x,y = -1
 coordinate* Board::AiPlaceTile(Tile* tile) {
-	coordinate* cord = new coordinate();
-	return cord;
+	
+	vector<coordinate> availPlacements = GetAvailablePlacements(tile);
+	int counter = 0;
+	int bad = 0;
+
+	availPlacements = GetAvailablePlacements(tile);
+	//cout << "=========================================================" << endl;
+	//b->DisplayBoard();
+	//cout << "Next Tile:" << endl;
+	//deck.top()->DisplayTile();
+	coordinate * spot = 0;
+	spot = AiPriority(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
+
+
+
+	return spot;
 }
 
 int Board::AiPlaceTile(stack<Tile*> deck, int player)
