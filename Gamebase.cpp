@@ -268,7 +268,7 @@ int Gamebase::DoAiTurnShen()
 		std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
 	}
 	else if (turn == 2)
-	{
+	{/*
 		vector<coordinate> availPlacements = board->GetAvailablePlacements(deck.top());
 		int counter = 0;
 		int bad = 0;
@@ -301,7 +301,7 @@ int Gamebase::DoAiTurnShen()
 			//int i; cin >> i;
 
 
-			deck.pop();
+			deck.pop();*/
 	}
 	if (turn == 1) {
 		turn = 2;
