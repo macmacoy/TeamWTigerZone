@@ -137,7 +137,54 @@ void Engine::MakeDecksTest(){
 
 // translate string values to our tiles
 void Engine::MakeDecks(string tiles){
+//J = 1
+//L = 2
+//T = 3
+//- = No center
+//X = monastery
+//B, D, P = Prey (1, 2, 3)
 
+//string input; input = "JJTJXJJTJXJJTJXJJTJXJ";
+
+//Tile* deck[input.length()/5];
+for(int x = 0; x < tiles.length()/6; x++){
+	int tile[6] = {0}; int Jtot = 0; int Ltot = 0; int Ttot = 0;
+
+	for(int i = 0; i < 5; i++){
+		switch(tiles.at((6*x)+i)){	
+			case('J'):	tile[i] = 1; Jtot += 1; break;
+			case('L'):	tile[i] = 2; Ltot += 1; break;
+			case('T'):	tile[i] = 3; Ttot += 1; break;
+			case('X'):	tile[5] = 4; tile[4] = 0; break;
+			case('B'):	tile[i] = 1; break;
+			case('D'):	tile[i] = 2; break;
+			case('P'):	tile[i] = 3; break;
+			default:	tile[i] = 0; break;
+		}
+	}
+
+	if(tile[5] == 0){
+		if(Jtot > 2){tile[5] = 1;}
+		else if(Ltot > 2){tile[5] = 2;}
+		else if(Ttot > 2){tile[5] = 3;}
+		else if(Ltot == 2){
+			if(Ttot == 2){tile[5] = 2;}
+			else if(Jtot == 2){tile[5] = tile[3];}
+			else{tile[5] = 1;}
+		}
+		else if(Ttot == 2){tile[5] = 5;}
+		else{tile[5] = 1;}
+	}
+
+	//if(x%2 == 0){deckP1.push(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));}
+	//else if(x%2 != 0){deckP2.push(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));}
+	deck = deck.push(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));
+
+
+	//cout << tile[0] << " " << tile[1] << " " << tile[2] << " " << tile[3] << " " << tile[5] << " " << tile[4] << endl;
+	//cout << endl;
+	
+}
 }
 
 // does AI turn
