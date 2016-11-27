@@ -1512,7 +1512,6 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos, bool real)
 // 				 1=successful tiger placement
 int Board::PlaceTiger(int x, int y, string location, int player)
 {
-	std::cout << "here" << "\n";
 	if (player == 1) {
 		if (player1TigerCount == 0)
 			return 0;
