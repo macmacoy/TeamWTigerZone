@@ -1512,6 +1512,7 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos, bool real)
 // 				 1=successful tiger placement
 int Board::PlaceTiger(int x, int y, string location, int player)
 {
+	std::cout << "here" << "\n";
 	if (player == 1) {
 		if (player1TigerCount == 0)
 			return 0;
@@ -1603,7 +1604,6 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 std::vector<int> Board::AiDoTurn(Tile* tile, int player) {
 	coordinate * c1 = AiPlaceTile(tile);
 	struct coordinate c;
-	// not working yet, returns x/y coordinate = 0
 	c.x = c1->x;
 	c.y = c1->y;
 	c.rotations = c1->rotations;
@@ -1801,6 +1801,7 @@ int Board::AiPlaceTile(stack<Tile*> deck, int player)
 // ** remember rules->place tiger on lowest number of desired terrain
 int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
 	Tile* tile = board[c.x][c.y];
+	
 	if(tile->getCenter() == 4){
 		PlaceTiger(c.x, c.y, "C", player);
 		return 5;
@@ -1821,6 +1822,7 @@ int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
 		PlaceTiger(c.x, c.y, "E", player);
 		return 6;
 	}
+	// std::cout << "here\n";
 
 	// farms
 
