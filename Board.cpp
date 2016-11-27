@@ -996,7 +996,6 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 	struct coordinate c;
 	if(root->getN() == 2 || root->getN() == 3){
 		if(board[xPos][yPos-1] != NULL){
-		//	struct coordinate c;
 			c.x = xPos;
 			c.y = yPos-1;
 			Q.push(c);
@@ -1004,7 +1003,6 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 	}
 	if(root->getS() == 2 || root->getS() == 3){
 		if(board[xPos][yPos+1] != NULL){
-		//	struct coordinate c;
 			c.x = xPos;
 			c.y = yPos+1;
 			Q.push(c);
@@ -1012,7 +1010,6 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 	}
 	if(root->getW() == 2 || root->getW() == 3){
 		if(board[xPos-1][yPos] != NULL){
-		//	struct coordinate c;
 			c.x = xPos-1;
 			c.y = yPos;
 			Q.push(c);
@@ -1020,7 +1017,6 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 	}
 	if(root->getE() == 2 || root->getE() == 3){
 		if(board[xPos+1][yPos] != NULL){
-		//	struct coordinate c;
 			c.x = xPos+1;
 			c.y = yPos;
 			Q.push(c);
@@ -1028,7 +1024,7 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 	}
 
 	while(!Q.empty()){
-		struct coordinate c = Q.front();
+		c = Q.front();
 		Q.pop();
 		Tile* current = board[c.x][c.y];
 		if(current == root)
@@ -1038,34 +1034,34 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 		if(current->getCenter() == 2 || current->getCenter() == 3 || current->getCenter() == 5){
 			if(current->getN() == 2 || current->getN() == 3){
 				if(board[c.x][c.y-1] != NULL){
-				//	struct coordinate c;
-					c.x = c.x;
-					c.y = c.y-1;
-					Q.push(c);
+					struct coordinate d;
+					d.x = c.x;
+					d.y = c.y-1;
+					Q.push(d);
 				}
 			}
 			if(current->getS() == 2 || current->getS() == 3){
 				if(board[c.x][c.y+1] != NULL){
-				//	struct coordinate c;
-					c.x = c.x;
-					c.y = c.y+1;
-					Q.push(c);
+					struct coordinate d;
+					d.x = c.x;
+					d.y = c.y+1;
+					Q.push(d);
 				}
 			}
 			if(current->getW() == 2 || current->getW() == 3){
 				if(board[c.x-1][c.y] != NULL){
-				//	struct coordinate c;
-					c.x = c.x-1;
-					c.y = c.y;
-					Q.push(c);
+					struct coordinate d;
+					d.x = c.x-1;
+					d.y = c.y;
+					Q.push(d);
 				}
 			}
 			if(current->getE() == 2 || current->getE() == 3){
 				if(board[c.x+1][c.y] != NULL){
-				//	struct coordinate c;
-					c.x = c.x+1;
-					c.y = c.y;
-					Q.push(c);
+					struct coordinate d;
+					d.x = c.x+1;
+					d.y = c.y;
+					Q.push(d);
 				}
 			}
 		}
@@ -1607,6 +1603,7 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 std::vector<int> Board::AiDoTurn(Tile* tile, int player) {
 	coordinate * c1 = AiPlaceTile(tile);
 	struct coordinate c;
+	// not working yet, returns x/y coordinate = 0
 	c.x = c1->x;
 	c.y = c1->y;
 	c.rotations = c1->rotations;
@@ -1726,6 +1723,13 @@ std::vector<coordinate> Board::GetAvailablePlacements(Tile* tile) {
 // decide where to place tile
 // return value: coordinate of placement (includes # frotations)
 // *if unplacable, return coordinate with x,y = -1
+
+/* should first call GetAvailablePlacements(tile),
+	then sort the vector<coordinates> using AiPriority(),
+	then place the tile on the board,
+	then return the coordinate of where the tile was placed,
+		including rotations
+*/
 coordinate* Board::AiPlaceTile(Tile* tile) {
 	
 	vector<coordinate> availPlacements = GetAvailablePlacements(tile);

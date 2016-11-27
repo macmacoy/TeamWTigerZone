@@ -121,7 +121,7 @@ int Tile::PlaceCrocodile(){
 			}
 	//checks if any sides contain lake, and ensures that tile is not all lake
 	} else if((sideN == 2) || (sideE == 2) || (sideS == 2) || (sideW == 2)) {
-		if(sideN == sideE == sideS == sideW == 2) {
+		if((sideN == 2) && (sideE == 2) && (sideS == 2) && (sideW == 2)) {
 			return 0;
 		}
 		if(crocodile == 0) {
