@@ -132,7 +132,7 @@ int main()
             send(client, buffer, bufsize, 0);
             if (*buffer == '#') {
                 send(client, buffer, bufsize, 0);
-                *buffer = '*';
+                *buffer = 13;
                 isExit = true;
             }
         }
@@ -211,7 +211,7 @@ int main()
             
             cout << buffer << " ";
             if (*buffer == '#') {
-                *buffer = '*';
+                *buffer = 13;
                 isExit = true;
             }
 
