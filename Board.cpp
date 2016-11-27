@@ -1144,6 +1144,7 @@ int Board::CheckCompletedLake(int xPos, int yPos) {
 	}
 	if (x > 0) { countA += x; } if (y > 0) { countB += y; }
 	//cout << countA * 100 + countB << endl;
+	
 	return (countA * 100 + countB);
 }
 
@@ -1524,9 +1525,15 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 		board[x][y]->PlaceTiger(location);
 		tigers[x][y] = player;
 		if (player == 1)
+		{
 			player1TigerCount--;
+			
+		}
 		else if (player == 2)
+		{
 			player2TigerCount--;
+			
+		}
 		return 1;
 	}
 	return 0;
@@ -1589,10 +1596,13 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 		else if ((isLake / 100 != 0) || (isLake % 100 != 0))
 		{
 			isLake = max(isLake / 100, isLake % 100);
-			//cout << "One lake is completed" << endl;
-			//cout << isLake << " Tiles completed for one lake" << endl;
+			cout << "One lake is completed" << endl;
+			cout << isLake << " Tiles completed for one lake" << endl;
 		}
 	}
+
+	cout << "Player 1 placed tiger, " << player1TigerCount << " left." << endl;
+	cout << "Player 2 placed tiger, " << player2TigerCount << " left." << endl;
 
 	//CheckCompletedTrail
 	int i = CheckCompletedTrail(xPos, yPos, real);
@@ -1795,9 +1805,19 @@ int Board::AiPlaceTile(stack<Tile*> deck, int player)
 
 	if (CheckTilePlacement(newTile, spot->x, spot->y))
 	{
+		struct coordinate c;
+		c.x = spot->x;
+		c.y = spot->y;
+		c.rotations = spot->rotations;
+
 		board[spot->x][spot->y] = newTile;
+		AiPlaceTigerOrCroc(c, player);
+
+
 		return (spot->x)*1000 + (spot->y);
 	}
+
+	
 	else return 0;
 }
 

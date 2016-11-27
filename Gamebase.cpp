@@ -326,7 +326,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 	else if (turn == 2) {
 		std::cout << " ** AI's turn **\n";
 	}
-	board->DisplayBoard();
+	
 	if (turn == 1) {
 		std::cout << " ** Player 1's Next Tile **\n";
 		//DisplayNextTile(turn);
@@ -354,10 +354,13 @@ int Gamebase::DoAiTurnShenAiVSAi()
 	else if (turn == 2)
 	{
 		
-		int placed = board->AiPlaceTile(deck,2);
+		int location = board->AiPlaceTile(deck,2);
 		//if (!placed) //cout << "Not placed" << endl;
 		//int i; cin >> i;
 
+		board->CheckEverything(location / 1000, location % 1000, real);
+
+		std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
 
 		deck.pop();
 	}
@@ -368,6 +371,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 		turn = 1;
 	}
 	turnCount++;
+	//board->DisplayBoard();
 	if (deck.empty())
 	{
 		board->DisplayBoard();

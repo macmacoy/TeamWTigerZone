@@ -187,7 +187,7 @@ int main()
                     *buffer = '*';
                     isExit = true;
                 }
-            } while (*buffer != '*');
+            } while (*buffer != 13);
 
             cout << "Client: ";
             do {
