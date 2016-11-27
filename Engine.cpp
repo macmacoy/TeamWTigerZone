@@ -45,7 +45,7 @@ Engine::Engine(std::vector<std::string>& tiles) // some unkown input
 
 Engine::~Engine()
 {
-	delete this;
+	//delete this;
 }
 
 // for testing

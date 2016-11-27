@@ -3,6 +3,7 @@
 #include "Tile.h"
 // #include "Tile.cpp"
 #include <queue>
+#include <stack>
 
 using namespace std;
 /* 
@@ -62,7 +63,7 @@ public:
 
 	// need to be implemented
 	coordinate* AiPlaceTile(Tile* tile);
-	int AiPlaceTile(Tile * tile, int xPos, int yPos, int player);
+	int AiPlaceTile(stack<Tile*> deck, int player);
 	int AiPlaceTigerOrCroc(struct coordinate c, int player);
 
 	//Priority for placement 

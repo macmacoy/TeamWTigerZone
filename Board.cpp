@@ -1735,12 +1735,47 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	return cord;
 }
 
-int Board::AiPlaceTile(Tile* tile, int xPos, int yPos, int player)
+int Board::AiPlaceTile(stack<Tile*> deck, int player)
 {
-	if (CheckTilePlacement(tile, xPos, yPos))
+	vector<coordinate> availPlacements =  GetAvailablePlacements(deck.top());
+	int counter = 0;
+	int bad = 0;
+
+	availPlacements =  GetAvailablePlacements(deck.top());
+	//cout << "=========================================================" << endl;
+	//b->DisplayBoard();
+	//cout << "Next Tile:" << endl;
+	//deck.top()->DisplayTile();
+
+	Tile* newTile = new Tile(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+
+	coordinate * spot = 0;
+	spot =  AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+	while (spot == 0)
 	{
-		board[xPos][yPos] = tile;
-		return 1;
+		deck.pop();
+		cout << "spot = 0" << endl;
+		deck.top()->DisplayTile();
+		spot =  AiPriority(deck.top()->getN(), deck.top()->getE(), deck.top()->getS(), deck.top()->getW(), deck.top()->getCenter(), deck.top()->isPrey());
+	}
+
+	//cout << "=========================================================" << endl;
+	//cout << "x: "<<spot->x << " y: "<< spot->y <<" r:"<<spot->rotations << endl;
+	//cout << "=========================================================" << endl;
+	newTile->RotateN90(spot->rotations);
+	//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
+	//bool placed =  AiPlaceTile(newTile, spot->x, spot->y, 1);
+	//if (!placed) //cout << "Not placed" << endl;
+	//int i; cin >> i;
+
+
+	
+
+
+	if (CheckTilePlacement(newTile, spot->x, spot->y))
+	{
+		board[spot->x][spot->y] = newTile;
+		return (spot->x)*1000 + (spot->y);
 	}
 	else return 0;
 }
