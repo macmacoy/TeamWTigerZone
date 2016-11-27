@@ -175,7 +175,7 @@ int main()
                 *buffer = '\n';
                 isExit = true;
             }
-        } while (*buffer != '\n' || *buffer != 10);
+        } while (*buffer != '\n' && *buffer != '\r');
 
         do {
             cout << "\nServer: ";
@@ -187,7 +187,7 @@ int main()
                     *buffer = '\n';
                     isExit = true;
                 }
-            } while (*buffer != '\n');
+            } while (*buffer != '\n' && *buffer !='\r');
 
             cout << "Client: ";
             do {
@@ -197,7 +197,7 @@ int main()
                     *buffer == '\n';
                     isExit = true;
                 }
-            } while (*buffer != '\n' || *buffer != 10);
+            } while (*buffer != '\n' && *buffer != '\r');
         } while (!isExit);
 
         /* 
