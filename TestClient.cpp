@@ -366,7 +366,7 @@ int main()
 					{
 						//do anything while waiting for next challenge to begin?
 					}
-					else //message will be "THANK YOU FOR PLAYING! GOODBYE"
+					else if (recieved.compare(0,4, "THAN") == 0)
 					{
 						//end games
 						//close connection
