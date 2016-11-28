@@ -1173,52 +1173,60 @@ int Board::CheckCompletedLake(int xPos, int yPos){
     //if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
     //if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
      
-    if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit, checkFor) % 100;}
+    if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit, checkFor) % 100;
+						LakeScoreCalc(x);}
      
     else if(board[xPos][yPos]->getCenter() != 2){
 
 	visit.push_back((xPos*1000)+yPos);
         
 	if(board[xPos][yPos]->getN() == 2){     
+		if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerN() == 2){CheckTileForTiger(xPos, yPos);}
+
 		if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != 2){if(x == 0){x = -1;} else{y = -1;}}
 		else if(x == 0){queueA.push((xPos*1000)+(yPos-1)); x = Traverse(queueA, 1, visit, checkFor); 
-			z = x/100; x = x%100; visit.clear();}
+			z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
 		else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos-1)); 
-			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear();}}
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
  
  
         if(board[xPos][yPos]->getE() == 2){
+            if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerE() == 2){CheckTileForTiger(xPos, yPos);}
+
             if(board[xPos + 1][yPos] == NULL || board[xPos+1][yPos]->getW() != 2){if(x == 0){x = -1;} else{y = -1;}}
             else if(x == 0){queueA.push(((xPos+1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor);
-            		z = x/100; x = x%100; visit.clear();}
+            		z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
             else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos-1)); 
-			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear();}}
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
  
  
         if(board[xPos][yPos]->getS() == 2){
-            if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != 2){if(x == 0){x = -1;} else{y = -1;}}
+            if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerS() == 2){CheckTileForTiger(xPos, yPos);}
+
+	    if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != 2){if(x == 0){x = -1;} else{y = -1;}}
             else if(x == 0){queueA.push((xPos*1000)+(yPos+1)); x = Traverse(queueA, 1, visit, checkFor);
-            		z = x/100; x = x%100; visit.clear();}
+            		z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
             else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos+1)); 
-			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear();}}
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
  
  
         if(board[xPos][yPos]->getW() == 2){
+            if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerW() == 2){CheckTileForTiger(xPos, yPos);}
+
             if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != 2){if(x == 0){x = -1;} else{y = -1;}}
             else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor);
-            		z = x/100; x = x%100; visit.clear();}
+            		z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
             else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos-1)); 
-			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear();}}
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
   
      
     }
  
     if(x > 0){countA += x;} if(y > 0){countB += y;}
     return (countA * 100 + countB);
-
 }
  
- 
+//if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerS == 2){CheckTileForTiger(xPos, yPos);}
  
 //traversal method with the queue as the input
  
@@ -1230,6 +1238,13 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
  	int xPos = myqueue.front() / 1000;
  	int yPos = myqueue.front() % 1000;
 	if(visit.empty() != true && myqueue.front() == visit[0]){tileCount += 100;}
+
+	//bool visitedN = false;
+	//bool visitedE = false;
+	//bool visitedS = false;
+	//bool visitedW = false;
+
+
 
 	//checks for meeples before visited
 	
@@ -1243,7 +1258,7 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
 	//cout << visit[i] << " ";
 	if(visit[i] == (myqueue.front())){myqueue.pop(); found = true;}}
 	
-	if(found == true){ continue;}
+	if(found == true){continue;}
  	visit.push_back(myqueue.front());
 	
 
@@ -1260,31 +1275,84 @@ int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int ch
 	//if yes, add every unvisited neighboring tile to the queue
  	//if any of the tiles neighboring a town side are empty/NULL tile, return false
 
-  	//if(board[xPos][yPos]->getCenter() != checkFor){myqueue.pop(); continue;}
+  	if(board[xPos][yPos]->getCenter() != checkFor && tigers[xPos][yPos] != 0){
+		bool foundd = false;
+		if(board[xPos][yPos]->getN() == 2 && board[xPos][yPos]->getTigerN() == 2){
+		 	foundd = false;
+			for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == ((xPos*1000)+(yPos-1))){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
+
+		if(board[xPos][yPos]->getE() == 2 && board[xPos][yPos]->getTigerE() == 2){
+			foundd = false;
+		 	for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == (((xPos*1000)+1)+yPos)){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
+
+		if(board[xPos][yPos]->getS() == 2 && board[xPos][yPos]->getTigerS() == 2){
+			foundd = false;
+		 	for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == ((xPos*1000)+(yPos+1))){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
+
+		if(board[xPos][yPos]->getW() == 2 && board[xPos][yPos]->getTigerW() == 2){
+			foundd = false;
+		 	for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == (((xPos*1000)-1)+yPos)){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
+	}
 
   	if(board[xPos][yPos]->getCenter() == checkFor){
-
+		bool centGot = false;
   		if(board[xPos][yPos]->getN() == checkFor){
-  			if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != checkFor){return -1;}
+  			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerN() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerN() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
+			if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != checkFor){return -1;}
   			else{myqueue.push((xPos*1000)+(yPos-1));}}
 
   		if(board[xPos][yPos]->getE() == checkFor){
-  			if(board[xPos + 1][yPos] == NULL || board[xPos+1][yPos]->getW() != checkFor){return -1;}
+  			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerE() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerE() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
+			if(board[xPos + 1][yPos] == NULL || board[xPos+1][yPos]->getW() != checkFor){return -1;}
   			else{myqueue.push(((xPos+1)*1000)+yPos);}}
 
 		if(board[xPos][yPos]->getS() == checkFor){
- 			if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != checkFor){return -1;}
+ 			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerS() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerS() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
+			if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != checkFor){return -1;}
   			else{myqueue.push((xPos*1000)+(yPos+1));}}
 
   		if(board[xPos][yPos]->getW() == checkFor){
+			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerW() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerW() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
   			if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != checkFor){return -1;}
  			else{myqueue.push(((xPos-1)*1000)+yPos);}}  	
 	}
  
 	myqueue.pop();
-	}	
+	}
+	
 return tileCount;
  
+}
+
+void Board::LakeScoreCalc(int x){
+	if(x > 0 && max(player1Tigers.size(), player2Tigers.size()) != 0){
+		if(player1Tigers.size() > player2Tigers.size()){player1Score += (x*2);}
+		else if(player1Tigers.size() < player2Tigers.size()){player2Score += (x*2);}
+		else{player1Score += (x*2); player1Score += (x*2);}
+	}
+	while(player1Tigers.empty() != true){tigers[player1Tigers.front().x][player1Tigers.front().y] = 0; player1Tigers.pop();}
+	while(player2Tigers.empty() != true){tigers[player2Tigers.front().x][player2Tigers.front().y] = 0; player2Tigers.pop();}
+	
 }
 
 // return value: 0=no newly completed dens
