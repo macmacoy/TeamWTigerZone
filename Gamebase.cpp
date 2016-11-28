@@ -319,7 +319,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 {
 	//variable to test whether a move is for testing or real move
 	bool real = true;
-	system("pause");
+	//system("pause");
 	if (turn == 1) {
 		std::cout << " ** Player 1's turn **\n";
 	}

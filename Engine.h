@@ -4,6 +4,7 @@
 // #include "GameBase.cpp"
 #include <stack>
 #include <vector>
+#include <string>
 
 class Engine
 {
