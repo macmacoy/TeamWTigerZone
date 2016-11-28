@@ -1925,30 +1925,30 @@ int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
 
 
 	if(tile->getCenter() == 4){
-		PlaceTiger(c.x, c.y, "C", player);
-		return 5;
+		if(PlaceTiger(c.x, c.y, "C", player) == 1)
+			return 5;
 	}
 	else if(tile->getN() == 2 || tile->getN() == 3){
-		PlaceTiger(c.x, c.y, "N", player);
-		return 2;
+		if(PlaceTiger(c.x, c.y, "N", player) == 1)
+			return 2;
 	}
 	else if(tile->getS() == 2 || tile->getS() == 3){
-		PlaceTiger(c.x, c.y, "S", player);
-		return 8;
+		if(PlaceTiger(c.x, c.y, "S", player) == 1)
+			return 8;
 	}
 	else if(tile->getW() == 2 || tile->getW() == 3){
-		PlaceTiger(c.x, c.y, "W", player);
-		return 4;
+		if(PlaceTiger(c.x, c.y, "W", player) == 1)
+			return 4;
 	}
 	else if(tile->getE() == 2 || tile->getE() == 3){
-		PlaceTiger(c.x, c.y, "E", player);
-		return 6;
+		if(PlaceTiger(c.x, c.y, "E", player) == 1)
+			return 6;
 	}
 	// std::cout << "here\n";
 
 	// farms
 
-	if(PlaceCrocodile(c.x, c.y, player))
+	if(PlaceCrocodile(c.x, c.y, player) == 1)
 		return -1;
 
 	return 0;

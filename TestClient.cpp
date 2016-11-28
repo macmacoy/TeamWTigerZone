@@ -32,7 +32,7 @@ int main()
 	string playerID = "";
 	string opponentID = "";
 	string challengeID = "";
-	string round = "";
+	string round_ = "";
 	string roundID = "";
 	string serverPass = "";
 	string username = "";
@@ -215,7 +215,9 @@ int main()
     			else if(recieved.compare(0, 4, "THIS") == 0)
                 {
     				//do join message
-					
+                    response.append("I AM ");
+					response.append(username);
+                    response.append(userPass);
     			}
     			else if(recieved.compare(0, 4, "HELL") == 0)
                 {
@@ -259,7 +261,7 @@ int main()
 					}
 
 					roundID = v[2];
-					round = v[4];
+					round_ = v[4];
 
     			}
     			else if(recieved.compare(0, 4, "YOUR") == 0)
@@ -323,7 +325,7 @@ int main()
 					}
 
 					roundID = v[3];
-					round = v[5];
+					round_ = v[5];
 				}
     			else if(recieved.compare(0, 4, "PLEA") == 0)
                 {
