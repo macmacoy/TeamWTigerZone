@@ -125,15 +125,16 @@ int main()
 
     // Once it reaches here, the client can send a message first.
 
+    Engine* engine = NULL;
+    string game1 = "";
+    string game2 = "";
+    int move = 1;
+    string tile = "";
+    string response = "";
+    bool moreMessages = true;
+
     while(!isExit)
     {
-        Engine* engine = NULL;
-        string game1 = "";
-        string game2 = "";
-        int move = 1;
-        string tile = "";
-        string response = "";
-        bool moreMessages = true;
 		//NEED A WAY TO RECIEVE MULTIPLE MESSAGES FROM SERVER
 		//currently only is set up for 1 send and 1 recieve at a time
         cout << "Server: ";
@@ -173,7 +174,7 @@ int main()
                             response.append(std::to_string(move));
                             response.append(" PLACE ");
                             response.append(tile);
-                            response.append(" UNPLACEABLE PASS ");
+                            response.append(" UNPLACEABLE PASS");
                         }
                         else{
                             response.append("GAME ");
@@ -192,11 +193,41 @@ int main()
                             response.append(v[3]);
                             if(v[3].compare("TIGER"))
                                 response.append(v[4]);
+                            response.append("\r\n");
                         }
                     }
                     else if(v[5].compare(game2) == 0){
                         r = engine->DoTurn(2);
+                        if(r[0].compare("UNPLACEABLE PASS") == 0){
+                            response.append("GAME ");
+                            response.append(game2);
+                            response.append(" MOVE ");
+                            response.append(std::to_string(move));
+                            response.append(" PLACE ");
+                            response.append(tile);
+                            response.append(" UNPLACEABLE PASS");
+                        }
+                        else{
+                            response.append("GAME ");
+                            response.append(game2);
+                            response.append(" MOVE ");
+                            response.append(std::to_string(move));
+                            response.append(" PLACE ");
+                            response.append(tile);
+                            response.append(" AT ");
+                            response.append(v[0]);
+                            response.append(" ");
+                            response.append(v[1]);
+                            response.append(" ");
+                            response.append(v[2]);
+                            response.append(" ");
+                            response.append(v[3]);
+                            if(v[3].compare("TIGER"))
+                                response.append(v[4]);
+                            response.append("\r\n");
+                        }
                     }
+                    move++;
     			}
     			else if(recieved.compare(0, 4, "GAME") == 0)
                 {
