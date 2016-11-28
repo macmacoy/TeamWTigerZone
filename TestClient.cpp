@@ -22,6 +22,24 @@ int main()
     char buffer[bufsize];
     string recieved;
     char* ip = "198.0.1";
+    
+    Engine* engine = new Engine(0);
+    string game1 = "";
+    string game2 = "";
+    int move = 1;
+    string tile = "";
+    string response = "";
+	string playerID = "";
+	string opponentID = "";
+	string challengeID = "";
+	string round = "";
+	string roundID = "";
+
+	string startX = "";
+	string startY = "";
+	string orientation = "";
+	bool moreMessages = true;
+    
 
     struct sockaddr_in server_addr;
 
@@ -44,24 +62,6 @@ int main()
 
 	//begin communicating
 
-    Engine* engine = NULL;
-    string game1 = "";
-    string game2 = "";
-    int move = 1;
-    string tile = "";
-    string response = "";
-	string playerID = "";
-	string opponentID = "";
-	string challengeID = "";
-	string round = "";
-	string roundID = "";
-
-	string startX = "";
-	string startY = "";
-	string orientation = "";
-
-    bool moreMessages = true;
-
     while(!quit)
     {
 		//NEED A WAY TO RECIEVE MULTIPLE MESSAGES FROM SERVER
@@ -75,6 +75,7 @@ int main()
                     break;
                 }
                 //append message to string
+                
                 recieved.append(buffer[0], buffer[bufsize]);
 
                 //if checks for each possible incoming message
@@ -297,13 +298,6 @@ int main()
                 }
             }
             
-            
-            
-            cout << buffer << " ";
-            if (*buffer == '#') {
-                *buffer = '\n';
-                quit = true;
-            }
 
             cout << "Player: ";
             while(*buffer != '\n' && *buffer != '\r')
@@ -311,11 +305,6 @@ int main()
                 //send out messages
                 cin >> buffer;
                 send(client, buffer, bufsize, 0);
-                if (*buffer == '#') {
-                    send(client, buffer, bufsize, 0);
-                    *buffer = '\n';
-                    quit = true;
-                }
             }
 
         }
