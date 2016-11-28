@@ -184,6 +184,7 @@ int main()
 						}
 						move++;
 					}
+<<<<<<< HEAD
 					else if(recieved.compare(0, 4, "GAME") == 0)
 					{
 						//Check for every game statement from opponent and change
@@ -201,6 +202,52 @@ int main()
 							game2 = v[1];
 
 
+=======
+					if(move == 2)
+                        game1 = v[1];
+                    if(move == 1)
+                        game2 = v[1];
+                    std::vector<string> m;
+                    m.push_back(v[9]);
+                    m.push_back(v[10]);
+                    m.push_back(v[11]);
+                    if(v[12].compare("TIGER") == 0){
+                        m.push_back(v[13]);
+                    }
+                    else if(v[12].compare("CROCODILE") == 0){
+                        m.push_back("-1");
+                    }
+                    else{
+                        m.push_back("0");
+                    }
+                    if(playerID.compare(v[5]) != 0){
+                        if(v[1].compare(game1) == 0){
+                            engine->OpponentTurn(m, 1);
+                        }
+                        if(v[1].compare(game2) == 0){
+                            engine->OpponentTurn(m, 2);
+                        }
+                    }
+    			}
+    			else if(recieved.compare(0, 4, "THIS") == 0)
+                {
+    				//do join message
+					
+    			}
+    			else if(recieved.compare(0, 4, "HELL") == 0)
+                {
+    				//put password
+    			}
+    			else if(recieved.compare(0, 4, "WELC") == 0)
+                {
+    				//store our player id?
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+>>>>>>> c80a233a6c7c38f3414dacd1dd565a66a9dc9f4d
 					}
 					else if(recieved.compare(0, 4, "THIS") == 0)
 					{
