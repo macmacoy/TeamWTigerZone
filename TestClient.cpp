@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <netdb.h>
+#include <vector>
+#include "Engine.h"
+
 
 using namespace std;
 
@@ -124,88 +127,94 @@ int main()
 
     while(!isExit)
     {
-        cout << "Player: ";
-        while(*buffer != '\n' && *buffer != '\r')
-        {
-			//send out messages
-            cin >> buffer;
-            send(client, buffer, bufsize, 0);
-            if (*buffer == '#') {
-                send(client, buffer, bufsize, 0);
-                *buffer = '\n';
-                isExit = true;
-            }
-        }
-
+        Engine* engine = NULL;
+        string game1 = "";
+        string game2 = "";
+        int move = 1;
+        string tile = "";
+        bool moreMessages = true;
 		//NEED A WAY TO RECIEVE MULTIPLE MESSAGES FROM SERVER
 		//currently only is set up for 1 send and 1 recieve at a time
         cout << "Server: ";
-        while(*buffer != '\n' && buffer != '\r')
+        while(*buffer != '\n' && *buffer != '\r')
         {
-            recv(client, buffer, bufsize, 0);
-            //append message to string
-            recieved.append(buffer[0], buffer[bufsize]);
-            
-            //if checks for each possible incoming message
-            if(recieved.compare(0, 4, "MAKE") == 0)
-            {
-				//make move with given game id
-			}
-			else if(recieved.compare(0, 4, "GAME") == 0)
-            {
-				//Check for every game statement from opponent and change
-				// our board accordingly
-			}
-			else if(recieved.compare(0, 4, "THIS") == 0)
-            {
-				//do join message
-			}
-			else if(recieved.compare(0, 4, "HELL") == 0)
-            {
-				//put password
-			}
-			else if(recieved.compare(0, 4, "WELC") == 0)
-            {
-				//store our player id?
-			}
-			else if(recieved.compare(0, 4, "NEW ") == 0)
-            {
-				//store challenge id?
-			}
-			else if(recieved.compare(0, 4, "BEGI") == 0)
-            {
-				//store round id?
-			}
-			else if(recieved.compare(0, 4, "YOUR") == 0)
-            {
-				//store opponent id?
-			}
-			else if(recieved.compare(0, 4, "STAR") == 0)
-            {
-				//create two engines, place starting tile in each
-			}
-			else if(recieved.compare(0, 4, "THE ") == 0)
-            {
-				//store remaining tiles IN ORDER as decks for each game
-			}
-			else if(recieved.compare(0, 4, "MATC") == 0)
-            {
-				//need to do anything with countdown for match?
-			}
-			else if(recieved.compare(0, 4, "END") == 0)
-            {
-				//check if end of round or challenge
-			}
-			else if(recieved.compare(0, 4, "PLEA") == 0)
-            {
-				//do anything while waiting for next challenge to begin?
-			}
-			else //message will be "THANK YOU FOR PLAYING! GOODBYE"
-            {
-				//end games
-				//close connection
-				isExit = true;
-			}
+            while(moreMessages){
+                if(recv(client, buffer, bufsize, 0) == 0){
+                    moreMessages = false;
+                    break;
+                }
+                //append message to string
+                recieved.append(buffer[0], buffer[bufsize]);
+
+                //if checks for each possible incoming message
+                if(recieved.compare(0, 4, "MAKE") == 0)
+                {
+    				//make move with given game id
+
+    			}
+    			else if(recieved.compare(0, 4, "GAME") == 0)
+                {
+    				//Check for every game statement from opponent and change
+    				// our board accordingly
+    			}
+    			else if(recieved.compare(0, 4, "THIS") == 0)
+                {
+    				//do join message
+    			}
+    			else if(recieved.compare(0, 4, "HELL") == 0)
+                {
+    				//put password
+    			}
+    			else if(recieved.compare(0, 4, "WELC") == 0)
+                {
+    				//store our player id?
+    			}
+    			else if(recieved.compare(0, 4, "NEW ") == 0)
+                {
+    				//store challenge id?
+    			}
+    			else if(recieved.compare(0, 4, "BEGI") == 0)
+                {
+    				//store round id?
+    			}
+    			else if(recieved.compare(0, 4, "YOUR") == 0)
+                {
+    				//store opponent id?
+    			}
+    			else if(recieved.compare(0, 4, "STAR") == 0)
+                {
+    				//create two engines, place starting tile in each
+    			}
+    			else if(recieved.compare(0, 4, "THE ") == 0)
+                {
+    				//store remaining tiles IN ORDER as decks for each game
+                    size_t pos = 0;
+                    std::string delimiter = " ";
+                    std::vector<string> v;
+                    while ((pos = s.find(delimiter)) != std::string::npos) {
+                        v.push_back(s.substr(0, pos));
+                        s.erase(0, pos + delimiter.length());
+                    }
+    			}
+    			else if(recieved.compare(0, 4, "MATC") == 0)
+                {
+    				//need to do anything with countdown for match?
+    			}
+    			else if(recieved.compare(0, 4, "END") == 0)
+                {
+    				//check if end of round or challenge
+    			}
+    			else if(recieved.compare(0, 4, "PLEA") == 0)
+                {
+    				//do anything while waiting for next challenge to begin?
+    			}
+                else //message will be "THANK YOU FOR PLAYING! GOODBYE"
+                {
+                    //end games
+                    //close connection
+                    isExit = true;
+                }
+            }
             
             
             
@@ -213,6 +222,19 @@ int main()
             if (*buffer == '#') {
                 *buffer = '\n';
                 isExit = true;
+            }
+
+            cout << "Player: ";
+            while(*buffer != '\n' && *buffer != '\r')
+            {
+                //send out messages
+                cin >> buffer;
+                send(client, buffer, bufsize, 0);
+                if (*buffer == '#') {
+                    send(client, buffer, bufsize, 0);
+                    *buffer = '\n';
+                    isExit = true;
+                }
             }
 
         }
