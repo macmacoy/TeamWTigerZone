@@ -147,9 +147,9 @@ void Engine::MakeDecks(string tiles){
 
 //string input; input = "JJTJXJJTJXJJTJXJJTJXJ";
 
-Tile* decka[tiles.length()/6];	
+Tile* decka[(tiles.length()+1)/6];	
 //Tile* deck[input.length()/5];
-for(int x = 0; x < tiles.length()/6; x++){
+for(int x = 0; x < (tiles.length()+1)/6; x++){
 	int tile[6] = {0}; int Jtot = 0; int Ltot = 0; int Ttot = 0;
 
 	for(int i = 0; i < 5; i++){
@@ -181,7 +181,7 @@ for(int x = 0; x < tiles.length()/6; x++){
 	//if(x%2 == 0){deckP1.push(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));}
 	//else if(x%2 != 0){deckP2.push(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));}
 	decka[x] = new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]);
-	for(int j = decka.length()-1; j >= 0; j--){deck.push(decka[j]);}
+	for(int j = decka.size()-1; j >= 0; j--){deck.push(decka[j]);}
 
 	//cout << tile[0] << " " << tile[1] << " " << tile[2] << " " << tile[3] << " " << tile[5] << " " << tile[4] << endl;
 	//cout << endl;
