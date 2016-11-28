@@ -174,7 +174,7 @@ std::vector<string> Engine::DoTurn(int gameNum){
 }
 
 // sets opponents move on our board
-// move format: x, y, tigerOrCroc
+// move format: x, y, rotations, tigerOrCroc
 // 				x: x coordinate
 // 				y: y coordinate
 //				rotations: degrees of rotation

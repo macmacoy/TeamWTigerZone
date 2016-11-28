@@ -40,8 +40,10 @@ private:
 	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
 	
 public:
-
+	
+	// constructor
 	Board();
+	// destructor
 	~Board();
 
 	int GetPlayerScore(int player);
@@ -60,8 +62,6 @@ public:
 	// AI
 	std::vector<int> AiDoTurn(Tile* tile, int player);
 	std::vector<struct coordinate> GetAvailablePlacements(Tile* tile);
-
-	// need to be implemented
 	coordinate* AiPlaceTile(Tile* tile);
 	int AiPlaceTile(stack<Tile*> deck, int player);
 	int AiPlaceTigerOrCroc(struct coordinate c, int player);

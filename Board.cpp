@@ -1074,7 +1074,6 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 
 // // return value: 0=?
 // // 				 1=?
-
 int Board::CheckCompletedLake(int xPos, int yPos) {
 
 	//Initialization material
