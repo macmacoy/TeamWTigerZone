@@ -17,7 +17,7 @@ int main()
 {
     int client;
     int portNum = 1500;
-    bool isExit = false;
+    bool quit = false;
     int bufsize = 4096;
     char buffer[bufsize];
     string recieved;
@@ -52,7 +52,7 @@ int main()
     string response = "";
     bool moreMessages = true;
 
-    while(!isExit)
+    while(!quit)
     {
 		//NEED A WAY TO RECIEVE MULTIPLE MESSAGES FROM SERVER
 		//currently only is set up for 1 send and 1 recieve at a time
@@ -212,7 +212,7 @@ int main()
                 {
                     //end games
                     //close connection
-                    isExit = true;
+                    quit = true;
                 }
             }
             
@@ -221,7 +221,7 @@ int main()
             cout << buffer << " ";
             if (*buffer == '#') {
                 *buffer = '\n';
-                isExit = true;
+                quit = true;
             }
 
             cout << "Player: ";
@@ -233,7 +233,7 @@ int main()
                 if (*buffer == '#') {
                     send(client, buffer, bufsize, 0);
                     *buffer = '\n';
-                    isExit = true;
+                    quit = true;
                 }
             }
 
