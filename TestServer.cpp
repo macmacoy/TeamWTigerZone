@@ -166,38 +166,33 @@ int main()
             It will read either the total number of characters 
             in the socket or 1024
         */
-
+		bool isBuffer = true;
+		bool isServer = true;
         cout << "Client: ";
         do {
             recv(server, buffer, bufsize, 0);
             cout << buffer << " ";
+            isBuffer = false;
+            isServer = true;
             if (*buffer == '#') {
                 *buffer = '\n';
                 isExit = true;
             }
-        } while (*buffer != '\n' && *buffer != '\r');
+        } while (isBuffer);
 
         do {
             cout << "\nServer: ";
             do {
                 cin >> buffer;
                 send(server, buffer, bufsize, 0);
+                isServer = false;
+                isBuffer = true;
                 if (*buffer == '#') {
                     send(server, buffer, bufsize, 0);
                     *buffer = '\n';
                     isExit = true;
                 }
-            } while (*buffer != '\n' && *buffer !='\r');
-
-            cout << "Client: ";
-            do {
-                recv(server, buffer, bufsize, 0);
-                cout << buffer << " ";
-                if (*buffer == '#') {
-                    *buffer == '\n';
-                    isExit = true;
-                }
-            } while (*buffer != '\n' && *buffer != '\r');
+            } while (isServer);
         } while (!isExit);
 
         /* 
