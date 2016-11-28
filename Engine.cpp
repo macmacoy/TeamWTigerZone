@@ -146,14 +146,13 @@ void Engine::MakeDecks(string tiles){
 //B, D, P = Prey (1, 2, 3)
 
 //string input; input = "JJTJXJJTJXJJTJXJJTJXJ";
-	/*
-Tile* decka[(tiles.length()+1)/6];	
-//Tile* deck[input.length()/5];
-for(int x = 0; x < (tiles.length()+1)/6; x++){
+	
+vector<Tile*> decka; // = [(input.length()+1)/6];
+for(int x = 0; x < (input.length()+1)/6; x++){
 	int tile[6] = {0}; int Jtot = 0; int Ltot = 0; int Ttot = 0;
 
 	for(int i = 0; i < 5; i++){
-		switch(tiles.at((6*x)+i)){	
+		switch(input.at((6*x)+i)){	
 			case('J'):	tile[i] = 1; Jtot += 1; break;
 			case('L'):	tile[i] = 2; Ltot += 1; break;
 			case('T'):	tile[i] = 3; Ttot += 1; break;
@@ -168,25 +167,24 @@ for(int x = 0; x < (tiles.length()+1)/6; x++){
 	if(tile[5] == 0){
 		if(Jtot > 2){tile[5] = 1;}
 		else if(Ltot > 2){tile[5] = 2;}
-		else if(Ttot > 2){tile[5] = 5;}
+		else if(Ttot > 2){tile[5] = 3;}
 		else if(Ltot == 2){
 			if(Ttot == 2){tile[5] = 2;}
 			else if(Jtot == 2){tile[5] = tile[3];}
 			else{tile[5] = 1;}
 		}
-		else if(Ttot == 2){tile[5] = 3;}
+		else if(Ttot == 2){tile[5] = 5;}
 		else{tile[5] = 1;}
 	}
 
 	//if(x%2 == 0){deckP1.push(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));}
 	//else if(x%2 != 0){deckP2.push(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));}
-	decka[x] = new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]);
-	for(int j = decka.size()-1; j >= 0; j--){deck.push(decka[j]);}
+	decka.push_back(new Tile (tile[0], tile[1], tile[2], tile[3], tile[5], tile[4]));
+	//
 
-	//cout << tile[0] << " " << tile[1] << " " << tile[2] << " " << tile[3] << " " << tile[5] << " " << tile[4] << endl;
-	//cout << endl;
 	
-}*/
+}
+	for(int j = decka.size()-1; j >= 0; j--){deck.push(decka[j]);}
 }
 
 // does AI turn
