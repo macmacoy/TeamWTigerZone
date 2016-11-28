@@ -236,7 +236,7 @@ int main()
     			}
     			else if(recieved.compare(0, 4, "HELL") == 0)
                 {
-    				//put password
+    				
     			}
     			else if(recieved.compare(0, 4, "WELC") == 0)
                 {
@@ -256,7 +256,7 @@ int main()
 					}
 					else if(recieved.compare(0, 4, "HELL") == 0)
 					{
-						//put password
+						response = "I AM " + username + " " userPass "\r\n";
 					}
 					else if(recieved.compare(0, 4, "WELC") == 0)
 					{
