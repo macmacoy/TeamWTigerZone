@@ -168,22 +168,11 @@ int main()
         */
 		bool isBuffer = true;
 		bool isServer = true;
-        cout << "Client: ";
-        do {
-            recv(server, buffer, bufsize, 0);
-            cout << buffer << " ";
-            isBuffer = false;
-            isServer = true;
-            if (*buffer == '#') {
-                *buffer = '\n';
-                isExit = true;
-            }
-        } while (isBuffer);
 
         do {
-            cout << "\nServer: ";
+            cout << "Server: ";
             do {
-                cin >> buffer;
+                std::getline(cin, buffer);
                 send(server, buffer, bufsize, 0);
                 isServer = false;
                 isBuffer = true;
@@ -193,6 +182,18 @@ int main()
                     isExit = true;
                 }
             } while (isServer);
+
+            cout << "\nClient: ";
+            do {
+                recv(server, buffer, bufsize, 0);
+                cout << buffer << " ";
+                isBuffer = false;
+                isServer = true;
+                if (*buffer == '#') {
+                    *buffer = '\n';
+                    isExit = true;
+                }
+            } while (isBuffer);
         } while (!isExit);
 
         /* 

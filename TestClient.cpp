@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <vector>
-#include "Engine.h"
+#include "Engine.cpp"
 
 
 using namespace std;
@@ -30,8 +30,7 @@ int main()
     int move = 1;
     string tile = "";
     string response = "";
-	string playerID = "";
-	string opponentID = "";
+    string opponentID = "";
 	string challengeID = "";
 	string round_ = "";
 	string roundID = "";
@@ -75,18 +74,14 @@ int main()
         cout << "Server: ";
         while(serverTurn)
         {
-            while(moreMessages){
-                if(recv(client, buffer, bufsize, 0) == 0){
-                    moreMessages = false;
-                    break;
-                }
-                
                 //store recieved buffer to a string
-                if(recv(client, buffer, bufsize, 0) > 0)
+        		std::cout<< "here1\n";
+                while(recv(client, buffer, bufsize, 0) > 0)
                 {
 					inputMessage = buffer;
+					for(int i=0; i<bufsize; i++)
+						std::cout << buffer[i];
 				}
-				serverTurn = false;
 				//split at any possible '\r\n' to separate any individual message
 				//then split those at any spaces.
 				string crlf = "\r\n";
@@ -101,7 +96,8 @@ int main()
 				//iterate through each possible statement in the vector
 				for(int i = 0; i < input.size(); ++i)
 				{
-					recieved = input[i];
+					// recieved = input[i];
+					recieved = inputMessage;
 					//if checks for each possible incoming message
 					if(recieved.compare(0, 4, "MAKE") == 0)
 					{
@@ -183,6 +179,12 @@ int main()
 							}
 						}
 						move++;
+						serverTurn = false;
+						if(response != "")
+		                {	
+							*buffer = response[0u];
+							send(client, buffer, bufsize, 0);
+						}
 					}
 					else if(recieved.compare(0, 4, "GAME") == 0)
 					{
@@ -212,7 +214,7 @@ int main()
 	                    else{
 	                        m.push_back("0");
 	                    }
-	                    if(playerID.compare(v[5]) != 0){
+	                    if(username.compare(v[5]) != 0){
 	                        if(v[1].compare(game1) == 0){
 	                            engine->OpponentTurn(m, 1);
 	                        }
@@ -224,13 +226,26 @@ int main()
 					else if(recieved.compare(0, 4, "THIS") == 0)
 					{
 						//do join message
-						response.append("I AM ");
-						response.append(username);
-						response.append(userPass);
+						response.append("JOIN");
+						response.append(serverPass);
+						response.append("\r\n");
+						serverTurn = false;
+						if(response != "")
+		                {	
+							*buffer = response[0u];
+							send(client, buffer, bufsize, 0);
+						}
 					}
 					else if(recieved.compare(0, 4, "HELL") == 0)
 					{
+						std::cout << "here2\n";
 						response = "I AM " + username + " " + userPass + "\r\n";
+						serverTurn = false;
+						if(response != "")
+		                {	
+							*buffer = response[0u];
+							send(client, buffer, bufsize, 0);
+						}
 					}
 					else if(recieved.compare(0, 4, "WELC") == 0)
 					{
@@ -242,7 +257,7 @@ int main()
 							v.push_back(recieved.substr(0, pos));
 							recieved.erase(0, pos + delimiter.length());
 						}
-						playerID = v[1];
+						username = v[1];
 						
 					}
 					else if(recieved.compare(0, 4, "NEW ") == 0)
@@ -344,10 +359,10 @@ int main()
 						//close connection
 						quit = true;
 					}
-				}
-                
-                recieved = "";
+
+                // recieved = "";
             }
+        // }
             
 
             cout << "Player: ";
