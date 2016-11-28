@@ -33,7 +33,7 @@ int main()
 	string playerID = "";
 	string opponentID = "";
 	string challengeID = "";
-	string round = "";
+	string round_ = "";
 	string roundID = "";
 	string serverPass = "";
 	string username = "";
@@ -184,7 +184,6 @@ int main()
 						}
 						move++;
 					}
-<<<<<<< HEAD
 					else if(recieved.compare(0, 4, "GAME") == 0)
 					{
 						//Check for every game statement from opponent and change
@@ -197,42 +196,37 @@ int main()
 							recieved.erase(0, pos + delimiter.length());
 						}
 						if(move == 2)
-							game1 = v[1];
-						if(move == 1)
-							game2 = v[1];
-
-
-=======
-					if(move == 2)
-                        game1 = v[1];
-                    if(move == 1)
-                        game2 = v[1];
-                    std::vector<string> m;
-                    m.push_back(v[9]);
-                    m.push_back(v[10]);
-                    m.push_back(v[11]);
-                    if(v[12].compare("TIGER") == 0){
-                        m.push_back(v[13]);
-                    }
-                    else if(v[12].compare("CROCODILE") == 0){
-                        m.push_back("-1");
-                    }
-                    else{
-                        m.push_back("0");
-                    }
-                    if(playerID.compare(v[5]) != 0){
-                        if(v[1].compare(game1) == 0){
-                            engine->OpponentTurn(m, 1);
-                        }
-                        if(v[1].compare(game2) == 0){
-                            engine->OpponentTurn(m, 2);
-                        }
-                    }
-    			}
+	                        game1 = v[1];
+	                    if(move == 1)
+	                        game2 = v[1];
+	                    std::vector<string> m;
+	                    m.push_back(v[9]);
+	                    m.push_back(v[10]);
+	                    m.push_back(v[11]);
+	                    if(v[12].compare("TIGER") == 0){
+	                        m.push_back(v[13]);
+	                    }
+	                    else if(v[12].compare("CROCODILE") == 0){
+	                        m.push_back("-1");
+	                    }
+	                    else{
+	                        m.push_back("0");
+	                    }
+	                    if(playerID.compare(v[5]) != 0){
+	                        if(v[1].compare(game1) == 0){
+	                            engine->OpponentTurn(m, 1);
+	                        }
+	                        if(v[1].compare(game2) == 0){
+	                            engine->OpponentTurn(m, 2);
+	                        }
+	                    }
+	    			}
     			else if(recieved.compare(0, 4, "THIS") == 0)
                 {
     				//do join message
-					
+                    response.append("I AM ");
+					response.append(username);
+                    response.append(userPass);
     			}
     			else if(recieved.compare(0, 4, "HELL") == 0)
                 {
@@ -247,7 +241,6 @@ int main()
 					while ((pos = recieved.find(delimiter)) != std::string::npos) {
 						v.push_back(recieved.substr(0, pos));
 						recieved.erase(0, pos + delimiter.length());
->>>>>>> c80a233a6c7c38f3414dacd1dd565a66a9dc9f4d
 					}
 					else if(recieved.compare(0, 4, "THIS") == 0)
 					{
@@ -294,9 +287,8 @@ int main()
 							v.push_back(recieved.substr(0, pos));
 							recieved.erase(0, pos + delimiter.length());
 						}
-
-						roundID = v[2];
-						round = v[4];
+					roundID = v[2];
+					round_ = v[4];
 
 					}
 					else if(recieved.compare(0, 4, "YOUR") == 0)
@@ -358,7 +350,6 @@ int main()
 							v.push_back(recieved.substr(0, pos));
 							recieved.erase(0, pos + delimiter.length());
 						}
-
 						roundID = v[3];
 						round = v[5];
 					}
@@ -366,7 +357,7 @@ int main()
 					{
 						//do anything while waiting for next challenge to begin?
 					}
-					else //message will be "THANK YOU FOR PLAYING! GOODBYE"
+					else if (recieved.compare(0,4, "THAN") == 0)
 					{
 						//end games
 						//close connection
