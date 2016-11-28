@@ -160,6 +160,7 @@ for(int x = 0; x < (input.length()+1)/6; x++){
 			case('B'):	tile[i] = 1; break;
 			case('D'):	tile[i] = 2; break;
 			case('P'):	tile[i] = 3; break;
+			case('C'):	tile[i] = 4; break;
 			default:	tile[i] = 0; break;
 		}
 	}
@@ -167,13 +168,13 @@ for(int x = 0; x < (input.length()+1)/6; x++){
 	if(tile[5] == 0){
 		if(Jtot > 2){tile[5] = 1;}
 		else if(Ltot > 2){tile[5] = 2;}
-		else if(Ttot > 2){tile[5] = 3;}
+		else if(Ttot > 2){tile[5] = 5;}
 		else if(Ltot == 2){
 			if(Ttot == 2){tile[5] = 2;}
 			else if(Jtot == 2){tile[5] = tile[3];}
 			else{tile[5] = 1;}
 		}
-		else if(Ttot == 2){tile[5] = 5;}
+		else if(Ttot == 2){tile[5] = 3;}
 		else{tile[5] = 1;}
 	}
 
