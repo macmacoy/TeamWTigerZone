@@ -221,31 +221,12 @@ int main()
 	                        }
 	                    }
 	    			}
-    			else if(recieved.compare(0, 4, "THIS") == 0)
-                {
-    				//do join message
-                    response.append("I AM ");
-					response.append(username);
-                    response.append(userPass);
-    			}
-    			else if(recieved.compare(0, 4, "HELL") == 0)
-                {
-    				
-    			}
-    			else if(recieved.compare(0, 4, "WELC") == 0)
-                {
-    				//store our player id?
-					size_t pos = 0;
-					std::string delimiter = " ";
-					std::vector<string> v;
-					while ((pos = recieved.find(delimiter)) != std::string::npos) {
-						v.push_back(recieved.substr(0, pos));
-						recieved.erase(0, pos + delimiter.length());
-					}
 					else if(recieved.compare(0, 4, "THIS") == 0)
 					{
 						//do join message
-						
+						response.append("I AM ");
+						response.append(username);
+						response.append(userPass);
 					}
 					else if(recieved.compare(0, 4, "HELL") == 0)
 					{
