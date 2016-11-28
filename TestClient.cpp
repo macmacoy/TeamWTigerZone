@@ -104,8 +104,9 @@ int main()
                         v.push_back(recieved.substr(0, pos));
                         recieved.erase(0, pos + delimiter.length());
                     }
-                    if(move == 1)
+                    if(move == 1){
                         game1 = v[5];
+                    }
                     if(move == 2)
                         game2 = v[5];
                     tile = v[12];
@@ -185,8 +186,12 @@ int main()
 						v.push_back(recieved.substr(0, pos));
 						recieved.erase(0, pos + delimiter.length());
 					}
-					game1 = v[1];
-					game2 = v[1];
+					if(move == 2)
+                        game1 = v[1];
+                    if(move == 1)
+                        game2 = v[1];
+
+
     			}
     			else if(recieved.compare(0, 4, "THIS") == 0)
                 {
@@ -213,15 +218,15 @@ int main()
     			else if(recieved.compare(0, 4, "NEW ") == 0)
                 {
     				//store challenge id?
-					size_t pos = 0;
-					std::string delimiter = " ";
-					std::vector<string> v;
-					while ((pos = recieved.find(delimiter)) != std::string::npos) {
-						v.push_back(recieved.substr(0, pos));
-						recieved.erase(0, pos + delimiter.length());
-					}
-					v[2] = challengeID;
-					v[6] = round;
+					// size_t pos = 0;
+					// std::string delimiter = " ";
+					// std::vector<string> v;
+					// while ((pos = recieved.find(delimiter)) != std::string::npos) {
+					// 	v.push_back(recieved.substr(0, pos));
+					// 	recieved.erase(0, pos + delimiter.length());
+					// }
+					// v[2] = challengeID;
+					// v[6] = round;
     			}
     			else if(recieved.compare(0, 4, "BEGI") == 0)
                 {
