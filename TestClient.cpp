@@ -131,6 +131,16 @@ int main()
     int move = 1;
     string tile = "";
     string response = "";
+	string playerID = "";
+	string opponentID = "";
+	string challengeID = "";
+	string round = "";
+	string roundID = "";
+
+	string startX = "";
+	string startY = "";
+	string orientation = "";
+
     bool moreMessages = true;
 
     while(!isExit)
@@ -155,9 +165,9 @@ int main()
                     size_t pos = 0;
                     std::string delimiter = " ";
                     std::vector<string> v;
-                    while ((pos = s.find(delimiter)) != std::string::npos) {
-                        v.push_back(s.substr(0, pos));
-                        s.erase(0, pos + delimiter.length());
+                    while ((pos = recieved.find(delimiter)) != std::string::npos) {
+                        v.push_back(recieved.substr(0, pos));
+                        recieved.erase(0, pos + delimiter.length());
                     }
                     if(move == 1)
                         game1 = v[5];
@@ -233,10 +243,20 @@ int main()
                 {
     				//Check for every game statement from opponent and change
     				// our board accordingly
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+					game1 = v[1];
+					game2 = v[1];
     			}
     			else if(recieved.compare(0, 4, "THIS") == 0)
                 {
     				//do join message
+					
     			}
     			else if(recieved.compare(0, 4, "HELL") == 0)
                 {
@@ -245,22 +265,72 @@ int main()
     			else if(recieved.compare(0, 4, "WELC") == 0)
                 {
     				//store our player id?
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+					playerID = v[1];
+					
     			}
     			else if(recieved.compare(0, 4, "NEW ") == 0)
                 {
     				//store challenge id?
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+					v[2] = challengeID;
+					v[6] = round;
     			}
     			else if(recieved.compare(0, 4, "BEGI") == 0)
                 {
     				//store round id?
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+
+					roundID = v[2];
+					round = v[4];
+
     			}
     			else if(recieved.compare(0, 4, "YOUR") == 0)
                 {
     				//store opponent id?
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+
+					opponentID = v[4];
     			}
     			else if(recieved.compare(0, 4, "STAR") == 0)
                 {
     				//create two engines, place starting tile in each
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+					tile = v[3];
+					startX = v[5];
+					startY = v[6];
+					orientation = v[7];
+					
     			}
     			else if(recieved.compare(0, 4, "THE ") == 0)
                 {
@@ -268,9 +338,9 @@ int main()
                     size_t pos = 0;
                     std::string delimiter = "[";
                     std::vector<string> v;
-                    while ((pos = s.find(delimiter)) != std::string::npos) {
-                        v.push_back(s.substr(0, pos));
-                        s.erase(0, pos + delimiter.length());
+                    while ((pos = recieved.find(delimiter)) != std::string::npos) {
+                        v.push_back(recieved.substr(0, pos));
+                        recieved.erase(0, pos + delimiter.length());
                     }
                     string tiles = v[1];
 
@@ -280,11 +350,22 @@ int main()
                 {
     				//need to do anything with countdown for match?
                     //don't think so
+
     			}
     			else if(recieved.compare(0, 4, "END") == 0)
                 {
     				//check if end of round or challenge
-    			}
+					size_t pos = 0;
+					std::string delimiter = " ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+
+					roundID = v[3];
+					round = v[5];
+				}
     			else if(recieved.compare(0, 4, "PLEA") == 0)
                 {
     				//do anything while waiting for next challenge to begin?
