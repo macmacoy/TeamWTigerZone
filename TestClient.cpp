@@ -34,11 +34,16 @@ int main()
 	string challengeID = "";
 	string round = "";
 	string roundID = "";
+	string serverPass = "";
+	string username = "";
+	string userPass = "";
 
 	string startX = "";
 	string startY = "";
 	string orientation = "";
 	bool moreMessages = true;
+	bool serverTurn = true;
+	bool clientTurn = true;
     
 
     struct sockaddr_in server_addr;
@@ -67,16 +72,22 @@ int main()
 		//NEED A WAY TO RECIEVE MULTIPLE MESSAGES FROM SERVER
 		//currently only is set up for 1 send and 1 recieve at a time
         cout << "Server: ";
-        while(*buffer != '\n' && *buffer != '\r')
+        while(serverTurn)
         {
             while(moreMessages){
                 if(recv(client, buffer, bufsize, 0) == 0){
                     moreMessages = false;
                     break;
                 }
-                //append message to string
                 
-                recieved.append(buffer[0], buffer[bufsize]);
+                //store recieved buffer to a string
+                if(recv(client, buffer, bufsize, 0) > 0)
+                {
+					recieved = buffer;
+				}
+				//split at any possible '/r/n' to separate any individual message
+				//then split those at any spaces.
+				
 
                 //if checks for each possible incoming message
                 if(recieved.compare(0, 4, "MAKE") == 0)
