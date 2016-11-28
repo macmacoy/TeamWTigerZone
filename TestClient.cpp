@@ -382,8 +382,11 @@ int main()
             while(playerTurn)
             {
                 //send out messages
-                *buffer = response[0u];;
-                send(client, buffer, bufsize, 0);
+                if(response != NULL && response != "")
+                {
+					*buffer = response[0u];;
+					send(client, buffer, bufsize, 0);
+				}
                 playerTurn = false;
                 response = "";
             }
