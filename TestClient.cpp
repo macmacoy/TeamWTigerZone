@@ -43,7 +43,7 @@ int main()
 	string orientation = "";
 	bool moreMessages = true;
 	bool serverTurn = true;
-	bool clientTurn = true;
+	bool playerTurn = true;
     
 
     struct sockaddr_in server_addr;
@@ -84,6 +84,10 @@ int main()
                 if(recv(client, buffer, bufsize, 0) > 0)
                 {
 					recieved = buffer;
+				}
+				if(recieved.at(recieved.length()-1) == 'n')
+				{
+					serverTurn = false;
 				}
 				//split at any possible '/r/n' to separate any individual message
 				//then split those at any spaces.
@@ -311,7 +315,7 @@ int main()
             
 
             cout << "Player: ";
-            while(*buffer != '\n' && *buffer != '\r')
+            while(playerTurn)
             {
                 //send out messages
                 cin >> buffer;
