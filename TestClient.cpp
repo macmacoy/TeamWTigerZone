@@ -132,6 +132,7 @@ int main()
         string game2 = "";
         int move = 1;
         string tile = "";
+        string response = "";
         bool moreMessages = true;
 		//NEED A WAY TO RECIEVE MULTIPLE MESSAGES FROM SERVER
 		//currently only is set up for 1 send and 1 recieve at a time
@@ -150,7 +151,52 @@ int main()
                 if(recieved.compare(0, 4, "MAKE") == 0)
                 {
     				//make move with given game id
-
+                    size_t pos = 0;
+                    std::string delimiter = " ";
+                    std::vector<string> v;
+                    while ((pos = s.find(delimiter)) != std::string::npos) {
+                        v.push_back(s.substr(0, pos));
+                        s.erase(0, pos + delimiter.length());
+                    }
+                    if(move == 1)
+                        game1 = v[5];
+                    if(move == 2)
+                        game2 = v[5];
+                    tile = v[12];
+                    std::vector<string> r;
+                    if(v[5].compare(game1) == 0){
+                        r = engine->DoTurn(1);
+                        if(r[0].compare("UNPLACEABLE PASS") == 0){
+                            response.append("GAME ");
+                            response.append(game1);
+                            response.append(" MOVE ");
+                            response.append(std::to_string(move));
+                            response.append(" PLACE ");
+                            response.append(tile);
+                            response.append(" UNPLACEABLE PASS ");
+                        }
+                        else{
+                            response.append("GAME ");
+                            response.append(game1);
+                            response.append(" MOVE ");
+                            response.append(std::to_string(move));
+                            response.append(" PLACE ");
+                            response.append(tile);
+                            response.append(" AT ");
+                            response.append(v[0]);
+                            response.append(" ");
+                            response.append(v[1]);
+                            response.append(" ");
+                            response.append(v[2]);
+                            response.append(" ");
+                            response.append(v[3]);
+                            if(v[3].compare("TIGER"))
+                                response.append(v[4]);
+                        }
+                    }
+                    else if(v[5].compare(game2) == 0){
+                        r = engine->DoTurn(2);
+                    }
     			}
     			else if(recieved.compare(0, 4, "GAME") == 0)
                 {
@@ -189,16 +235,20 @@ int main()
                 {
     				//store remaining tiles IN ORDER as decks for each game
                     size_t pos = 0;
-                    std::string delimiter = " ";
+                    std::string delimiter = "[";
                     std::vector<string> v;
                     while ((pos = s.find(delimiter)) != std::string::npos) {
                         v.push_back(s.substr(0, pos));
                         s.erase(0, pos + delimiter.length());
                     }
+                    string tiles = v[1];
+
+                    engine = new Engine(tiles);
     			}
     			else if(recieved.compare(0, 4, "MATC") == 0)
                 {
     				//need to do anything with countdown for match?
+                    //don't think so
     			}
     			else if(recieved.compare(0, 4, "END") == 0)
                 {
