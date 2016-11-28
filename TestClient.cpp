@@ -351,7 +351,7 @@ int main()
 							recieved.erase(0, pos + delimiter.length());
 						}
 						roundID = v[3];
-						round = v[5];
+						round_ = v[5];
 					}
 					else if(recieved.compare(0, 4, "PLEA") == 0)
 					{
