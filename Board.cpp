@@ -1091,7 +1091,9 @@ int Board::CheckCompletedLake(int xPos, int yPos){
      
     int countA = 0; int countB = 0; int x = 0; int y = 0;
     vector<int> visit; int z = 0;
-    int checkFor = 2;
+    int checkFor = 2
+	while(player1Tigers.empty() != true){player1Tigers.pop();}
+	while(player2Tigers.empty() != true){player2Tigers.pop();}
  
     //First checks if the center piece is a town    
     //if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
@@ -1274,8 +1276,8 @@ void Board::LakeScoreCalc(int x){
 		else if(player1Tigers.size() < player2Tigers.size()){player2Score += (x*2);}
 		else{player1Score += (x*2); player1Score += (x*2);}
 	}
-	while(player1Tigers.empty() != true){tigers[player1Tigers.front().x][player1Tigers.front().y] = 0; player1Tigers.pop();}
-	while(player2Tigers.empty() != true){tigers[player2Tigers.front().x][player2Tigers.front().y] = 0; player2Tigers.pop();}
+	while(player1Tigers.empty() != true){if(x>0){tigers[player1Tigers.front().x][player1Tigers.front().y] = 0;} player1Tigers.pop();}
+	while(player2Tigers.empty() != true){if(x>0){tigers[player2Tigers.front().x][player2Tigers.front().y] = 0;} player2Tigers.pop();}
 	
 }
 
