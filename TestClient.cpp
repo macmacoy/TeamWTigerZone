@@ -311,6 +311,8 @@ int main()
                     //close connection
                     quit = true;
                 }
+                
+                recieved = "";
             }
             
 
@@ -318,8 +320,10 @@ int main()
             while(playerTurn)
             {
                 //send out messages
-                cin >> buffer;
+                *buffer = response[0u];;
                 send(client, buffer, bufsize, 0);
+                playerTurn = false;
+                response = "";
             }
 
         }
