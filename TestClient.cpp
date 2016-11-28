@@ -190,8 +190,27 @@ int main()
                         game1 = v[1];
                     if(move == 1)
                         game2 = v[1];
-
-
+                    std::vector<string> m;
+                    m.push_back(v[9]);
+                    m.push_back(v[10]);
+                    m.push_back(v[11]);
+                    if(v[12].compare("TIGER") == 0){
+                        m.push_back(v[13]);
+                    }
+                    else if(v[12].compare("CROCODILE") == 0){
+                        m.push_back("-1");
+                    }
+                    else{
+                        m.push_back("0");
+                    }
+                    if(playerID.compare(v[5]) != 0){
+                        if(v[1].compare(game1) == 0){
+                            engine->OpponentTurn(m, 1);
+                        }
+                        if(v[1].compare(game2) == 0){
+                            engine->OpponentTurn(m, 2);
+                        }
+                    }
     			}
     			else if(recieved.compare(0, 4, "THIS") == 0)
                 {
