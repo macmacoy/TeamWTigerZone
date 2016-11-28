@@ -672,7 +672,7 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 
 	if (board[xPos - 1][yPos] == NULL&&board[xPos + 1][yPos] == NULL && board[xPos][yPos + 1] == NULL&&board[xPos][yPos - 1])
 	{
-		cout << "No adjacent tile" << endl;
+		//cout << "No adjacent tile" << endl;
 		return 0;
 	}
 
@@ -705,7 +705,7 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 
 	if (!isAdjacent)
 	{
-		cout << "No adjacent tile" << endl;
+		//cout << "No adjacent tile" << endl;
 		return 0;
 	}
 
@@ -1607,11 +1607,13 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 		tigers[x][y] = player;
 		if (player == 1)
 		{
+			cout << "Player 1 tiger count: " << player1TigerCount << endl;
 			player1TigerCount--;
 			
 		}
 		else if (player == 2)
 		{
+			cout << "Player 2 tiger count: " << player2TigerCount << endl;
 			player2TigerCount--;
 			
 		}
@@ -1630,9 +1632,15 @@ int Board::PlaceCrocodile(int x, int y, int player) {
 		return 0;
 	if (board[x][y]->PlaceCrocodile() == 1) {
 		if (player == 1)
+		{
+			cout << "Player1 placed croc" << endl;
 			player1CrocCount--;
+		}
 		else if (player == 2)
+		{
+			cout << "Player2 placed croc" << endl;
 			player2CrocCount--;
+		}
 		return 1;
 	}
 	return 0;
@@ -1923,26 +1931,28 @@ int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
 	Tile* tile = board[c.x][c.y];
 	
 
-
-	if(tile->getCenter() == 4){
-		PlaceTiger(c.x, c.y, "C", player);
-		return 5;
-	}
-	else if(tile->getN() == 2 || tile->getN() == 3){
-		PlaceTiger(c.x, c.y, "N", player);
-		return 2;
-	}
-	else if(tile->getS() == 2 || tile->getS() == 3){
-		PlaceTiger(c.x, c.y, "S", player);
-		return 8;
-	}
-	else if(tile->getW() == 2 || tile->getW() == 3){
-		PlaceTiger(c.x, c.y, "W", player);
-		return 4;
-	}
-	else if(tile->getE() == 2 || tile->getE() == 3){
-		PlaceTiger(c.x, c.y, "E", player);
-		return 6;
+	if (player1TigerCount != 0 || player2TigerCount != 0)
+	{
+		if (tile->getCenter() == 4) {
+			PlaceTiger(c.x, c.y, "C", player);
+			return 5;
+		}
+		else if (tile->getN() == 2 || tile->getN() == 3) {
+			PlaceTiger(c.x, c.y, "N", player);
+			return 2;
+		}
+		else if (tile->getS() == 2 || tile->getS() == 3) {
+			PlaceTiger(c.x, c.y, "S", player);
+			return 8;
+		}
+		else if (tile->getW() == 2 || tile->getW() == 3) {
+			PlaceTiger(c.x, c.y, "W", player);
+			return 4;
+		}
+		else if (tile->getE() == 2 || tile->getE() == 3) {
+			PlaceTiger(c.x, c.y, "E", player);
+			return 6;
+		}
 	}
 	// std::cout << "here\n";
 

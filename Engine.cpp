@@ -145,7 +145,7 @@ void Engine::MakeDecks(string tiles){
 //X = monastery
 //B, D, P = Prey (1, 2, 3)
 
-//string input; input = "JJTJXJJTJXJJTJXJJTJXJ";
+string input;// input = "JJTJXJJTJXJJTJXJJTJXJ";
 	
 vector<Tile*> decka; // = [(input.length()+1)/6];
 for(int x = 0; x < (input.length()+1)/6; x++){
