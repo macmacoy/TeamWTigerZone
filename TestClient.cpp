@@ -356,10 +356,11 @@ int main()
                 //send out messages
                 if(response != "")
                 {
-					*buffer = response[0u];;
+					*buffer = response[0u];
 					send(client, buffer, bufsize, 0);
 				}
                 playerTurn = false;
+                serverTurn = true;
                 response = "";
             }
 
