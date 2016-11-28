@@ -319,14 +319,14 @@ int Gamebase::DoAiTurnShenAiVSAi()
 {
 	//variable to test whether a move is for testing or real move
 	bool real = true;
-	//system("pause");
+	system("pause");
 	if (turn == 1) {
 		std::cout << " ** Player 1's turn **\n";
 	}
 	else if (turn == 2) {
 		std::cout << " ** AI's turn **\n";
 	}
-	board->DisplayBoard();
+	
 	if (turn == 1) {
 		std::cout << " ** Player 1's Next Tile **\n";
 		//DisplayNextTile(turn);
@@ -338,7 +338,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 	if (turn == 1) {
 		
 		//bool placed = b->PlaceTile(newTile, spot->x, spot->y,1);
-		int location = board->AiPlaceTile(deck,1);
+		
 		//if (!placed) //cout << "Not placed" << endl;
 		//int i; cin >> i;
 		//cout << "location = " << location << endl;
@@ -346,18 +346,39 @@ int Gamebase::DoAiTurnShenAiVSAi()
 		
 		//board->DisplayBoard();
 
+		//int location = board->AiPlaceTile(deck, 1);
+
+		vector<string> str = DoAiTurn(deck.top(), 1);
+
+		for (int i = 0; i < str.size(); i++)
+		{
+			cout << str[i];
+		}
+		cout << endl;
+
 		deck.pop();
-		board->CheckEverything(location/1000, location%1000, real);
+		//board->CheckEverything(location/1000, location%1000, real);
 
 		std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
 	}
 	else if (turn == 2)
 	{
 		
-		int placed = board->AiPlaceTile(deck,2);
+		//int location = board->AiPlaceTile(deck,2);
 		//if (!placed) //cout << "Not placed" << endl;
 		//int i; cin >> i;
 
+		//board->CheckEverything(location / 1000, location % 1000, real);
+
+		vector<string> str = DoAiTurn(deck.top(), 2);
+
+		for (int i = 0; i < str.size(); i++)
+		{
+			cout << str[i];
+		}
+		cout << endl;
+
+		std::cout << "Points:\nPlayer 1: " << board->GetPlayerScore(1) << "\nPlayer 2: " << board->GetPlayerScore(2) << "\n";
 
 		deck.pop();
 	}
@@ -368,6 +389,7 @@ int Gamebase::DoAiTurnShenAiVSAi()
 		turn = 1;
 	}
 	turnCount++;
+	board->DisplayBoard();
 	if (deck.empty())
 	{
 		board->DisplayBoard();

@@ -670,6 +670,12 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 		return 0;
 	}
 
+	if (board[xPos - 1][yPos] == NULL&&board[xPos + 1][yPos] == NULL && board[xPos][yPos + 1] == NULL&&board[xPos][yPos - 1])
+	{
+		cout << "No adjacent tile" << endl;
+		return 0;
+	}
+
 	//check if tile is adjacent to another
 	bool isAdjacent = false;
 	bool nAdjacent = false;
@@ -1072,159 +1078,205 @@ int Board::CheckCrocPlacement(int xPos, int yPos){
 
 }
 
-// // return value: 0=?
-// // 				 1=?
-int Board::CheckCompletedLake(int xPos, int yPos) {
+int Board::CheckCompletedLake(int xPos, int yPos){
+ 
+    //Initialization material
+ 
+    //Queue that will contain location, tile counter, and vector for visitation
+    //2 of most of these for the event that two separate lakes on one tile  
+    //check adjecent tiles
+ 
+     
+    queue<int> queueA; queue<int> queueB;
+     
+    int countA = 0; int countB = 0; int x = 0; int y = 0;
+    vector<int> visit; int z = 0;
+    int checkFor = 2;
+ 
+    //First checks if the center piece is a town    
+    //if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
+    //if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
+     
+    if(board[xPos][yPos]->getCenter() == 2){queueA.push((xPos*1000)+yPos); x = Traverse(queueA, 0, visit, checkFor) % 100;
+						LakeScoreCalc(x);}
+     
+    else if(board[xPos][yPos]->getCenter() != 2){
 
-	//Initialization material
-	//Queue that will contain location, tile counter, and vector for visitation
-	//2 of most of these for the event that two separate lakes on one tile	
-	//check adjecent tiles
+	visit.push_back((xPos*1000)+yPos);
+        
+	if(board[xPos][yPos]->getN() == 2){     
+		if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerN() == 2){CheckTileForTiger(xPos, yPos);}
 
-	queue<int> queueA; queue<int> queueB;
-	int countA = 0; int countB = 0; int x = 0; int y = 0;
-	vector<int> visit; int z = 0;
-	int checkFor = 2;
+		if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != 2){if(x == 0){x = -1;} else{y = -1;}}
+		else if(x == 0){queueA.push((xPos*1000)+(yPos-1)); x = Traverse(queueA, 1, visit, checkFor); 
+			z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
+		else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos-1)); 
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
+ 
+ 
+        if(board[xPos][yPos]->getE() == 2){
+            if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerE() == 2){CheckTileForTiger(xPos, yPos);}
 
-	//First checks if the center piece is a town
-	//if yes, initialize a fifo queue with that tile as the first value w/ tileCount at 0
-	//if no, initialize a fifo queue for every town side with the neighbor tile (if not NULL) as the first value w/ tileCount at 1
+            if(board[xPos + 1][yPos] == NULL || board[xPos+1][yPos]->getW() != 2){if(x == 0){x = -1;} else{y = -1;}}
+            else if(x == 0){queueA.push(((xPos+1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor);
+            		z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
+            else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos-1)); 
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
+ 
+ 
+        if(board[xPos][yPos]->getS() == 2){
+            if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerS() == 2){CheckTileForTiger(xPos, yPos);}
 
-	if (board[xPos][yPos]->getCenter() == 2) { queueA.push((xPos * 1000) + yPos); x = Traverse(queueA, 0, visit, checkFor); }
-	else if (board[xPos][yPos]->getCenter() != 2) {
+	    if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != 2){if(x == 0){x = -1;} else{y = -1;}}
+            else if(x == 0){queueA.push((xPos*1000)+(yPos+1)); x = Traverse(queueA, 1, visit, checkFor);
+            		z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
+            else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos+1)); 
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
+ 
+ 
+        if(board[xPos][yPos]->getW() == 2){
+            if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerW() == 2){CheckTileForTiger(xPos, yPos);}
 
-		if (board[xPos][yPos]->getN() == 2) {
-			if (board[xPos][yPos - 1] == NULL || board[xPos][yPos - 1]->getS() != 2) { if (x == 0) { x = -1; } else { y = -1; } }
-			else if (x == 0) { queueA.push((xPos * 1000) + (yPos - 1)); x = Traverse(queueA, 1, visit, checkFor); }
-			else {
-				z = 0; for (int i = 0; i < visit.size(); i++) { if (visit[i] == ((xPos * 1000) + (yPos - 1))) { z = 1; } }
-				if (z == 0) {
-					visit.clear(); queueB.push((xPos * 1000) + (yPos - 1));
-					y = Traverse(queueB, 1, visit, checkFor); visit.clear();
-				}
-			}
-		}
-
-		if (board[xPos][yPos]->getE() == 2) {
-			if (board[xPos + 1][yPos] == NULL || board[xPos + 1][yPos]->getW() != 2) { if (x == 0) { x = -1; } else { y = -1; } }
-			else if (x == 0) { queueA.push(((xPos + 1) * 1000) + yPos); x = Traverse(queueA, 1, visit, checkFor); }
-			else {
-				z = 0; for (int i = 0; i < visit.size(); i++) { if (visit[i] == ((xPos + 1) * 1000) + yPos) { z = 1; } }
-				if (z == 0) {
-					visit.clear(); queueB.push(((xPos + 1) * 1000) + yPos);
-					y = Traverse(queueB, 1, visit, checkFor); visit.clear();
-				}
-			}
-		}
-
-		if (board[xPos][yPos]->getS() == 2) {
-			if (board[xPos][yPos + 1] == NULL || board[xPos][yPos + 1]->getN() != 2) { if (x == 0) { x = -1; } else { y = -1; } }
-			else if (x == 0) { queueA.push((xPos * 1000) + (yPos + 1)); x = Traverse(queueA, 1, visit, checkFor); }
-			else {
-				z = 0; for (int i = 0; i < visit.size(); i++) { if (visit[i] == ((xPos * 1000) + (yPos + 1))) { z = 1; } }
-				if (z == 0) {
-					visit.clear(); queueB.push((xPos * 1000) + (yPos + 1));
-					y = Traverse(queueB, 1, visit, checkFor); visit.clear();
-				}
-			}
-		}
-
-		if (board[xPos][yPos]->getW() == 2) {
-			if (board[xPos - 1][yPos] == NULL || board[xPos - 1][yPos]->getE() != 2) { if (x == 0) { x = -1; } else { y = -1; } }
-			else if (x == 0) { queueA.push(((xPos - 1) * 1000) + yPos); x = Traverse(queueA, 1, visit, checkFor); }
-			else {
-				z = 0; for (int i = 0; i < visit.size(); i++) { if (visit[i] == ((xPos - 1) * 1000) + yPos) { z = 1; } }
-				if (z == 0) {
-					visit.clear(); queueB.push(((xPos - 1) * 1000) + yPos);
-					y = Traverse(queueB, 1, visit, checkFor); visit.clear();
-				}
-			}
-		}
-	}
-	if (x > 0) { countA += x; } if (y > 0) { countB += y; }
-	//cout << countA * 100 + countB << endl;
-	return (countA * 100 + countB);
+            if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != 2){if(x == 0){x = -1;} else{y = -1;}}
+            else if(x == 0){queueA.push(((xPos-1)*1000)+yPos); x = Traverse(queueA, 1, visit, checkFor);
+            		z = x/100; x = x%100; visit.clear(); LakeScoreCalc(x);}
+            else if(z == 0){visit.push_back((xPos*1000)+yPos); queueB.push((xPos*1000)+(yPos-1)); 
+			y = Traverse(queueB, 1, visit, checkFor); z = y/100; y = y%100; visit.clear(); LakeScoreCalc(y);}}
+  
+     
+    }
+ 
+    if(x > 0){countA += x;} if(y > 0){countB += y;}
+    return (countA * 100 + countB);
 }
-
-
-
+ 
+//if(tigers[xPos][yPos] != 0 && board[xPos][yPos]->getTigerS == 2){CheckTileForTiger(xPos, yPos);}
+ 
 //traversal method with the queue as the input
+ 
+ 
+int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int checkFor){
+ 	
+	while(myqueue.empty() != true){
 
-int Board::Traverse(queue<int> myqueue, int tileCount, vector<int> visit, int checkFor) {
-	if (myqueue.empty() == true) { return tileCount; }
-	int xPos = myqueue.front() / 1000;
-	int yPos = myqueue.front() % 1000;
-	int pos = myqueue.front();
+ 	int xPos = myqueue.front() / 1000;
+ 	int yPos = myqueue.front() % 1000;
+	if(visit.empty() != true && myqueue.front() == visit[0]){tileCount += 100;}
 
 	//bool visitedN = false;
 	//bool visitedE = false;
 	//bool visitedS = false;
 	//bool visitedW = false;
 
+
+
 	//checks for meeples before visited
+	
 
-	//reads top tile
-	//marks it as visited
+ 	//reads top tile
 
-	for (int i = 0; i < visit.size(); i++)
-	{
-		//cout << visit[i]<<" ";
-		if (visit[i] == (myqueue.front()))
-		{
-			//cout << "Got me!" << endl;
-			return tileCount;
-		}
-
-	}
-	//cout << " " << xPos << " " << yPos << endl;
-	visit.push_back(pos);
-
-	//add one to tileCount
-	tileCount += 1;
-	int x = 0;
+ 	//marks it as visited
+	
+	bool found = false;
+ 	for(int i = 0; i < visit.size(); i++){
+	//cout << visit[i] << " ";
+	if(visit[i] == (myqueue.front())){myqueue.pop(); found = true;}}
+	
+	if(found == true){continue;}
+ 	visit.push_back(myqueue.front());
+	
 
 
-	//checks if center is a town
-	//if no, end search for this portion
+
+ 	//add one to tileCount
+
+ 	tileCount += 1;
+ 	int x = 0;
+	//cout << "	" << xPos << " " << yPos << " " << tileCount << endl;
+
+ 	//checks if center is a town
+ 	//if no, end search for this portion
 	//if yes, add every unvisited neighboring tile to the queue
-	//if any of the tiles neighboring a town side are empty/NULL tile, return false
+ 	//if any of the tiles neighboring a town side are empty/NULL tile, return false
 
-	if (board[xPos][yPos]->getCenter() != checkFor) { myqueue.pop(); return tileCount; }
-	if (board[xPos][yPos]->getCenter() == checkFor) {
+  	if(board[xPos][yPos]->getCenter() != checkFor && tigers[xPos][yPos] != 0){
+		bool foundd = false;
+		if(board[xPos][yPos]->getN() == 2 && board[xPos][yPos]->getTigerN() == 2){
+		 	foundd = false;
+			for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == ((xPos*1000)+(yPos-1))){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
 
-		if (board[xPos][yPos]->getN() == checkFor) {
-			if (board[xPos][yPos - 1] == NULL || board[xPos][yPos - 1]->getS() != checkFor) { return -1; }
-			else { myqueue.pop(); myqueue.push((xPos * 1000) + (yPos - 1)); int x = Traverse(myqueue, tileCount, visit, checkFor); }
-			if (x == -1) { return -1; }
-			else { tileCount += x; }
-		}
+		if(board[xPos][yPos]->getE() == 2 && board[xPos][yPos]->getTigerE() == 2){
+			foundd = false;
+		 	for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == (((xPos*1000)+1)+yPos)){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
 
+		if(board[xPos][yPos]->getS() == 2 && board[xPos][yPos]->getTigerS() == 2){
+			foundd = false;
+		 	for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == ((xPos*1000)+(yPos+1))){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
 
-		if (board[xPos][yPos]->getE() == checkFor) {
-			if (board[xPos + 1][yPos] == NULL || board[xPos + 1][yPos]->getW() != checkFor) { return -1; }
-			else { myqueue.pop(); myqueue.push(((xPos + 1) * 1000) + yPos); int x = Traverse(myqueue, tileCount, visit, checkFor); }
-			if (x == -1) { return -1; }
-			else { tileCount += x; }
-		}
-
-
-		if (board[xPos][yPos]->getS() == checkFor) {
-			if (board[xPos][yPos + 1] == NULL || board[xPos][yPos + 1]->getN() != checkFor) { return -1; }
-			else { myqueue.pop(); myqueue.push((xPos * 1000) + (yPos + 1)); int x = Traverse(myqueue, tileCount, visit, checkFor); }
-			if (x == -1) { return -1; }
-			else { tileCount += x; }
-		}
-
-
-		if (board[xPos][yPos]->getW() == checkFor) {
-			if (board[xPos - 1][yPos] == NULL || board[xPos - 1][yPos]->getE() != checkFor) { return -1; }
-			else { myqueue.pop(); myqueue.push(((xPos - 1) * 1000) + yPos); int x = Traverse(myqueue, tileCount, visit, checkFor); }
-			if (x == -1) { return -1; }
-			else { tileCount += x; }
-		}
-
+		if(board[xPos][yPos]->getW() == 2 && board[xPos][yPos]->getTigerW() == 2){
+			foundd = false;
+		 	for(int i = 0; i < visit.size(); i++){
+				if(visit[i] == (((xPos*1000)-1)+yPos)){foundd = true;}}
+			if(foundd == true){CheckTileForTiger(xPos, yPos);}}
 	}
-	return tileCount;
+
+  	if(board[xPos][yPos]->getCenter() == checkFor){
+		bool centGot = false;
+  		if(board[xPos][yPos]->getN() == checkFor){
+  			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerN() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerN() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
+			if(board[xPos][yPos - 1] == NULL || board[xPos][yPos-1]->getS() != checkFor){return -1;}
+  			else{myqueue.push((xPos*1000)+(yPos-1));}}
+
+  		if(board[xPos][yPos]->getE() == checkFor){
+  			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerE() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerE() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
+			if(board[xPos + 1][yPos] == NULL || board[xPos+1][yPos]->getW() != checkFor){return -1;}
+  			else{myqueue.push(((xPos+1)*1000)+yPos);}}
+
+		if(board[xPos][yPos]->getS() == checkFor){
+ 			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerS() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerS() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
+			if(board[xPos][yPos + 1] == NULL || board[xPos][yPos+1]->getN() != checkFor){return -1;}
+  			else{myqueue.push((xPos*1000)+(yPos+1));}}
+
+  		if(board[xPos][yPos]->getW() == checkFor){
+			if(tigers[xPos][yPos] != 0){
+				if(board[xPos][yPos]->getTigerW() == 2){CheckTileForTiger(xPos, yPos);}
+				if(board[xPos][yPos]->getTigerW() == 4 && centGot == false){
+					CheckTileForTiger(xPos, yPos); centGot = true;}}
+  			if(board[xPos - 1][yPos] == NULL || board[xPos-1][yPos]->getE() != checkFor){return -1;}
+ 			else{myqueue.push(((xPos-1)*1000)+yPos);}}  	
+	}
+ 
+	myqueue.pop();
+	}
+	
+return tileCount;
+ 
+}
+
+void Board::LakeScoreCalc(int x){
+	if(x > 0 && max(player1Tigers.size(), player2Tigers.size()) != 0){
+		if(player1Tigers.size() > player2Tigers.size()){player1Score += (x*2);}
+		else if(player1Tigers.size() < player2Tigers.size()){player2Score += (x*2);}
+		else{player1Score += (x*2); player1Score += (x*2);}
+	}
+	while(player1Tigers.empty() != true){tigers[player1Tigers.front().x][player1Tigers.front().y] = 0; player1Tigers.pop();}
+	while(player2Tigers.empty() != true){tigers[player2Tigers.front().x][player2Tigers.front().y] = 0; player2Tigers.pop();}
+	
 }
 
 // return value: 0=no newly completed dens
@@ -1523,9 +1575,15 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 		board[x][y]->PlaceTiger(location);
 		tigers[x][y] = player;
 		if (player == 1)
+		{
 			player1TigerCount--;
+			
+		}
 		else if (player == 2)
+		{
 			player2TigerCount--;
+			
+		}
 		return 1;
 	}
 	return 0;
@@ -1588,10 +1646,13 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 		else if ((isLake / 100 != 0) || (isLake % 100 != 0))
 		{
 			isLake = max(isLake / 100, isLake % 100);
-			//cout << "One lake is completed" << endl;
-			//cout << isLake << " Tiles completed for one lake" << endl;
+			cout << "One lake is completed" << endl;
+			cout << isLake << " Tiles completed for one lake" << endl;
 		}
 	}
+
+	cout << "Player 1 placed tiger, " << player1TigerCount << " left." << endl;
+	cout << "Player 2 placed tiger, " << player2TigerCount << " left." << endl;
 
 	//CheckCompletedTrail
 	int i = CheckCompletedTrail(xPos, yPos, real);
@@ -1601,6 +1662,7 @@ int Board::CheckEverything(int xPos, int yPos, bool real)
 
 std::vector<int> Board::AiDoTurn(Tile* tile, int player) {
 	coordinate * c1 = AiPlaceTile(tile);
+	
 	struct coordinate c;
 	c.x = c1->x;
 	c.y = c1->y;
@@ -1730,11 +1792,14 @@ std::vector<coordinate> Board::GetAvailablePlacements(Tile* tile) {
 */
 coordinate* Board::AiPlaceTile(Tile* tile) {
 	
-	vector<coordinate> availPlacements = GetAvailablePlacements(tile);
+	Tile* newTile = new Tile(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
+
+
+	vector<coordinate> availPlacements = GetAvailablePlacements(newTile);
 	int counter = 0;
 	int bad = 0;
 
-	availPlacements = GetAvailablePlacements(tile);
+	availPlacements = GetAvailablePlacements(newTile);
 	//cout << "=========================================================" << endl;
 	//b->DisplayBoard();
 	//cout << "Next Tile:" << endl;
@@ -1742,9 +1807,12 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	coordinate * spot = 0;
 	spot = AiPriority(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
 
-	if (CheckTilePlacement(tile, spot->x, spot->y))
+	
+	newTile->RotateN90(spot->rotations);
+
+	if (CheckTilePlacement(newTile, spot->x, spot->y))
 	{
-		board[spot->x][spot->y] = tile;
+		board[spot->x][spot->y] = newTile;
 		return spot;
 	}
 	else
@@ -1794,9 +1862,19 @@ int Board::AiPlaceTile(stack<Tile*> deck, int player)
 
 	if (CheckTilePlacement(newTile, spot->x, spot->y))
 	{
+		struct coordinate c;
+		c.x = spot->x;
+		c.y = spot->y;
+		c.rotations = spot->rotations;
+
 		board[spot->x][spot->y] = newTile;
+		AiPlaceTigerOrCroc(c, player);
+
+
 		return (spot->x)*1000 + (spot->y);
 	}
+
+	
 	else return 0;
 }
 
@@ -1806,8 +1884,15 @@ int Board::AiPlaceTile(stack<Tile*> deck, int player)
 // 				 1-9 location where the tiger was placed
 // ** remember rules->place tiger on lowest number of desired terrain
 int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
+	
+	if(c.x == -1 && c.y == -1)
+	{
+		return 0;
+	}
 	Tile* tile = board[c.x][c.y];
 	
+
+
 	if(tile->getCenter() == 4){
 		PlaceTiger(c.x, c.y, "C", player);
 		return 5;
@@ -1851,39 +1936,91 @@ coordinate * Board::AiPriority(int a, int b, int c, int d, int e, int f)
 	bool placed = false;
 	for (int i = 0; i < availPlacements.size();i++)
 	{
-		
+
 		//delete newTile1;
 		Tile* newTile1 = new Tile(a, b, c, d, e, f);
 		newTile1->RotateN90(availPlacements[i].rotations);
-		 placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
+		placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
 		
-		//
-		if (placed)
+		if(board[availPlacements[i].x][availPlacements[i].x] == NULL)
 		{
-			//cout << "Tile placed" << endl;
-			if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
-			{
-				bestSpot->x = availPlacements[i].x;
-				bestSpot->y = availPlacements[i].y;
-				bestSpot->rotations = availPlacements[i].rotations;
-				RemoveTile(availPlacements[i].x, availPlacements[i].y);
-				return bestSpot;
-			}
-			else {
-				bestSpot->x = availPlacements[i].x;
-				bestSpot->y = availPlacements[i].y;
-				bestSpot->rotations = availPlacements[i].rotations;
-				RemoveTile(availPlacements[i].x, availPlacements[i].y);
-				return bestSpot;
-			}
 			RemoveTile(availPlacements[i].x, availPlacements[i].y);
-			
 		}
-		//else
-			//cout << "tile not placed" << endl;
-		//delete newTile;
-	}
+		else {
 
+			if (placed)
+			{
+
+				//cout << "Tile placed" << endl;
+
+				if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
+				{
+
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+				}
+				else {
+					/*
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+					*/
+				}
+				RemoveTile(availPlacements[i].x, availPlacements[i].y);
+
+			}
+			//else
+				//cout << "tile not placed" << endl;
+			//delete newTile;
+		}
+		
+	}
+	for (int i = 0; i < availPlacements.size();i++)
+	{
+
+		//delete newTile1;
+		Tile* newTile1 = new Tile(a, b, c, d, e, f);
+		newTile1->RotateN90(availPlacements[i].rotations);
+		placed = PlaceTile(newTile1, availPlacements[i].x, availPlacements[i].y, true);
+
+		if (board[availPlacements[i].x][availPlacements[i].x] == NULL)
+		{
+			RemoveTile(availPlacements[i].x, availPlacements[i].y);
+		}
+		else {
+			if (placed)
+			{
+				//cout << "Tile placed" << endl;
+				if (CheckCompletedLake(availPlacements[i].x, availPlacements[i].y) || CheckCompletedDen(availPlacements[i].x, availPlacements[i].y) || CheckCompletedTrail(availPlacements[i].x, availPlacements[i].y, true))
+				{
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+				}
+				else {
+
+					bestSpot->x = availPlacements[i].x;
+					bestSpot->y = availPlacements[i].y;
+					bestSpot->rotations = availPlacements[i].rotations;
+					RemoveTile(availPlacements[i].x, availPlacements[i].y);
+					return bestSpot;
+
+				}
+				RemoveTile(availPlacements[i].x, availPlacements[i].y);
+
+			}
+			//else
+			//cout << "tile not placed" << endl;
+			//delete newTile;
+		}
+	}
 	if (!placed)
 	{
 		cout << "No where to place this tile" << endl;
