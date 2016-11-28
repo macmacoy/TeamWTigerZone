@@ -38,6 +38,7 @@ private:
 	int CheckCompletedDen(int xPos, int yPos);
 	int CheckCompletedLake(int xPos, int yPos);
 	int Traverse(std::queue<int> myqueue, int tileCount, std::vector<int> visit, int checkFor);
+	void LakeScoreCalc(int x);
 	
 public:
 
