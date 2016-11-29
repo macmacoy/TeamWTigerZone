@@ -672,7 +672,7 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 
 	if (board[xPos - 1][yPos] == NULL&&board[xPos + 1][yPos] == NULL && board[xPos][yPos + 1] == NULL&&board[xPos][yPos - 1])
 	{
-		cout << "No adjacent tile" << endl;
+		//cout << "No adjacent tile" << endl;
 		return 0;
 	}
 
@@ -705,7 +705,7 @@ int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 
 	if (!isAdjacent)
 	{
-		cout << "No adjacent tile" << endl;
+		//cout << "No adjacent tile" << endl;
 		return 0;
 	}
 
@@ -1607,11 +1607,13 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 		tigers[x][y] = player;
 		if (player == 1)
 		{
+			//cout << "Player 1 tiger count: " << player1TigerCount << endl;
 			player1TigerCount--;
 			
 		}
 		else if (player == 2)
 		{
+			//cout << "Player 2 tiger count: " << player2TigerCount << endl;
 			player2TigerCount--;
 			
 		}
@@ -1628,13 +1630,23 @@ int Board::PlaceCrocodile(int x, int y, int player) {
 		return 0;
 	else if (player == 2 && player2CrocCount == 0)
 		return 0;
-	if (board[x][y]->PlaceCrocodile() == 1) {
-		if (player == 1)
+	else {
+		if (player == 1 && player1TigerCount == 0)
+		{
+			//cout << "Player1 placed croc" << endl;
 			player1CrocCount--;
-		else if (player == 2)
+			return 1;
+		}
+		else if (player == 2 && player2TigerCount == 0)
+		{
+			//cout << "Player2 placed croc" << endl;
+			//cout << "Player 2 tiger countL " << player2TigerCount << endl;
 			player2CrocCount--;
-		return 1;
+			return 1;
+		}
+		
 	}
+
 	return 0;
 }
 
@@ -1850,6 +1862,7 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	{
 		spot->x = -1;
 		spot->y = -1;
+		cout << "Can't place" << endl;
 		return spot;
 	}
 }
@@ -1921,36 +1934,36 @@ int Board::AiPlaceTigerOrCroc(struct coordinate c, int player) {
 		return 0;
 	}
 	Tile* tile = board[c.x][c.y];
-	
 
-
-	if(tile->getCenter() == 4){
-		if(PlaceTiger(c.x, c.y, "C", player) == 1)
-			return 5;
-	}
-	else if(tile->getN() == 2 || tile->getN() == 3){
-		if(PlaceTiger(c.x, c.y, "N", player) == 1)
-			return 2;
-	}
-	else if(tile->getS() == 2 || tile->getS() == 3){
-		if(PlaceTiger(c.x, c.y, "S", player) == 1)
-			return 8;
-	}
-	else if(tile->getW() == 2 || tile->getW() == 3){
-		if(PlaceTiger(c.x, c.y, "W", player) == 1)
-			return 4;
-	}
-	else if(tile->getE() == 2 || tile->getE() == 3){
-		if(PlaceTiger(c.x, c.y, "E", player) == 1)
-			return 6;
-	}
-	// std::cout << "here\n";
-
-	// farms
-
-	if(PlaceCrocodile(c.x, c.y, player) == 1)
+	if (PlaceCrocodile(c.x, c.y, player) == 1)
 		return -1;
 
+
+		if (tile->getCenter() == 4) {
+			if (PlaceTiger(c.x, c.y, "C", player) == 1)
+				return 5;
+		}
+		else if (tile->getN() == 2 || tile->getN() == 3) {
+			if (PlaceTiger(c.x, c.y, "N", player) == 1)
+				return 2;
+		}
+		else if (tile->getS() == 2 || tile->getS() == 3) {
+			if (PlaceTiger(c.x, c.y, "S", player) == 1)
+				return 8;
+		}
+		else if (tile->getW() == 2 || tile->getW() == 3) {
+			if (PlaceTiger(c.x, c.y, "W", player) == 1)
+				return 4;
+		}
+		else if (tile->getE() == 2 || tile->getE() == 3) {
+			if (PlaceTiger(c.x, c.y, "E", player) == 1)
+				return 6;
+		// std::cout << "here\n";
+
+		// farms
+	}
+
+	
 	return 0;
 }
 

@@ -1,25 +1,34 @@
+
+#pragma comment(lib, "Ws2_32.lib")
 #include <iostream>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+//#include <sys/socket.h>
+//#include <netinet/in.h>
+//#include <arpa/inet.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <netdb.h>
+//#include <unistd.h>
+//#include <netdb.h>
 #include <vector>
-#include "Engine.cpp"
+#include "Engine.h"
+
+#include <winsock2.h>
+#include <Windows.h>
+//#include <network>
+#include <ws2tcpip.h>
+#include <stdio.h>
+
 
 
 using namespace std;
 
-int main()
+int main44()
 {
     int client;
     int portNum = 1500;
     bool quit = false;
     int bufsize = 4096;
-    char buffer[bufsize];
+    char buffer[4096];
     string recieved;
     string inputMessage;
     char* ip = "198.0.1";
@@ -385,6 +394,6 @@ int main()
     }
 
 
-    close(client);
+    closesocket(client);
     return 0;
 }

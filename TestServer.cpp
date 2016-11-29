@@ -1,226 +1,214 @@
-#include <iostream>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+/* Server program example for IPv4 */
+#define WIN32_LEAN_AND_MEAN
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+#pragma comment(lib, "Ws2_32.lib")
+
+#include <winsock2.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
 
-using namespace std;
+#define DEFAULT_PORT 2007
+// default TCP socket type
+#define DEFAULT_PROTO SOCK_STREAM
 
-int main()
+void Usage(char *progname)
 {
-    /* ---------- INITIALIZING VARIABLES ---------- */
+	fprintf(stderr, "Usage: %s -p [protocol] -e [port_num] -i [ip_address]\n", progname);
+	fprintf(stderr, "Where:\n\t- protocol is one of TCP or UDP\n");
+	fprintf(stderr, "\t- port_num is the port to listen on\n");
+	fprintf(stderr, "\t- ip_address is the ip address (in dotted\n");
+	fprintf(stderr, "\t  decimal notation) to bind to. But it is not useful here...\n");
+	fprintf(stderr, "\t- Hit Ctrl-C to terminate server program...\n");
+	fprintf(stderr, "\t- The defaults are TCP, 2007 and INADDR_ANY.\n");
+	WSACleanup();
+	exit(1);
+}
 
-    /*  
-       1. client/server are two file descriptors
-       These two variables store the values returned 
-       by the socket system call and the accept system call.
-       2. portNum is for storing port number on which
-       the accepts connections
-       3. isExit is bool variable which will be used to 
-       end the loop
-       4. The server reads characters from the socket 
-       connection into a dynamic variable (buffer).
-       5. A sockaddr_in is a structure containing an internet 
-       address. This structure is already defined in netinet/in.h, so
-       we don't need to declare it again.
-        DEFINITION:
-        struct sockaddr_in
-        {
-          short   sin_family;
-          u_short sin_port;
-          struct  in_addr sin_addr;
-          char    sin_zero[8];
-        };
-        6. serv_addr will contain the address of the server
-        7. socklen_t  is an intr type of width of at least 32 bits
-    */
-    int client, server;
-    int portNum = 1500;
-    bool isExit = false;
-    int bufsize = 1024;
-    char buffer[bufsize];
+int main(int argc, char **argv)
+{
+	char Buffer[128];
+	char *ip_address = NULL;
+	unsigned short port = DEFAULT_PORT;
+	int retval;
+	int fromlen;
+	int i;
+	int socket_type = DEFAULT_PROTO;
+	struct sockaddr_in local, from;
+	WSADATA wsaData;
+	SOCKET listen_socket, msgsock;
 
-    struct sockaddr_in server_addr;
-    socklen_t size;
+	/* Parse arguments, if there are arguments supplied */
+	if (argc > 1)
+	{
+		for (i = 1; i<argc; i++)
+		{
+			// switches or options...
+			if ((argv[i][0] == '-') || (argv[i][0] == '/'))
+			{
+				// Change to lower...if any
+				switch (tolower(argv[i][1]))
+				{
+					// if -p or /p
+				case 'p':
+					if (!_stricmp(argv[i + 1], "TCP"))
+						socket_type = SOCK_STREAM;
+					else if (!_stricmp(argv[i + 1], "UDP"))
+						socket_type = SOCK_DGRAM;
+					else
+						Usage(argv[0]);
+					i++;
+					break;
+					// if -i or /i, for server it is not so useful...
+				case 'i':
+					ip_address = argv[++i];
+					break;
+					// if -e or /e
+				case 'e':
+					port = atoi(argv[++i]);
+					break;
+					// No match...
+				default:
+					Usage(argv[0]);
+					break;
+				}
+			}
+			else
+				Usage(argv[0]);
+		}
+	}
 
-    /* ---------- ESTABLISHING SOCKET CONNECTION ----------*/
-    /* --------------- socket() function ------------------*/
+	// Request Winsock version 2.2
+	if ((retval = WSAStartup(0x202, &wsaData)) != 0)
+	{
+		fprintf(stderr, "Server: WSAStartup() failed with error %d\n", retval);
+		WSACleanup();
+		return -1;
+	}
+	else
+		printf("Server: WSAStartup() is OK.\n");
 
-    client = socket(AF_INET, SOCK_STREAM, 0);
+	if (port == 0)
+	{
+		Usage(argv[0]);
+	}
 
-    if (client < 0) 
-    {
-        cout << "\nError establishing socket..." << endl;
-        exit(1);
-    }
+	local.sin_family = AF_INET;
+	local.sin_addr.s_addr = (!ip_address) ? INADDR_ANY : inet_addr(ip_address);
 
-    /*
-        The socket() function creates a new socket.
-        It takes 3 arguments,
-            a. AF_INET: address domain of the socket.
-            b. SOCK_STREAM: Type of socket. a stream socket in 
-            which characters are read in a continuous stream (TCP)
-            c. Third is a protocol argument: should always be 0. The 
-            OS will choose the most appropiate protocol.
-            This will return a small integer and is used for all 
-            references to this socket. If the socket call fails, 
-            it returns -1.
-    */
+	/* Port MUST be in Network Byte Order */
+	local.sin_port = htons(port);
+	// TCP socket
+	listen_socket = socket(AF_INET, socket_type, 0);
 
-    cout << "\n=> Socket server has been created..." << endl;
+	if (listen_socket == INVALID_SOCKET) {
+		fprintf(stderr, "Server: socket() failed with error %d\n", WSAGetLastError());
+		WSACleanup();
+		return -1;
+	}
+	else
+		printf("Server: socket() is OK.\n");
 
-    /* 
-        The variable serv_addr is a structure of sockaddr_in. 
-        sin_family contains a code for the address family. 
-        It should always be set to AF_INET.
-        INADDR_ANY contains the IP address of the host. For 
-        server code, this will always be the IP address of 
-        the machine on which the server is running.
-        htons() converts the port number from host byte order 
-        to a port number in network byte order.
-    */
+	// bind() associates a local address and port combination with the socket just created.
+	// This is most useful when the application is a
+	// server that has a well-known port that clients know about in advance.
+	if (bind(listen_socket, (struct sockaddr*)&local, sizeof(local)) == SOCKET_ERROR)
+	{
+		fprintf(stderr, "Server: bind() failed with error %d\n", WSAGetLastError());
+		WSACleanup();
+		return -1;
+	}
+	else
+		printf("Server: bind() is OK.\n");
 
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = htons(INADDR_ANY);
-    server_addr.sin_port = htons(portNum);
+	// So far, everything we did was applicable to TCP as well as UDP.
+	// However, there are certain steps that do not work when the server is
+	// using UDP. We cannot listen() on a UDP socket.
+	if (socket_type != SOCK_DGRAM)
+	{
+		if (listen(listen_socket, 5) == SOCKET_ERROR)
+		{
+			fprintf(stderr, "Server: listen() failed with error %d\n", WSAGetLastError());
+			WSACleanup();
+			return -1;
+		}
+		else
+			printf("Server: listen() is OK.\n");
+	}
+	printf("Server: %s: I'm listening and waiting connection\non port %d, protocol %s\n", argv[0], port, (socket_type == SOCK_STREAM) ? "TCP" : "UDP");
 
-    /* ---------- BINDING THE SOCKET ---------- */
-    /* ---------------- bind() ---------------- */
+	while (1)
+	{
+		fromlen = sizeof(from);
+		// accept() doesn't make sense on UDP, since we do not listen()
+		if (socket_type != SOCK_DGRAM)
+		{
+			msgsock = accept(listen_socket, (struct sockaddr*)&from, &fromlen);
+			if (msgsock == INVALID_SOCKET)
+			{
+				fprintf(stderr, "Server: accept() error %d\n", WSAGetLastError());
+				WSACleanup();
+				return -1;
+			}
+			else
+				printf("Server: accept() is OK.\n");
+			printf("Server: accepted connection from %s, port %d\n", inet_ntoa(from.sin_addr), htons(from.sin_port));
 
+		}
+		else
+			msgsock = listen_socket;
 
-    if ((bind(client, (struct sockaddr*)&server_addr,sizeof(server_addr))) < 0) 
-    {
-        cout << "=> Error binding connection, the socket has already been established..." << endl;
-        return -1;
-    }
+		// In the case of SOCK_STREAM, the server can do recv() and send() on
+		// the accepted socket and then close it.
+		// However, for SOCK_DGRAM (UDP), the server will do recvfrom() and sendto()  in a loop.
+		if (socket_type != SOCK_DGRAM)
+			retval = recv(msgsock, Buffer, sizeof(Buffer), 0);
 
-    /* 
-        The bind() system call binds a socket to an address, 
-        in this case the address of the current host and port number 
-        on which the server will run. It takes three arguments, 
-        the socket file descriptor. The second argument is a pointer 
-        to a structure of type sockaddr, this must be cast to
-        the correct type.
-    */
+		else
+		{
+			retval = recvfrom(msgsock, Buffer, sizeof(Buffer), 0, (struct sockaddr *)&from, &fromlen);
+			printf("Server: Received datagram from %s\n", inet_ntoa(from.sin_addr));
+		}
 
-    size = sizeof(server_addr);
-    cout << "=> Looking for clients..." << endl;
+		if (retval == SOCKET_ERROR)
+		{
+			fprintf(stderr, "Server: recv() failed: error %d\n", WSAGetLastError());
+			closesocket(msgsock);
+			continue;
+		}
+		else
+			printf("Server: recv() is OK.\n");
 
-    /* ------------- LISTENING CALL ------------- */
-    /* ---------------- listen() ---------------- */
+		if (retval == 0)
+		{
+			printf("Server: Client closed connection.\n");
+			closesocket(msgsock);
+			continue;
+		}
+		printf("Server: Received %d bytes, data \"%s\" from client\n", retval, Buffer);
 
-    listen(client, 1);
+		printf("Server: Echoing the same data back to client...\n");
+		if (socket_type != SOCK_DGRAM)
+			retval = send(msgsock, Buffer, sizeof(Buffer), 0);
+		else
+			retval = sendto(msgsock, Buffer, sizeof(Buffer), 0, (struct sockaddr *)&from, fromlen);
 
-    /* 
-        The listen system call allows the process to listen 
-        on the socket for connections. 
-        The program will be stay idle here if there are no 
-        incomming connections.
-        The first argument is the socket file descriptor, 
-        and the second is the size for the number of clients 
-        i.e the number of connections that the server can 
-        handle while the process is handling a particular 
-        connection. The maximum size permitted by most 
-        systems is 5.
-    */
+		if (retval == SOCKET_ERROR)
+		{
+			fprintf(stderr, "Server: send() failed: error %d\n", WSAGetLastError());
+		}
+		else
+			printf("Server: send() is OK.\n");
 
-    /* ------------- ACCEPTING CLIENTS  ------------- */
-    /* ----------------- listen() ------------------- */
-
-    /* 
-        The accept() system call causes the process to block 
-        until a client connects to the server. Thus, it wakes 
-        up the process when a connection from a client has been 
-        successfully established. It returns a new file descriptor, 
-        and all communication on this connection should be done 
-        using the new file descriptor. The second argument is a 
-        reference pointer to the address of the client on the other 
-        end of the connection, and the third argument is the size 
-        of this structure.
-    */
-
-    int clientCount = 1;
-    server = accept(client,(struct sockaddr *)&server_addr,&size);
-
-    // first check if it is valid or not
-    if (server < 0) 
-        cout << "=> Error on accepting..." << endl;
-
-    while (server > 0) 
-    {
-        strcpy(buffer, "=> Server connected...\n");
-        send(server, buffer, bufsize, 0);
-        cout << "=> Connected with the client #" << clientCount << ", you are good to go..." << endl;
-        cout << "\n=> Enter # to end the connection\n" << endl;
-
-        /* 
-            Note that we would only get to this point after a 
-            client has successfully connected to our server. 
-            This reads from the socket. Note that the read() 
-            will block until there is something for it to read 
-            in the socket, i.e. after the client has executed a 
-            the send().
-            It will read either the total number of characters 
-            in the socket or 1024
-        */
-		bool isBuffer = true;
-		bool isServer = true;
-
-        do {
-            cout << "Server: ";
-            do {
-                std::getline(cin, buffer);
-                send(server, buffer, bufsize, 0);
-                isServer = false;
-                isBuffer = true;
-                if (*buffer == '#') {
-                    send(server, buffer, bufsize, 0);
-                    *buffer = '\n';
-                    isExit = true;
-                }
-            } while (isServer);
-
-            cout << "\nClient: ";
-            do {
-                recv(server, buffer, bufsize, 0);
-                cout << buffer << " ";
-                isBuffer = false;
-                isServer = true;
-                if (*buffer == '#') {
-                    *buffer = '\n';
-                    isExit = true;
-                }
-            } while (isBuffer);
-        } while (!isExit);
-
-        /* 
-            Once a connection has been established, both ends 
-            can both read and write to the connection. Naturally, 
-            everything written by the client will be read by the 
-            server, and everything written by the server will be 
-            read by the client.
-        */
-
-        /* ---------------- CLOSE CALL ------------- */
-        /* ----------------- close() --------------- */
-
-        /* 
-            Once the server presses # to end the connection,
-            the loop will break and it will close the server 
-            socket connection and the client connection.
-        */
-
-        // inet_ntoa converts packet data to IP, which was taken from client
-        cout << "\n\n=> Connection terminated with IP " << inet_ntoa(server_addr.sin_addr);
-        close(server);
-        cout << "\nGoodbye..." << endl;
-        isExit = false;
-        exit(1);
-    }
-
-    close(client);
-    return 0;
+		if (socket_type != SOCK_DGRAM)
+		{
+			printf("Server: I'm waiting more connection, try running the client\n");
+			printf("Server: program from the same computer or other computer...\n");
+			closesocket(msgsock);
+		}
+		else
+			printf("Server: UDP server looping back for more requests\n");
+		continue;
+	}
+	return 0;
 }

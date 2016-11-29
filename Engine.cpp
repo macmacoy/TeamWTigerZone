@@ -12,23 +12,23 @@ Engine::Engine(int localTest)
 		MakeDecksTest(); // for testing
 		game1 = new Gamebase(deck);
 
-		// int input = 0; cin >> input;
-		// if (input == 1)
-		// {
-		// 	while (!game1->RunTest()) {}
-		// }
-		// else if (input == 2)
-		// {
-		// 	while (!game1->DoAiTurnShen()) {}
-		// }
-		// else if (input == 3)
-		// {
-		// 	while (!game1->DoAiTurnShenAiVSAi()) {}
-		// }
+		 int input = 0; cin >> input;
+		 if (input == 1)
+		 {
+		 	while (!game1->RunTest()) {}
+		 }
+		 else if (input == 2)
+		 {
+		 	while (!game1->DoAiTurnShen()) {}
+		 }
+		 else if (input == 3)
+		 {
+		 	while (!game1->DoAiTurnShenAiVSAi()) {}
+		 }
 
-		// //while (!game1->RunTest()){}
-		// cout << "GAME OVER\n\n";
-		// //system("pause");
+		// while (!game1->RunTest()){}
+		 cout << "GAME OVER\n\n";
+		 system("pause");
 }
 
 // server game engine
