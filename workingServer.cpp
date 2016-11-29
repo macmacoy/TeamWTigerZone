@@ -62,8 +62,8 @@ int main()
     char buffer[bufsize];
 
 	string testmessage = "";
-	bool playerturn = true;
-	bool serverturn = false;
+	bool playerturn = false;
+	bool serverturn = true;
 
     struct sockaddr_in server_addr;
     socklen_t size;
@@ -199,44 +199,41 @@ int main()
             in the socket or 1024
         */
 
-        cout << "Client: ";
-        while(playerturn){
-            recv(server, buffer, bufsize, 0);
-            cout << buffer << " ";
-            if (*buffer == '#') {
-                *buffer = '*';
-                isExit = true;
-            }
-            playerturn = false;
-            serverturn = true;
-        } 
-
         do{
             cout << "\nServer: ";
             while(serverturn){
                 cin.getline(buffer, bufsize);
                 testmessage = buffer;
                 send(server, buffer, bufsize, 0);
-                if (*buffer == '#') {
-                    send(server, buffer, bufsize, 0);
-                    *buffer = '*';
-                    isExit = true;
-                }
+                
                 if(testmessage.compare(0,4,"MAKE") == 0)
                 {
 					serverturn = false;
 					playerturn = true;
 				}
+				if(testmessage.compare(0,4,"THIS") == 0)
+                {
+					serverturn = false;
+					playerturn = true;
+				}
+				if(testmessage.compare(0,4,"HELL") == 0)
+                {
+					serverturn = false;
+					playerturn = true;
+				}
+				if (testmessage.compare(0,4,"THAN") == 0) {
+                    send(server, buffer, bufsize, 0);
+                    testmessage = "MAKE";
+                    isExit = true;
+                    serverturn = false;
+                }
             }
 
             cout << "Client: ";
 			while(playerturn){
 				recv(server, buffer, bufsize, 0);
 				cout << buffer << " ";
-				if (*buffer == '#') {
-					*buffer = '*';
-					isExit = true;
-				}
+
 				playerturn = false;
 				serverturn = true;
 			} 

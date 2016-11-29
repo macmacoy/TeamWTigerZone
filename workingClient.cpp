@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <string>
+#include "Engine.cpp"
 
 using namespace std;
 
@@ -60,6 +61,30 @@ int main()
     int bufsize = 1024;
     char buffer[bufsize];
     char* ip = "127.0.0.3";
+    
+    Engine* engine = new Engine(0);
+    string game1 = "";
+    string game2 = "";
+    int move = 1;
+    string tile = "";
+    string response = "";
+    string opponentID = "";
+	string challengeID = "";
+	string round_ = "";
+	string roundID = "";
+	string serverPass = "";
+	string username = "";
+	string userPass = "";
+
+	string startX = "";
+	string startY = "";
+	string orientation = "";
+	
+	string testmessage = "";
+	bool playerturn = false;
+	bool serverturn = true;
+	
+	
 
     struct sockaddr_in server_addr;
 
@@ -143,42 +168,39 @@ int main()
     cout << "\n\n=> Enter # to end the connection\n" << endl;
 
     // Once it reaches here, the client can send a message first.
-	string testmessage = "";
-	bool playerturn = true;
-	bool serverturn = false;
+
     do {
+        cout << "Server: ";
+        while(serverturn){
+            recv(client, buffer, bufsize, 0);
+            testmessage = buffer;
+            //cout << "\n Test: " + testmessage << endl;
+            cout << buffer << " ";
+            if(testmessage.compare(0,4,"MAKE") == 0)
+            {
+				serverturn = false;
+				playerturn = true;
+			}
+			if (testmessage.compare(0,4,"THAN") == 0) {
+                    send(client, buffer, bufsize, 0);
+                    testmessage = "MAKE";
+                    isExit = true;
+                    serverturn = false;
+            }
+
+        }
+        
         cout << "Client: ";
         while(playerturn){
             cin.getline(buffer, bufsize);
             testmessage = buffer;
             //cout << "\n Test: " + testmessage << endl;
             send(client, buffer, bufsize, 0);
-            if (*buffer == '#') {
-                send(client, buffer, bufsize, 0);
-                *buffer = '*';
-                isExit = true;
-            }
+
             playerturn = false;
             serverturn = true;
         }
 
-        cout << "Server: ";
-        while(serverturn){
-            recv(client, buffer, bufsize, 0);
-            testmessage = buffer;
-            cout << "\n Test: " + testmessage << endl;
-            cout << buffer << " ";
-            if (*buffer == '#') {
-                *buffer = '*';
-                isExit = true;
-            }
-            if(testmessage.compare(0,4,"MAKE") == 0)
-            {
-				serverturn = false;
-				playerturn = true;
-			}
-
-        }
         cout << endl;
 
     } while (!isExit);
