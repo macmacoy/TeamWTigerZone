@@ -12,24 +12,23 @@ Engine::Engine(int localTest)
 		MakeDecksTest(); // for testing
 		game1 = new Gamebase(deck);
 
-		cout << "Enter 1 for Hum vs Hum; 2 for Hum vs Ai; 3 for Ai vs Ai" << endl;
-		int input = 0; cin >> input;
-		if (input == 1)
-		{
-			while (!game1->RunTest()) {}
-		}
-		else if (input == 2)
-		{
-			while (!game1->DoAiTurnShen()) {}
-		}
-		else if (input == 3)
-		{
-			while (!game1->DoAiTurnShenAiVSAi()) {}
-		}
+		 int input = 0; cin >> input;
+		 if (input == 1)
+		 {
+		 	while (!game1->RunTest()) {}
+		 }
+		 else if (input == 2)
+		 {
+		 	while (!game1->DoAiTurnShen()) {}
+		 }
+		 else if (input == 3)
+		 {
+		 	while (!game1->DoAiTurnShenAiVSAi()) {}
+		 }
 
-		//while (!game1->RunTest()){}
-		cout << "GAME OVER\n\n";
-		//system("pause");
+		// while (!game1->RunTest()){}
+		 cout << "GAME OVER\n\n";
+		 system("pause");
 }
 
 // server game engine
@@ -145,7 +144,7 @@ void Engine::MakeDecks(string tiles){
 //X = monastery
 //B, D, P = Prey (1, 2, 3)
 
-string input;// input = "JJTJXJJTJXJJTJXJJTJXJ";
+string input = tiles;
 	
 vector<Tile*> decka; // = [(input.length()+1)/6];
 for(int x = 0; x < (input.length()+1)/6; x++){
