@@ -21,39 +21,7 @@ using namespace std;
 
 int main()
 {
-    /* ---------- INITIALIZING VARIABLES ---------- */
 
-    /*  
-       1. client is a file descriptor to store the values 
-       returned by the socket system call and the accept 
-       system call.
-
-       2. portNum is for storing port number on which
-       the accepts connections
-
-       3. isExit is bool variable which will be used to 
-       end the loop
-
-       4. The client reads characters from the socket 
-       connection into a dynamic variable (buffer).
-
-       5. A sockaddr_in is a structure containing an internet 
-       address. This structure is already defined in netinet/in.h, so
-       we don't need to declare it again.
-
-        DEFINITION:
-
-        struct sockaddr_in
-        {
-          short   sin_family;
-          u_short sin_port;
-          struct  in_addr sin_addr;
-          char    sin_zero[8];
-        };
-
-        6. serv_addr will contain the address of the server
-
-    */
 
     int client;
     int portNum = 1500; // NOTE that the port number is same for both client and server
