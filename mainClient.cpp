@@ -19,8 +19,8 @@ int main()
 	string userPass = "";
     
     int client;
-    int portNum = 1500; // NOTE that the port number is same for both client and server
-    bool isExit = false;
+    int portNum = 1500;
+    bool quit = false;
     int bufsize = 1024;
     char buffer[bufsize];
     char* ip = "127.0.0.3";
@@ -336,7 +336,7 @@ int main()
 			if (testmessage.compare(0,4,"THAN") == 0) {
                     send(client, buffer, bufsize, 0);
                     testmessage = "MAKE";
-                    isExit = true;
+                    quit = true;
                     serverturn = false;
             }
 
@@ -358,7 +358,7 @@ int main()
 
         cout << endl;
 
-    } while (!isExit);
+    } while (!quit);
 
 
     cout << "\n=> Connection terminated.\nGoodbye...\n";
