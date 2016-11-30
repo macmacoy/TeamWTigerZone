@@ -60,13 +60,12 @@ std::vector<string> Gamebase::DoAiTurn(Tile* tile, int player){
 		response.push_back(place);
 	}
 
+	board->DisplayBoard();
+
 	return response;
 }
 
 void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile, int player){
-	std::cout << "MOVE[0] = " << move[0] << "\n";
-	std::cout << "MOVE[1] = " << move[1] << "\n";
-	std::cout << "MOVE[3] = " << move[3] << "\n";
 	int x = std::stoi(move[0]);
 	int y = std::stoi(move[1]);
 	string r = move[2];
@@ -84,28 +83,30 @@ void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile, int player){
 		tile->Rotate90();
 	}
 	board->PlaceTile(tile,x,y,true);
+	board->DisplayBoard();
 	if(tigerOrCroc == -1)
 		board->PlaceCrocodile(x, y, 0);
 	else if(tigerOrCroc > 0){
 		if(tigerOrCroc == 1)
-			board->PlaceTiger(x,y,"NW",0);
+			board->board[x][y]->PlaceTiger("NW");
 		else if(tigerOrCroc == 2)
-			board->PlaceTiger(x,y,"N",0);
+			board->board[x][y]->PlaceTiger("N");
 		else if(tigerOrCroc == 3)
-			board->PlaceTiger(x,y,"NE",0);
+			board->board[x][y]->PlaceTiger("NE");
 		else if(tigerOrCroc == 4)
-			board->PlaceTiger(x,y,"W",0);
+			board->board[x][y]->PlaceTiger("W");
 		else if(tigerOrCroc == 5)
-			board->PlaceTiger(x,y,"C",0);
+			board->board[x][y]->PlaceTiger("C");
 		else if(tigerOrCroc == 6)
-			board->PlaceTiger(x,y,"E",0);
+			board->board[x][y]->PlaceTiger("E");
 		else if(tigerOrCroc == 7)
-			board->PlaceTiger(x,y,"SW",0);
+			board->board[x][y]->PlaceTiger("SW");
 		else if(tigerOrCroc == 8)
-			board->PlaceTiger(x,y,"S",0);
+			board->board[x][y]->PlaceTiger("S");
 		else if(tigerOrCroc == 9)
-			board->PlaceTiger(x,y,"SE",0);
+			board->board[x][y]->PlaceTiger("SE");
 	}
+	std::cout << "got past OpponentTurn\n";
 
 }
 

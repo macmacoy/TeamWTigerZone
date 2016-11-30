@@ -15,7 +15,7 @@ int main()
 {
 	// fill in at tounament
 	string serverPass = "";
-	string username = "";
+	string username = "Red";
 	string userPass = "";
 	char* ip = "127.0.0.3";
     
@@ -93,6 +93,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				if(move == 1){
 					game1 = v[5];
 				}
@@ -126,8 +127,10 @@ int main()
 						response.append(r[2]);
 						response.append(" ");
 						response.append(r[3]);
-						if(r[3].compare("TIGER") == 0)
+						if(r[3].compare("TIGER") == 0){
+							response.append(" ");
 							response.append(r[4]);
+						}
 						response.append("\r\n");
 					}
 				}
@@ -158,8 +161,10 @@ int main()
 						response.append(r[2]);
 						response.append(" ");
 						response.append(r[3]);
-						if(r[3].compare("TIGER") == 0)
+						if(r[3].compare("TIGER") == 0){
+							response.append(" ");
 							response.append(r[4]);
+						}
 						response.append("\r\n");
 					}
 				}
@@ -180,6 +185,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				if(move == 2)
 					game2 = v[1];
 				// 	game1 = v[1];
@@ -191,15 +197,12 @@ int main()
 				m.push_back(v[11]);
 				if(v[12].compare("TIGER") == 0){
 					m.push_back(v[13]);
-					std::cout << v[13] << "\n";
 				}
 				else if(v[12].compare("CROCODILE") == 0){
 					m.push_back("-1");
-					std::cout << "here2\n";
 				}
 				else{
 					m.push_back("0");
-					std::cout << "here3\n";
 				}
 				if(username.compare(v[5]) != 0){
 					if(v[1].compare(game1) == 0){
@@ -240,6 +243,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				username = v[1];
 				
 			}
@@ -266,8 +270,9 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
-			roundID = v[2];
-			round_ = v[4];
+				v.push_back(recieved);
+				roundID = v[2];
+				round_ = v[4];
 
 			}
 			else if(recieved.compare(0, 4, "YOUR") == 0)
@@ -280,6 +285,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 
 				opponentID = v[4];
 			}
@@ -293,6 +299,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				tile = v[3];
 				startX = v[5];
 				startY = v[6];
@@ -309,6 +316,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				string tiles = v[1];
 
 				engine = new Engine(tiles);
@@ -329,6 +337,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				roundID = v[3];
 				round_ = v[5];
 			}

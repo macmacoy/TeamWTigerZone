@@ -662,6 +662,7 @@ int Board::CheckCompletedTrail(int xPos, int yPos, bool real)
 // 				 1=valid tile placement
 int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 {
+	std::cout << "here!!!\n";
 	//used to verify tile placement (for initial testing)
 	//could also make a bool method
 	if (board[xPos][yPos] != NULL)
@@ -1563,7 +1564,7 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos, bool real)
 	// if tile placement is illegal, return 0
 	if (CheckTilePlacement(tile, xPos, yPos) == 0)
 	{
-	//	cout << "Can't place tile" << endl;
+		// cout << "Can't place tile" << endl;
 		return 0;
 	}
 	// if tile placement is legal, place tile at position
@@ -1603,6 +1604,7 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 			return 0;
 	}
 	if (CheckTigerPlacement(x, y, location) == 1) {
+		std::cout << "MADE THROUGH CheckTigerPlacement \n";
 		board[x][y]->PlaceTiger(location);
 		tigers[x][y] = player;
 		if (player == 1)
@@ -1619,6 +1621,7 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 		}
 		return 1;
 	}
+	std::cout << "DID NOT MAKE THROUGH CheckTigerPlacement \n";
 	return 0;
 }
 
@@ -1849,7 +1852,13 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	//deck.top()->DisplayTile();
 	coordinate * spot = 0;
 	spot = AiPriority(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
-
+	
+	if(spot == NULL){
+		spot = new coordinate();
+		spot->x = -1;
+		spot->y = -1;
+		return spot;
+	}
 	
 	newTile->RotateN90(spot->rotations);
 
