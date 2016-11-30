@@ -17,13 +17,13 @@ int main()
 	string serverPass = "";
 	string username = "";
 	string userPass = "";
+	char* ip = "127.0.0.3";
     
     int client;
     int portNum = 1500;
     bool quit = false;
     int bufsize = 1024;
     char buffer[bufsize];
-    char* ip = "127.0.0.3";
     
     Engine* engine = new Engine(0);
     string game1 = "";
@@ -96,8 +96,8 @@ int main()
 				if(move == 1){
 					game1 = v[5];
 				}
-				if(move == 2)
-					game2 = v[5];
+				// if(move == 2)
+				// 	game2 = v[5];
 				tile = v[12];
 				std::vector<string> r;
 				if(v[5].compare(game1) == 0){
@@ -181,21 +181,25 @@ int main()
 					recieved.erase(0, pos + delimiter.length());
 				}
 				if(move == 2)
-					game1 = v[1];
-				if(move == 1)
 					game2 = v[1];
+				// 	game1 = v[1];
+				// if(move == 1)
+				// 	game2 = v[1];
 				std::vector<string> m;
 				m.push_back(v[9]);
 				m.push_back(v[10]);
 				m.push_back(v[11]);
 				if(v[12].compare("TIGER") == 0){
 					m.push_back(v[13]);
+					std::cout << v[13] << "\n";
 				}
 				else if(v[12].compare("CROCODILE") == 0){
 					m.push_back("-1");
+					std::cout << "here2\n";
 				}
 				else{
 					m.push_back("0");
+					std::cout << "here3\n";
 				}
 				if(username.compare(v[5]) != 0){
 					if(v[1].compare(game1) == 0){

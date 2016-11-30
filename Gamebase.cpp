@@ -64,6 +64,9 @@ std::vector<string> Gamebase::DoAiTurn(Tile* tile, int player){
 }
 
 void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile, int player){
+	std::cout << "MOVE[0] = " << move[0] << "\n";
+	std::cout << "MOVE[1] = " << move[1] << "\n";
+	std::cout << "MOVE[3] = " << move[3] << "\n";
 	int x = std::stoi(move[0]);
 	int y = std::stoi(move[1]);
 	string r = move[2];

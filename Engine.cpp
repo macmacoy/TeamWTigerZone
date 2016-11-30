@@ -27,8 +27,6 @@ Engine::Engine(int localTest)
 		 }
 
 		// while (!game1->RunTest()){}
-		 cout << "GAME OVER\n\n";
-		 system("pause");
 }
 
 // server game engine
