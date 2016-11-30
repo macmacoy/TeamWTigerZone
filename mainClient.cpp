@@ -62,10 +62,14 @@ int main()
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(portNum);
 
-	
-	//connect to server
+    inet_pton(AF_INET, ip, &server_addr.sin_addr);
+
     if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
-        cout << "=> Connection to the server port number: " << portNum << endl;
+        cout << "=> Connection to the server " << inet_ntoa(server_addr.sin_addr) << " with port number: " << portNum << endl;
+
+	//connect to server
+    // if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
+    //     cout << "=> Connection to the server port number: " << portNum << endl;
 
 
     cout << "=> Awaiting confirmation from the server..." << endl; //line 40
