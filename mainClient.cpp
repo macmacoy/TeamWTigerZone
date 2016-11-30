@@ -13,6 +13,10 @@ using namespace std;
 
 int main()
 {
+	// fill in at tounament
+	string serverPass = "";
+	string username = "";
+	string userPass = "";
     
     int client;
     int portNum = 1500; // NOTE that the port number is same for both client and server
@@ -31,9 +35,6 @@ int main()
 	string challengeID = "";
 	string round_ = "";
 	string roundID = "";
-	string serverPass = "";
-	string username = "";
-	string userPass = "";
 
 	string startX = "";
 	string startY = "";
@@ -43,8 +44,6 @@ int main()
 	string recieved = "";
 	bool playerturn = false;
 	bool serverturn = true;
-	
-	
 
     struct sockaddr_in server_addr;
 
@@ -80,7 +79,7 @@ int main()
             recv(client, buffer, bufsize, 0);
             testmessage = buffer;
             cout << "\n Server: " + testmessage << endl;
-            cout << buffer << " ";
+            // cout << buffer << " ";
 			
 			recieved = testmessage;
 			//if checks for each possible incoming message
@@ -120,20 +119,21 @@ int main()
 						response.append(" PLACE ");
 						response.append(tile);
 						response.append(" AT ");
-						response.append(v[0]);
+						response.append(r[0]);
 						response.append(" ");
-						response.append(v[1]);
+						response.append(r[1]);
 						response.append(" ");
-						response.append(v[2]);
+						response.append(r[2]);
 						response.append(" ");
-						response.append(v[3]);
-						if(v[3].compare("TIGER"))
-							response.append(v[4]);
+						response.append(r[3]);
+						if(r[3].compare("TIGER") == 0)
+							response.append(r[4]);
 						response.append("\r\n");
 					}
 				}
 				else if(v[5].compare(game2) == 0){
 					r = engine->DoTurn(2);
+					std::cout << "HERE!!!!!!\n";
 					if(r[0].compare("UNPLACEABLE PASS") == 0){
 						response.append("GAME ");
 						response.append(game2);
@@ -151,15 +151,15 @@ int main()
 						response.append(" PLACE ");
 						response.append(tile);
 						response.append(" AT ");
-						response.append(v[0]);
+						response.append(r[0]);
 						response.append(" ");
-						response.append(v[1]);
+						response.append(r[1]);
 						response.append(" ");
-						response.append(v[2]);
+						response.append(r[2]);
 						response.append(" ");
-						response.append(v[3]);
-						if(v[3].compare("TIGER"))
-							response.append(v[4]);
+						response.append(r[3]);
+						if(r[3].compare("TIGER") == 0)
+							response.append(r[4]);
 						response.append("\r\n");
 					}
 				}
@@ -220,7 +220,6 @@ int main()
 			}
 			else if(recieved.compare(0, 4, "HELL") == 0)
 			{
-				std::cout << "here2\n";
 				response = "I AM " + username + " " + userPass + "\r\n";
 
 				strcpy(buffer, response.c_str());
@@ -340,6 +339,9 @@ int main()
                     isExit = true;
                     serverturn = false;
             }
+
+            // clear response string
+            response = "";
 
         }
         
