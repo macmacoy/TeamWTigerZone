@@ -14,13 +14,14 @@ using namespace std;
 int main()
 {
 	// fill in at tounament
-	string serverPass = "";
-	string username = "Red";
-	string userPass = "";
-	char* ip = "127.0.0.3";
+	string serverPass = "TIGERZONE";
+	string username = "TEAMW";
+	string userPass = "IAMW";
+	char* ip = "10.137.117.197";
+	// char* ip = "10.136.28.60";
     
     int client;
-    int portNum = 1500;
+    int portNum = 4444;
     bool quit = false;
     int bufsize = 1024;
     char buffer[bufsize];
@@ -216,7 +217,7 @@ int main()
 			else if(recieved.compare(0, 4, "THIS") == 0)
 			{
 				//do join message
-				response.append("JOIN");
+				response.append("JOIN ");
 				response.append(serverPass);
 				response.append("\r\n");
 
@@ -310,7 +311,7 @@ int main()
 			{
 				//store remaining tiles IN ORDER as decks for each game
 				size_t pos = 0;
-				std::string delimiter = "[";
+				std::string delimiter = "[ ";
 				std::vector<string> v;
 				while ((pos = recieved.find(delimiter)) != std::string::npos) {
 					v.push_back(recieved.substr(0, pos));

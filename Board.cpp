@@ -662,7 +662,6 @@ int Board::CheckCompletedTrail(int xPos, int yPos, bool real)
 // 				 1=valid tile placement
 int Board::CheckTilePlacement(Tile* tile, int xPos, int yPos)
 {
-	std::cout << "here!!!\n";
 	//used to verify tile placement (for initial testing)
 	//could also make a bool method
 	if (board[xPos][yPos] != NULL)
@@ -1604,7 +1603,6 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 			return 0;
 	}
 	if (CheckTigerPlacement(x, y, location) == 1) {
-		std::cout << "MADE THROUGH CheckTigerPlacement \n";
 		board[x][y]->PlaceTiger(location);
 		tigers[x][y] = player;
 		if (player == 1)
@@ -1621,7 +1619,6 @@ int Board::PlaceTiger(int x, int y, string location, int player)
 		}
 		return 1;
 	}
-	std::cout << "DID NOT MAKE THROUGH CheckTigerPlacement \n";
 	return 0;
 }
 

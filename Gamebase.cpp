@@ -60,6 +60,8 @@ std::vector<string> Gamebase::DoAiTurn(Tile* tile, int player){
 		response.push_back(place);
 	}
 
+	// testing
+	std::cout << "USER'S TURN:\n";
 	board->DisplayBoard();
 
 	return response;
@@ -82,8 +84,8 @@ void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile, int player){
 	for(int i=0; i<rotations; i++){
 		tile->Rotate90();
 	}
-	board->PlaceTile(tile,x,y,true);
-	board->DisplayBoard();
+	// board->PlaceTile(tile,x,y,true);
+	board->board[x][y] = tile;
 	if(tigerOrCroc == -1)
 		board->PlaceCrocodile(x, y, 0);
 	else if(tigerOrCroc > 0){
@@ -106,7 +108,10 @@ void Gamebase::OpponentTurn(std::vector<string> move, Tile* tile, int player){
 		else if(tigerOrCroc == 9)
 			board->board[x][y]->PlaceTiger("SE");
 	}
-	std::cout << "got past OpponentTurn\n";
+
+	// testing
+	std::cout << "OPPONENT'S TURN:\n";
+	board->DisplayBoard();
 
 }
 

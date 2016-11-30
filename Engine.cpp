@@ -32,8 +32,8 @@ Engine::Engine(int localTest)
 // server game engine
 Engine::Engine(string tiles) // some unkown input
 {
-	// MakeDecks(tiles); // use this for the server game
-	MakeDecksTest(); // use this because MakeDecks(tiles) isn't finished yet
+	MakeDecks(tiles); // use this for the server game
+	// MakeDecksTest(); // use this because MakeDecks(tiles) isn't finished yet
 	// AI is player 1
 	game1 = new Gamebase(deck);
 	// AI is player 2
