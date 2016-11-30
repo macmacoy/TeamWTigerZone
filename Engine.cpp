@@ -12,7 +12,7 @@ Engine::Engine(int localTest)
 		MakeDecksTest(); // for testing
 		game1 = new Gamebase(deck);
 
-		 int input = 0; cin >> input;
+		 int input = 0;
 		 if (input == 1)
 		 {
 		 	while (!game1->RunTest()) {}
