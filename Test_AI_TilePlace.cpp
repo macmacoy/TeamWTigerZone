@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include "GameBase.h"
+#include "src/GameBase.h"
 
 stack<Tile*> deck;
 
