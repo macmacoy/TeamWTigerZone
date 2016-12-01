@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Board.cpp"
+#include "src/Board.h"
 
 int main(int argc, char *argv[]){
 
