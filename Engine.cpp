@@ -12,23 +12,24 @@ Engine::Engine(int localTest)
 		MakeDecks("TLTTP JJJJ- TLTT- TJJT- LLLL- JLTTB TLJTP TJTT- JLLL- TLLTB TLTJD TJJT- TJTJ- TLLLC JLLL- LLJJ- TJTJ- TLJT- LJJJ- TJTJ- JJTJX TLTTP TJJT- TJTJ- JLTTB TJJT- LJLJ- TJTJ- TLLTB TLLT- TLTJ- TJJT- LJTJD LLJJ- JLLJ- TJTJ- TJJT- JLJL- LJTJD JJTJX TLTJ- LJTJ- TJTJ- JLJL- LLJJ- JLLL- JLLJ- LJLJ- JJJJX TLLT- TLLL- JLTT- JLJL- JJJJX TJTT- LLJJ- LJJJ- LJJJ- JLLL- TLJTP TLTJD TTTT- TJTJ- TJJT- JJJJX TLLLC TJJT- LLJJ- LJJJ- TLTJ- TJTT- TJTT- LJLJ- LJJJ- TJJT- JJJJX"); // for testing
 		game1 = new Gamebase(deck);
 
-		 int input = 0;
-		 cin >> input;
-		 if (input == 1)
+		// int localTest = 0;
+		 localTest = localTest;
+		 if (localTest == 1)
 		 {
 		 	while (!game1->RunTest()) {}
 		 }
-		 else if (input == 2)
+		 else if (localTest == 2)
 		 {
 		 	while (!game1->DoAiTurnShen()) {}
 		 }
-		 else if (input == 3)
+		 else if (localTest == 3)
 		 {
 		 	while (!game1->DoAiTurnShenAiVSAi()) {}
 		 }
+		 else {}
 
 		// while (!game1->RunTest()){}
-		 system("pause");
+		// system("pause");
 }
 
 // server game engine
