@@ -15,7 +15,6 @@ public:
 //	Gamebase(Board* b, Player* p1, Player* p2);
 	~Gamebase();
 
-	int Run();
 	int RunTurn();
 	int RunTest();
 
