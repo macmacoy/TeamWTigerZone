@@ -7,7 +7,7 @@ int main()
 
 	delete e;
 
-	system("pause");
+	//system("pause");
 
 	return 0;
 

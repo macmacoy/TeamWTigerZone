@@ -362,16 +362,19 @@ int Gamebase::DoAiTurnShenAiVSAi()
 	}
 	
 	if (turn == 1) {
-		//std::cout << " ** Player 1's Next Tile **\n";
+		std::cout << " ** Player 1's Next Tile **\n";
 		//DisplayNextTile(turn);
 		cout << "Player 1's turn" << endl;
 		//DisplayNextTile(turn);
+		deck.top()->DisplayTile();
+		
 	}
 	else if (turn == 2) {
-		//std::cout << " ** AI's Next Tile **\n";
+		std::cout << " ** AI's Next Tile **\n";
 		//
 		cout << "Player 2's turn" << endl;
-		//DisplayNextTile(turn);
+	//	DisplayNextTile(turn);
+		deck.top()->DisplayTile();
 	}
 	if (turn == 1) {
 		
@@ -429,8 +432,8 @@ int Gamebase::DoAiTurnShenAiVSAi()
 		turn = 1;
 	}
 	turnCount++;
-	//board->DisplayBoard();
-	//system("pause");
+	board->DisplayBoard();
+	system("pause");
 	if (deck.empty())
 	{
 		board->DisplayBoard();
