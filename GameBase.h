@@ -15,7 +15,6 @@ public:
 //	Gamebase(Board* b, Player* p1, Player* p2);
 	~Gamebase();
 
-	int RunTurn();
 	int RunTest();
 
 	// AI server game
