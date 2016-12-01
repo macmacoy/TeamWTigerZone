@@ -14,16 +14,17 @@ using namespace std;
 int main()
 {
 	// fill in at tounament
-	string serverPass = "";
-	string username = "";
-	string userPass = "";
+	string serverPass = "TIGERZONE";
+	string username = "TEAMW";
+	string userPass = "IAMW";
+	char* ip = "10.137.117.197";
+	// char* ip = "10.136.28.60";
     
     int client;
-    int portNum = 1500;
+    int portNum = 4444;
     bool quit = false;
     int bufsize = 1024;
     char buffer[bufsize];
-    char* ip = "127.0.0.3";
     
     Engine* engine = new Engine(0);
     string game1 = "";
@@ -61,10 +62,14 @@ int main()
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(portNum);
 
-	
-	//connect to server
+    inet_pton(AF_INET, ip, &server_addr.sin_addr);
+
     if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
-        cout << "=> Connection to the server port number: " << portNum << endl;
+        cout << "=> Connection to the server " << inet_ntoa(server_addr.sin_addr) << " with port number: " << portNum << endl;
+
+	//connect to server
+    // if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
+    //     cout << "=> Connection to the server port number: " << portNum << endl;
 
 
     cout << "=> Awaiting confirmation from the server..." << endl; //line 40
@@ -93,11 +98,12 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				if(move == 1){
 					game1 = v[5];
 				}
-				if(move == 2)
-					game2 = v[5];
+				// if(move == 2)
+				// 	game2 = v[5];
 				tile = v[12];
 				std::vector<string> r;
 				if(v[5].compare(game1) == 0){
@@ -126,8 +132,10 @@ int main()
 						response.append(r[2]);
 						response.append(" ");
 						response.append(r[3]);
-						if(r[3].compare("TIGER") == 0)
+						if(r[3].compare("TIGER") == 0){
+							response.append(" ");
 							response.append(r[4]);
+						}
 						response.append("\r\n");
 					}
 				}
@@ -158,8 +166,10 @@ int main()
 						response.append(r[2]);
 						response.append(" ");
 						response.append(r[3]);
-						if(r[3].compare("TIGER") == 0)
+						if(r[3].compare("TIGER") == 0){
+							response.append(" ");
 							response.append(r[4]);
+						}
 						response.append("\r\n");
 					}
 				}
@@ -180,10 +190,12 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				if(move == 2)
-					game1 = v[1];
-				if(move == 1)
 					game2 = v[1];
+				// 	game1 = v[1];
+				// if(move == 1)
+				// 	game2 = v[1];
 				std::vector<string> m;
 				m.push_back(v[9]);
 				m.push_back(v[10]);
@@ -209,7 +221,7 @@ int main()
 			else if(recieved.compare(0, 4, "THIS") == 0)
 			{
 				//do join message
-				response.append("JOIN");
+				response.append("JOIN ");
 				response.append(serverPass);
 				response.append("\r\n");
 
@@ -236,6 +248,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				username = v[1];
 				
 			}
@@ -262,8 +275,9 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
-			roundID = v[2];
-			round_ = v[4];
+				v.push_back(recieved);
+				roundID = v[2];
+				round_ = v[4];
 
 			}
 			else if(recieved.compare(0, 4, "YOUR") == 0)
@@ -276,6 +290,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 
 				opponentID = v[4];
 			}
@@ -289,6 +304,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				tile = v[3];
 				startX = v[5];
 				startY = v[6];
@@ -299,12 +315,13 @@ int main()
 			{
 				//store remaining tiles IN ORDER as decks for each game
 				size_t pos = 0;
-				std::string delimiter = "[";
+				std::string delimiter = "[ ";
 				std::vector<string> v;
 				while ((pos = recieved.find(delimiter)) != std::string::npos) {
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				string tiles = v[1];
 
 				engine = new Engine(tiles);
@@ -325,6 +342,7 @@ int main()
 					v.push_back(recieved.substr(0, pos));
 					recieved.erase(0, pos + delimiter.length());
 				}
+				v.push_back(recieved);
 				roundID = v[3];
 				round_ = v[5];
 			}

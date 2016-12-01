@@ -12,7 +12,8 @@ Engine::Engine(int localTest)
 		MakeDecks("TLTTP JJJJ- TLTT- TJJT- LLLL- JLTTB TLJTP TJTT- JLLL- TLLTB TLTJD TJJT- TJTJ- TLLLC JLLL- LLJJ- TJTJ- TLJT- LJJJ- TJTJ- JJTJX TLTTP TJJT- TJTJ- JLTTB TJJT- LJLJ- TJTJ- TLLTB TLLT- TLTJ- TJJT- LJTJD LLJJ- JLLJ- TJTJ- TJJT- JLJL- LJTJD JJTJX TLTJ- LJTJ- TJTJ- JLJL- LLJJ- JLLL- JLLJ- LJLJ- JJJJX TLLT- TLLL- JLTT- JLJL- JJJJX TJTT- LLJJ- LJJJ- LJJJ- JLLL- TLJTP TLTJD TTTT- TJTJ- TJJT- JJJJX TLLLC TJJT- LLJJ- LJJJ- TLTJ- TJTT- TJTT- LJLJ- LJJJ- TJJT- JJJJX"); // for testing
 		game1 = new Gamebase(deck);
 
-		 int input = 0; cin >> input;
+		 int input = 0;
+		 cin >> input;
 		 if (input == 1)
 		 {
 		 	while (!game1->RunTest()) {}
@@ -27,16 +28,15 @@ Engine::Engine(int localTest)
 		 }
 
 		// while (!game1->RunTest()){}
-		 cout << "GAME OVER\n\n";
 		 system("pause");
 }
 
 // server game engine
 Engine::Engine(string tiles) // some unkown input
 {
-	// MakeDecks(tiles); // use this for the server game
-	//MakeDecksTest(); // use this because MakeDecks(tiles) isn't finished yet
-	MakeDecks("TLTTP JJJJ- TLTT- TJJT- LLLL- JLTTB TLJTP TJTT- TJTJ- JLLL- TLLTB TLTJD TJJT- TJTJ- TLLLC JLLL- LLJJ- TJTJ- TLJT- LJJJ- JJTJX TLTTP TJJT- TJTJ- JLTTB TJJT- LJLJ- TJTJ- TLLTB TLLT- TLTJ- TJJT- LJTJD LLJJ- JLLJ- TJTJ- TJJT- JLJL- LJTJD JJTJX TLTJ- LJTJ- TJTJ- JLJL- LLJJ- JLLL- JLLJ- LJLJ- JJJJX TLLT- TLLL- JLTT- JLJL- JJJJX TJTT- LLJJ- LJJJ- LJJJ- JLLL- TLJTP TLTJD TTTT- TJTJ- TJJT- JJJJX TLLLC TJJT- LLJJ- LJJJ- TLTJ- TJTT- TJTT- LJLJ- LJJJ- TJJT- JJJJX");
+
+	MakeDecks(tiles); // use this for the server game
+	// MakeDecksTest(); // use this because MakeDecks(tiles) isn't finished yet
 	// AI is player 1
 	game1 = new Gamebase(deck);
 	// AI is player 2

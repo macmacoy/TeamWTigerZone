@@ -1563,7 +1563,7 @@ int Board::PlaceTile(Tile* tile, int xPos, int yPos, bool real)
 	// if tile placement is illegal, return 0
 	if (CheckTilePlacement(tile, xPos, yPos) == 0)
 	{
-	//	cout << "Can't place tile" << endl;
+		// cout << "Can't place tile" << endl;
 		return 0;
 	}
 	// if tile placement is legal, place tile at position
@@ -1850,8 +1850,7 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	coordinate * spot = 0;
 	spot = AiPriority(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
 
-	if (spot == NULL)
-	{
+	if(spot == NULL){
 		spot = new coordinate();
 		spot->x = -1;
 		spot->y = -1;
