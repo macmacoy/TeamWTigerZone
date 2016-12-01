@@ -1,6 +1,6 @@
 //#define Testing
 #ifdef Testing
-#include "Board.h"
+#include "src/Board.h"
 
 int main()
 {
