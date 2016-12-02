@@ -1,0 +1,3 @@
+This project was designed to create a mapping of UF campus and to find routes between buildings to have to travel the least distance.
+This program uses Dijstra's shortest path algorithm as well as binary searches to find the smallest distance between locations. New locations can be added easily and the map can be fleshed out further
+Have the graph.h, graph.cpp, and project.cpp in the same folder and compile.  Run.  A menu will appear that will ask for two locations indexes and based upon the entered numbers find the least distance required to travel between the origin and destination. 
