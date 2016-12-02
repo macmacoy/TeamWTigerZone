@@ -1,6 +1,7 @@
 TIGER ZONE CLIENT
 
-A client program designed to connect to the TigerZone Server and play the game using AI implementation
+This is our TigerZone game base and ai implementation.  In order to run and compile the program follow these steps.  First, bring up the command line interface in a linux machine.  
+To Compile
 
 COMPILATION
 
