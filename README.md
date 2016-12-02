@@ -5,13 +5,13 @@ To Compile
 
 ## Compilation
 
-From the command line interface
+### From the command line interface
 
-git clone https://github.com/macmacoy/TigerWTigerZone
++'git clone https://github.com/macmacoy/TigerWTigerZone'
 
-git pull
++'git pull'
 
-g++ mainClient.cpp -std=c=++11 -o file
++'g++ mainClient.cpp -std=c=++11 -o file'
 
 ## Running the Client
 
