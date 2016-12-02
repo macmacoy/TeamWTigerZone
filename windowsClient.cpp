@@ -21,8 +21,8 @@ using namespace std;
 
 #define DEFAULT_BUFLEN 512          
 //#define IP_ADDRESS "10.136.73.30"
-#define IP_ADDRESS "10.136.15.178"
-//#define IP_ADDRESS "10.136.67.123"
+//#define IP_ADDRESS "10.136.15.178"
+#define IP_ADDRESS "10.136.67.123"
 #define DEFAULT_PORT "4444"
 
 struct client_type
@@ -66,6 +66,9 @@ int process_client(client_type &new_client)
 
 int main()
 {
+
+
+
 	WSAData wsa_data;
 	struct addrinfo *result = NULL, *ptr = NULL, hints;
 	string sent_message = "";
@@ -78,10 +81,17 @@ int main()
 	string username = "TEAMW";
 	string userPass = "IAMW";
 	//char* ip = "10.136.73.30";
-	char* ip = "10.136.67.123";
+	;//"10.136.67.123";
 
-
+	string ip_address;
+	cout << "IP address" << endl;
+	cin >> ip_address;
+	//char *ip = "";
+	const char *ip = ip_address.c_str();
+	cout << "Port Number:" << endl;
 	int portNum = 4444;
+	cin >>portNum;
+
 	bool quit = false;
 	int bufsize = 1024;
 	char buffer[1024] = {};
@@ -107,8 +117,15 @@ int main()
 	bool serverturn = true;
 	//
 
+	cout << "User name:" << endl;
+	cin >> username;
+	cout << "User password:" << endl;
+	cin >> userPass;
+	cout << "Server password" << endl;
+	cin >> serverPass;
 
-	cout << "Starting Client...\n";
+
+	cout << "Starting Client\n";
 
 	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsa_data);
@@ -122,10 +139,10 @@ int main()
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 
-	cout << "Connecting...\n";
+	cout << "Connecting\n";
 
 	// Resolve the server address and port
-	iResult = getaddrinfo(static_cast<LPCTSTR>(IP_ADDRESS), DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(static_cast<LPCTSTR>(ip), DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		cout << "getaddrinfo() failed with error: " << iResult << endl;
 		WSACleanup();
@@ -177,16 +194,6 @@ int main()
 	//cout << endl<<"message returned" << endl;
 
 
-
-	if (message != "Server is full")
-	{
-		//client.id = atoi(client.received_message);
-
-		//thread my_thread(process_client, client);
-
-		//while (!quit)
-		//{
-			//cout << "Server: ";
 		while (1) {
 			
 			recieved = "";
@@ -205,6 +212,7 @@ int main()
 			//if checks for each possible incoming message
 			if (recieved.compare(0, 4, "MAKE") == 0)
 			{
+				recieved = "";
 				//make move with given game id
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -296,6 +304,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "GAME") == 0)
 			{
+				recieved = "";
 				//Check for every game statement from opponent and change
 				// our board accordingly
 				size_t pos = 0;
@@ -339,10 +348,10 @@ int main()
 				memset(client.received_message, 0, DEFAULT_BUFLEN);
 				//do join message
 				response.append("JOIN ");
-				response.append("TIGERZONE");
+				response.append(serverPass);
 				response.append("\r\n");
 
-				response = "JOIN TIGERZONE \r\n";
+			//	response = "JOIN TIGERZONE \r\n";
 
 
 
@@ -358,7 +367,8 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "HELL") == 0)
 			{
-				response = "I AM TEAMW " + userPass + "\r\n";
+				recieved = "";
+				response = "I AM "+username + " " + userPass + "\r\n";
 
 				strcpy(buffer, response.c_str());
 				send(client.socket, buffer, bufsize, 0);
@@ -366,6 +376,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "WELC") == 0)
 			{
+				recieved = "";
 				//store our player id?
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -380,6 +391,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "NEW ") == 0)
 			{
+				recieved = "";
 				//store challenge id?
 				// size_t pos = 0;
 				// std::string delimiter = " ";
@@ -393,6 +405,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "BEGI") == 0)
 			{
+				recieved = "";
 				//store round id?
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -408,6 +421,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "YOUR") == 0)
 			{
+				recieved = "";
 				//store opponent id?
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -422,6 +436,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "STAR") == 0)
 			{
+				recieved = "";
 				//create two engines, place starting tile in each
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -439,6 +454,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "THE ") == 0)
 			{
+				recieved = "";
 				//store remaining tiles IN ORDER as decks for each game
 				size_t pos = 0;
 				std::string delimiter = "[ ";
@@ -454,12 +470,14 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "MATC") == 0)
 			{
+				recieved = "";
 				//need to do anything with countdown for match?
 				//don't think so
 
 			}
 			else if (recieved.compare(0, 4, "END") == 0)
 			{
+				recieved = "";
 				//check if end of round or challenge
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -474,6 +492,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "PLEA") == 0)
 			{
+				recieved = "";
 				//do anything while waiting for next challenge to begin?
 			}
 
@@ -496,9 +515,6 @@ int main()
 
 		//Shutdown the connection since no more data will be sent
 		//my_thread.detach();
-	}
-	else
-		cout << client.received_message << endl;
 
 	cout << "Shutting down socket..." << endl;
 	iResult = shutdown(client.socket, SD_SEND);
