@@ -1,9 +1,9 @@
 #include "Engine.h"
 // #include "Engine.cpp"
 
-int main()
+int main1()
 {
-	Engine * e = new Engine(1);
+	Engine * e = new Engine(3);
 
 	delete e;
 
