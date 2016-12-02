@@ -15,6 +15,6 @@ To Compile
 
 ## Running the Client
 
-From the command line interface (rood directory)
+### From the command line interface (root directory)
 
-./mainClient.cpp
+`./mainClient.cpp`
