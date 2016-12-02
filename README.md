@@ -1,7 +1,6 @@
 # TeamWTigerZone
 
 This is our TigerZone game base and ai implementation.  In order to run and compile the program follow these steps.  First, bring up the command line interface in a linux machine.  
-To Compile
 
 ## Compilation
 
