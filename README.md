@@ -12,13 +12,13 @@ This is our TigerZone game base and ai implementation.  In order to run and comp
 
 + `git pull`
 
-+ `g++ mainClient.cpp -std=c++11 -o file`
++ `g++ mainClient.cpp -std=c++11 -o mainClient`
 
 ## Running the Client
 
 ### From the command line interface (root directory)
 
-`./mainClient.cpp`
+`./mainClient`
 
 
 ## Issues Encountered
