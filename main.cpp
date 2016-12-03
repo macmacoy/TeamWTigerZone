@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-	Cout<<"Please enter 1 to play Human vs Human, 2 for Human vs Ai and 3 for Ai vs Ai"<<endl;
+	cout<<"Please enter 1 to play Human vs Human, 2 for Human vs Ai and 3 for Ai vs Ai"<<endl;
 	int userInput;
 	cin>>userInput;
 	
