@@ -30,3 +30,17 @@ We were unable for multiple days to get our client to properly function.  At fir
 For a period, the information that was given to us by the server was completely unusable.  We had to create a method that would take that input and turn it into usable information.  Thus we made a translator.   However, this translator had issues with spaces that had worked around with various tricks, such as creating additional buffers which would allow us to take in the input better.
 ### Server Coding Logic:
 Our program can create a connection between our client and the server.  However, the server side logic that allows the programs to function cooperatively is not working. Our ability to connect to the server is severed by the miscommunication between the server and the client.  The receive function is blocking the communication.  Our ability to receive the information given by the server is handicapped.
+
+
+## Group Members
+Mac Macoy (macmacoy)
+
+Shen Karth (karthshen)
+
+Nathan Marshall (nmarshall16)
+
+CJ Hetaylo (chetaylo844)
+
+Shawn Newsome (snewsome)
+
+Michael Arena (mxiia)
