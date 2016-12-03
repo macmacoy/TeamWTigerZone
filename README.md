@@ -37,7 +37,7 @@ Mac Macoy (macmacoy)
 
 Shen Karth (karthshen)
 
-Nathan Marshall (nmarshall16)
+Nathan Marshall (narshall16)
 
 CJ Hetaylo (chetaylo844)
 
