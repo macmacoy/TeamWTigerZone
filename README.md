@@ -33,14 +33,9 @@ Our program can create a connection between our client and the server.  However,
 
 
 ## Group Members
-Mac Macoy (macmacoy)
-
-Shen Karth (karthshen)
-
-Nathan Marshall (narshall16)
-
-CJ Hetaylo (chetaylo844)
-
-Shawn Newsome (snewsome)
-
-Michael Arena (mxiia)
+ * Mac Macoy (macmacoy)
+ * Shen Jiantao (karthshen)
+ * Nathan Marshall (narshall16)
+ * Chesalon Taylor (chetaylo844)
+ * Shawn Newsome (snewsome)
+ * Michael Arena (mxiia)
