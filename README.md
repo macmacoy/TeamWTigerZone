@@ -8,9 +8,11 @@ This is our TigerZone game base and ai implementation.  In order to run and comp
 
 + `git clone https://github.com/macmacoy/TeamWTigerZone`
 
++ `cd TeamWTigerZone`
+
 + `git pull`
 
-+ `g++ mainClient.cpp -std=c=++11 -o file`
++ `g++ mainClient.cpp -std=c++11 -o file`
 
 ## Running the Client
 
