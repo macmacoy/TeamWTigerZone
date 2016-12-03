@@ -1,9 +1,15 @@
 #include "Engine.h"
 // #include "Engine.cpp"
 
-int main1()
+using namespace std;
+
+int main()
 {
-	Engine * e = new Engine(3);
+	Cout<<"Please enter 1 to play Human vs Human, 2 for Human vs Ai and 3 for Ai vs Ai"<<endl;
+	int userInput;
+	cin>>userInput;
+	
+	Engine * e = new Engine(userInput);
 
 	delete e;
 
