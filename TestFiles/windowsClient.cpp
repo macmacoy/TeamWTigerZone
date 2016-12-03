@@ -22,7 +22,7 @@ using namespace std;
 #define DEFAULT_BUFLEN 512          
 //#define IP_ADDRESS "10.136.73.30"
 //#define IP_ADDRESS "10.136.15.178"
-#define IP_ADDRESS "10.136.67.123"
+#define IP_ADDRESS "192.168.0.8"
 #define DEFAULT_PORT "4444"
 
 struct client_type
@@ -82,7 +82,7 @@ int main()
 	string userPass = "IAMW";
 	//char* ip = "10.136.73.30";
 	;//"10.136.67.123";
-
+#ifdef SELF_INPUT
 	string ip_address;
 	cout << "IP address" << endl;
 	cin >> ip_address;
@@ -91,7 +91,7 @@ int main()
 	cout << "Port Number:" << endl;
 	int portNum = 4444;
 	cin >>portNum;
-
+#endif
 	bool quit = false;
 	int bufsize = 1024;
 	char buffer[1024] = {};
@@ -116,14 +116,14 @@ int main()
 	bool playerturn = false;
 	bool serverturn = true;
 	//
-
+#ifdef SELF_INPUT
 	cout << "User name:" << endl;
 	cin >> username;
 	cout << "User password:" << endl;
 	cin >> userPass;
 	cout << "Server password" << endl;
 	cin >> serverPass;
-
+#endif
 
 	cout << "Starting Client\n";
 
@@ -142,7 +142,7 @@ int main()
 	cout << "Connecting\n";
 
 	// Resolve the server address and port
-	iResult = getaddrinfo(static_cast<LPCTSTR>(ip), DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(static_cast<LPCTSTR>(IP_ADDRESS), DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		cout << "getaddrinfo() failed with error: " << iResult << endl;
 		WSACleanup();
@@ -185,10 +185,10 @@ int main()
 	cout << "Successfully Connected" << endl;
 
 	//Obtain id from server for this client;
-	recv(client.socket, client.received_message, DEFAULT_BUFLEN, 0);
+	//recv(client.socket, client.received_message, DEFAULT_BUFLEN, 0);
 
 
-	message = client.received_message;
+	//message = client.received_message;
 
 	//return 0; 
 	//cout << endl<<"message returned" << endl;
@@ -212,7 +212,7 @@ int main()
 			//if checks for each possible incoming message
 			if (recieved.compare(0, 4, "MAKE") == 0)
 			{
-				recieved = "";
+				//recieved = "";
 				//make move with given game id
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -367,7 +367,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "HELL") == 0)
 			{
-				recieved = "";
+				//recieved = "";
 				response = "I AM "+username + " " + userPass + "\r\n";
 
 				strcpy(buffer, response.c_str());
@@ -376,7 +376,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "WELC") == 0)
 			{
-				recieved = "";
+				//recieved = "";
 				//store our player id?
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -405,7 +405,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "BEGI") == 0)
 			{
-				recieved = "";
+				//recieved = "";
 				//store round id?
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -421,7 +421,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "YOUR") == 0)
 			{
-				recieved = "";
+				//recieved = "";
 				//store opponent id?
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -436,7 +436,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "STAR") == 0)
 			{
-				recieved = "";
+				//recieved = "";
 				//create two engines, place starting tile in each
 				size_t pos = 0;
 				std::string delimiter = " ";
@@ -454,7 +454,7 @@ int main()
 			}
 			else if (recieved.compare(0, 4, "THE ") == 0)
 			{
-				recieved = "";
+				//recieved = "";
 				//store remaining tiles IN ORDER as decks for each game
 				size_t pos = 0;
 				std::string delimiter = "[ ";
