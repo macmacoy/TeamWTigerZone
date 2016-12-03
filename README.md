@@ -6,7 +6,7 @@ This is our TigerZone game base and ai implementation.  In order to run and comp
 
 ### From the command line interface
 
-+ `git clone https://github.com/macmacoy/TigerWTigerZone`
++ `git clone https://github.com/macmacoy/TeamWTigerZone`
 
 + `git pull`
 
