@@ -1849,18 +1849,20 @@ coordinate* Board::AiPlaceTile(Tile* tile) {
 	//deck.top()->DisplayTile();
 	coordinate * spot = 0;
 	spot = AiPriority(tile->getN(), tile->getE(), tile->getS(), tile->getW(), tile->getCenter(), tile->isPrey());
-	
+
 	if(spot == NULL){
 		spot = new coordinate();
 		spot->x = -1;
 		spot->y = -1;
 		return spot;
 	}
-	
+
 	newTile->RotateN90(spot->rotations);
+	
 
 	if (CheckTilePlacement(newTile, spot->x, spot->y))
 	{
+
 		board[spot->x][spot->y] = newTile;
 		return spot;
 	}

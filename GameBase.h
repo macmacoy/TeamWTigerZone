@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 
- // #include "Board.h"
-#include "Board.cpp"
+ #include "Board.h"
+//#include "Board.cpp"
 #include <string>
 #include <stack>
 #include <vector>
@@ -15,8 +15,6 @@ public:
 //	Gamebase(Board* b, Player* p1, Player* p2);
 	~Gamebase();
 
-	int Run();
-	int RunTurn();
 	int RunTest();
 
 	// AI server game

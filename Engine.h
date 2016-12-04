@@ -1,8 +1,8 @@
 #pragma once
 
 
-// #include "GameBase.h"
-#include "Gamebase.cpp"
+#include "GameBase.h"
+//#include "Gamebase.cpp"
 #include <stack>
 #include <vector>
 #include <string>
