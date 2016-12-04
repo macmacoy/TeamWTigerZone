@@ -14,13 +14,14 @@ using namespace std;
 int main()
 {
 	// fill in at tounament
-	string serverPass = "TIGERZONE";
+	string serverPass = "TIGERZONE!";
 	string username = "TEAMW";
 	string userPass = "IAMW";
-	char* ip = "10.137.117.197";
-	// char* ip = "10.136.28.60";
+	// char* ip = "127.0.0.3";
+	char* ip = "192.168.1.19";
     
     int client;
+    // int portNum = 1500;
     int portNum = 4444;
     bool quit = false;
     int bufsize = 1024;
@@ -67,9 +68,9 @@ int main()
     if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
         cout << "=> Connection to the server " << inet_ntoa(server_addr.sin_addr) << " with port number: " << portNum << endl;
 
-	//connect to server
-    // if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
-    //     cout << "=> Connection to the server port number: " << portNum << endl;
+	// //connect to server
+ //    if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
+ //        cout << "=> Connection to the server port number: " << portNum << endl;
 
 
     cout << "=> Awaiting confirmation from the server..." << endl; //line 40
@@ -78,10 +79,11 @@ int main()
 
     cout << "\n\n=> Enter # to end the connection\n" << endl;
 
+    string last = "";
     do {
-		cout << "Server: ";
+		// cout << "Server: ";
         while(serverturn){
-            recv(client, buffer, bufsize, 0);
+            recv(client, buffer, bufsize, MSG_WAITALL);
             testmessage = buffer;
             cout << "\n Server: " + testmessage << endl;
             // cout << buffer << " ";
@@ -141,7 +143,6 @@ int main()
 				}
 				else if(v[5].compare(game2) == 0){
 					r = engine->DoTurn(2);
-					std::cout << "HERE!!!!!!\n";
 					if(r[0].compare("UNPLACEABLE PASS") == 0){
 						response.append("GAME ");
 						response.append(game2);
@@ -220,12 +221,13 @@ int main()
 			}
 			else if(recieved.compare(0, 4, "THIS") == 0)
 			{
+				std::cout << "IN THIS\n";
 				//do join message
 				response.append("JOIN ");
 				response.append(serverPass);
 				response.append("\r\n");
 
-	
+				
 				strcpy(buffer, response.c_str());
 				send(client, buffer, bufsize, 0);
 
@@ -313,18 +315,20 @@ int main()
 			}
 			else if(recieved.compare(0, 4, "THE ") == 0)
 			{
-				//store remaining tiles IN ORDER as decks for each game
-				size_t pos = 0;
-				std::string delimiter = "[ ";
-				std::vector<string> v;
-				while ((pos = recieved.find(delimiter)) != std::string::npos) {
-					v.push_back(recieved.substr(0, pos));
-					recieved.erase(0, pos + delimiter.length());
-				}
-				v.push_back(recieved);
-				string tiles = v[1];
+				if(move == 1){
+					//store remaining tiles IN ORDER as decks for each game
+					size_t pos = 0;
+					std::string delimiter = "[ ";
+					std::vector<string> v;
+					while ((pos = recieved.find(delimiter)) != std::string::npos) {
+						v.push_back(recieved.substr(0, pos));
+						recieved.erase(0, pos + delimiter.length());
+					}
+					v.push_back(recieved);
+					string tiles = v[1];
 
-				engine = new Engine(tiles);
+					engine = new Engine(tiles);
+				}
 			}
 			else if(recieved.compare(0, 4, "MATC") == 0)
 			{
@@ -345,6 +349,9 @@ int main()
 				v.push_back(recieved);
 				roundID = v[3];
 				round_ = v[5];
+
+				// set move equal to 1 to start new game
+				move = 1;
 			}
 			else if(recieved.compare(0, 4, "PLEA") == 0)
 			{
@@ -360,6 +367,9 @@ int main()
 
             // clear response string
             response = "";
+
+            // for(int i=0; i<1024; i++)
+            // 	buffer[i] = '\0';
 
         }
         
