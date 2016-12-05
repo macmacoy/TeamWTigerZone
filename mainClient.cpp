@@ -1,31 +1,17 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
-#define _CRT_SECURE_NO_WARNINGS
-
-
-#pragma comment(lib, "Ws2_32.lib")
 #include <iostream>
-#include <string.h>
 #include <sys/types.h>
-//#include <sys/socket.h>
-//#include <netinet/in.h>
-//#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <stdlib.h>
-//#include <unistd.h>
-//#include <netdb.h>
-#include <vector>
-#include "Engine.h"
-
-#include <winsock2.h>
-#include <Windows.h>
-//#include <network>
-#include <ws2tcpip.h>
-#include <stdio.h>
-
-
+#include <unistd.h>
+#include <netdb.h>
+#include <string.h>
+#include "Engine.cpp"
 
 using namespace std;
 
-int main123()
+int main()
 {
 	// fill in at tounament
 	string serverPass = "TIGERZONE!";
@@ -33,15 +19,13 @@ int main123()
 	string userPass = "IAMW";
 	// char* ip = "127.0.0.3";
 	char* ip = "192.168.1.19";
-	// char* ip = "10.136.67.123";
-	// char* ip = "10.136.28.60";
     
     int client;
     // int portNum = 1500;
     int portNum = 4444;
     bool quit = false;
     int bufsize = 1024;
-	char buffer[1024] = {};
+    char buffer[bufsize];
     
     Engine* engine = new Engine(0);
     string game1 = "";
@@ -67,12 +51,12 @@ int main123()
 
 	//create socket
     client = socket(AF_INET, SOCK_STREAM, 0);
-	/*
+
     if (client < 0) 
     {
         cout << "\nError establishing socket..." << endl;
         exit(1);
-    }*/
+    }
 
     cout << "\n=> Socket client has been created..." << endl;
 
@@ -395,7 +379,6 @@ int main123()
             testmessage = buffer;
             //cout << "\n Test: " + testmessage << endl;
             send(client, buffer, bufsize, 0);
-
             playerturn = false;
             serverturn = true;
         }*/
@@ -407,6 +390,6 @@ int main123()
 
     cout << "\n=> Connection terminated.\nGoodbye...\n";
 
-    closesocket(client);
+    close(client);
     return 0;
 }
